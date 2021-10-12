@@ -19,3 +19,15 @@ Route::get('/admin', function () {
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('/register', 'AuthController@registrationForm');
+// Route::post('/register', 'AuthController@register');
+// Route::get('/login', 'AuthController@loginForm');
+// Route::post('/login', 'AuthController@login');
+// Route::get('/logout', 'AuthController@logout');
+// Route::get('/verification/{user}/{token}', 'AuthController@verification');
+
+
+Auth::routes();
+
+Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
