@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/admin', function () {
     return view('admin.index');
 });
+
+Route::get('/users', [\App\Http\Controllers\HomeController::class, 'display']);
+
 Route::get('/', function () {
     return view('welcome');
 });
