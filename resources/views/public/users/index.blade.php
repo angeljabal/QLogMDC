@@ -50,48 +50,50 @@
             <div class="flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200">
-                    <thead>
-                        <tr>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Name
-                            </th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Yr. Level
-                            </th>
-                            <th class="hidden px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider md:block">
-                                Department
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($profiles as $profile)
-                            <tr class="bg-white">
-                                <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    <div class="flex">
-                                    <a href="#" class="group inline-flex space-x-2 truncate text-sm">
-                                        <p class="text-gray-500 truncate group-hover:text-gray-900">
-                                            {{$profile->user->fname}} {{$profile->user->lname}}
-                                        </p>
-                                    </a>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                                    <span class="text-gray-900 font-medium">{{$profile->year}}</span>
-                                </td>
-                                <td class="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                                    <span class="text-gray-900 font-medium">
-                                    {{$profile->department->acronym}}
-                                    </span>
-                                </td>
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Name
+                                </th>
+                                <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Yr. Level
+                                </th>
+                                <th class="hidden px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider md:block">
+                                    Department
+                                </th>
                             </tr>
-                        @endforeach
-                        
-                        <!-- More transactions... -->
-                    </tbody>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @foreach ($profiles as $profile)
+                                <tr class="bg-white">
+                                    <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <div class="flex">
+                                        <a href="#" class="group inline-flex space-x-2 truncate text-sm">
+                                            <p class="text-gray-500 truncate group-hover:text-gray-900">
+                                                {{$profile->user->name}}
+                                            </p>
+                                        </a>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                                        <span class="text-gray-900 font-medium">{{$profile->year}}</span>
+                                    </td>
+                                    <td class="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
+                                        <span class="text-gray-900 font-medium">
+                                        {{$profile->department->acronym}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            
+                            <!-- More transactions... -->
+                        </tbody>
                     </table>
                     <!-- Pagination -->
                     <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" aria-label="Pagination">
-                    <div class="hidden sm:block">
+                        
+                    {{ $profiles->links() }}
+                    {{-- <div class="hidden sm:block">
                         <p class="text-sm text-gray-700">
                             Showing
                             <span class="font-medium">1</span>
@@ -109,7 +111,7 @@
                         <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                         Next
                         </a>
-                    </div>
+                    </div> --}}
                     </nav>
                 </div>
             </div>

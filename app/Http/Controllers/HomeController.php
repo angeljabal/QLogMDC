@@ -9,16 +9,6 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
@@ -30,7 +20,11 @@ class HomeController extends Controller
 
     public function display() {
        
-        $profiles = Profile::get();
+        $profiles = Profile::select('id', 'year', 'department_id','user_id')
+            ->with(['user:id,name','department:id,acronym'])->paginate(10);
+
+        // dd($profiles);
+
         return view('public.users.index', compact('profiles'));
 
     }
