@@ -47,8 +47,6 @@ class DepartmentSeeder extends Seeder
             ],
         ];
 
-        foreach($data as $department){
-            Department::create($department);
-        }
+        Department::createMany($data);
     }
 }
