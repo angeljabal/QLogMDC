@@ -15,15 +15,15 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::group(['prefix' => 'admin', 'name' => 'admin.'], function(){
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     
     // Dashboard
     Route::get('/', function () {
         return view('admin.index');
-    });
+    })->name('dashboard');
     // Users
 
-    Route::get('/users', [\App\Http\Controllers\HomeController::class, 'display']);
+    Route::get('/users', [\App\Http\Controllers\HomeController::class, 'display'])->name('users.index');
 });
 
 Route::get('/', function () {

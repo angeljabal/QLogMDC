@@ -24,10 +24,9 @@ class ProfileFactory extends Factory
      */
     public function definition()
     {
-        $users = User::all()->pluck('id')->toArray();
+        // $users = User::all()->pluck('id')->toArray();
         $department = Department::all()->pluck('id')->toArray();
         return [
-            'user_id'       => $this->faker->unique()->randomElement($users),
             'address'       => $this->faker->address(),
             'year'          => $this->faker->numberBetween(1, 4),
             'department_id' => $this->faker->randomElement($department),

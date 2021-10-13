@@ -14,7 +14,7 @@ class Profile extends Model
         'address',
         'id_number',
         'year',
-        'department',
+        'department_id',
     ];
 
     public function user(){
@@ -22,5 +22,32 @@ class Profile extends Model
     }
     public function department(){
         return $this->belongsTo(Department::class);
+    }
+
+    public function scopeSearch($query, $terms)
+    {
+        // 'Moses Block' $terms
+        // ['Moses', 'Block'] exloded into array
+        // {['Moses', 'Block']} wrap into collection
+        
+        collect(explode(' ', $terms))->filter()->each(function($term) use($query)
+        {
+            $term = '%'.$term.'%';
+
+            $query->where(function($query) use($term){
+                $query->whereIn('user_id', function($query) use($term){
+                    $query->select('id')
+                        ->from('users')
+                        ->where('name', 'like', $term);
+                })
+                ->orWhereIn('department_id', function($query) use($term){
+                    $query->select('id')
+                        ->from('departments')
+                        ->where('acronym', 'like', $term);
+                });
+            });
+
+        });
+
     }
 }
