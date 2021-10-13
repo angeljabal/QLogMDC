@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,11 +15,16 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/admin', function () {
-    return view('admin.index');
-});
+Route::group(['prefix' => 'admin', 'name' => 'admin.'], function(){
+    
+    // Dashboard
+    Route::get('/', function () {
+        return view('admin.index');
+    });
+    // Users
 
-Route::get('/users', [\App\Http\Controllers\HomeController::class, 'display']);
+    Route::get('/users', [\App\Http\Controllers\HomeController::class, 'display']);
+});
 
 Route::get('/', function () {
     return view('welcome');
