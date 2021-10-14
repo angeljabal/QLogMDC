@@ -38,7 +38,7 @@
                                     <tr class="bg-white">
                                         <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <div class="flex">
-                                            <a href="#" class="group inline-flex space-x-2 truncate text-sm">
+                                            <a href="{{ route('admin.users.edit', ['user'=>$profile->user->id]) }}" class="group inline-flex space-x-2 truncate text-sm">
                                                 <p class="text-gray-500 truncate group-hover:text-gray-900">
                                                     {{$profile->user->name}}
                                                 </p>

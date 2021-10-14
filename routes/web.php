@@ -23,7 +23,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     })->name('dashboard');
     // Users
 
-    Route::get('/users', [\App\Http\Controllers\HomeController::class, 'display'])->name('users.index');
+    Route::get('/users', [\App\Http\Controllers\admin\UserController::class, 'display'])->name('users.index');
+    Route::get('/users/edit/{user}', [\App\Http\Controllers\admin\UserController::class, 'edit'])->name('users.edit');
 });
 
 Route::get('/', function () {
