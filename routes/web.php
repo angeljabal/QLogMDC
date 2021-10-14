@@ -23,8 +23,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     })->name('dashboard');
     // Users
 
-    Route::get('/users', [\App\Http\Controllers\admin\UserController::class, 'display'])->name('users.index');
-    Route::get('/users/edit/{user}', [\App\Http\Controllers\admin\UserController::class, 'edit'])->name('users.edit');
+    Route::resource('users', \App\Http\Controllers\Admin\UsersController::class)->except(['store','update', 'destroy']);
 });
 
 Route::get('/', function () {

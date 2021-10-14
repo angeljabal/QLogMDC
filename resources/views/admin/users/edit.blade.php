@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <livewire:admin.users.edit-user :user="$user" />
+    <livewire:admin.users.edit :userId="$id" />
 
 @endsection
