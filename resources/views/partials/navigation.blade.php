@@ -34,7 +34,8 @@
             <!-- Profile dropdown -->
             <div class="ml-3 relative" x-data="{ 'open' : false }">
                 <div>
-                <button @click="open = !open" type="button" class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                <button @click="open = !open" type="button" class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50" id="user-menu-button" aria-expanded="false" aria-haspopup="true"
+                    @click.away="open = false">
                     <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                     <span class="hidden ml-3 text-gray-700 text-sm font-medium lg:block"><span class="sr-only">Open user menu for </span>Christine May Jabal</span>
                     <!-- Heroicon name: solid/chevron-down -->
@@ -58,7 +59,14 @@
                 <!-- Active: "bg-gray-100", Not Active: "" -->
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Logout</a>
+                <form method="POST" action="{{ route('logout') }}">                
+                    @csrf
+                    <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-gray-700" 
+                            role="menuitem" tabindex="-1" id="user-menu-item-2"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                        Logout
+                    </a>
+                </form>
                 </div>
             </div>
         </div>
