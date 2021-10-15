@@ -17,13 +17,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function(){
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function(){
     
-    // Dashboard
-    Route::get('/', function () {
-        return view('admin.index');
-    })->name('dashboard');
-    // Users
+    // // Dashboard
+    // Route::get('/', function () {
+    //     return view('admin.index');
+    // })->name('dashboard');
+    // // Users
 
     Route::resource('users', \App\Http\Controllers\Admin\UsersController::class)->except(['store','update', 'destroy']);
 });
