@@ -12,9 +12,7 @@ class Profile extends Model
     protected $fillable = [
         'user_id',
         'address',
-        'id_number',
-        'year',
-        'department_id',
+        'phone_number'
     ];
 
     public function user(){
@@ -26,10 +24,6 @@ class Profile extends Model
 
     public function scopeSearch($query, $terms)
     {
-        // 'Moses Block' $terms
-        // ['Moses', 'Block'] exloded into array
-        // {['Moses', 'Block']} wrap into collection
-        
         collect(explode(' ', $terms))->filter()->each(function($term) use($query)
         {
             $term = '%'.$term.'%';
@@ -39,11 +33,6 @@ class Profile extends Model
                     $query->select('id')
                         ->from('users')
                         ->where('name', 'like', $term);
-                })
-                ->orWhereIn('department_id', function($query) use($term){
-                    $query->select('id')
-                        ->from('departments')
-                        ->where('acronym', 'like', $term);
                 });
             });
 

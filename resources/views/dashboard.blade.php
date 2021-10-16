@@ -25,6 +25,7 @@
                             </svg>
                             Tinangnan, Tubigon, Canada
                         </dd>
+                        @if (auth()->user()->email_verified_at!=null)
                         <dt class="sr-only">Account status</dt>
                         <dd class="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">
                             <!-- Heroicon name: solid/check-circle -->
@@ -33,6 +34,7 @@
                             </svg>
                             Verified account
                         </dd>
+                        @endif
                     </dl>
                     </div>
                 </div>

@@ -17,12 +17,13 @@ class CreateProfilesTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned()->unique;   
             $table->string('address');
-            $table->string('id_number')->nullable();
-            $table->integer('year')->nullable();
-            $table->bigInteger('department_id')->unsigned();   
+            $table->string('phone_number')->nullable();
+            // $table->string('id_number')->nullable();
+            // $table->integer('year')->nullable();
+            // $table->bigInteger('department_id')->unsigned()->nullable();   
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+            // $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
         });
     }
 
