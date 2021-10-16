@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,17 +13,23 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
-    
-    // Dashboard
-    Route::get('/', function () {
-        return view('admin.index');
-    })->name('dashboard');
-    // Users
-
-    Route::get('/users', [\App\Http\Controllers\HomeController::class, 'display'])->name('users.index');
-});
-
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function(){
+    
+    // // Dashboard
+    // Route::get('/', function () {
+    //     return view('admin.index');
+    // })->name('dashboard');
+    // // Users
+
+    Route::resource('users', \App\Http\Controllers\Admin\UsersController::class)->except(['store','update', 'destroy']);
+});
+
+Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => 'auth'], function(){
+    Route::get('/', [\App\Http\Controllers\UsersController::class, 'index'])->name('index');
+});
+
+require __DIR__.'/auth.php';
