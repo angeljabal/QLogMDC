@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Users;
 
 use App\Models\Profile;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,12 +14,19 @@ class Index extends Component
 
     public function loadProfiles()
     {
-        $profiles = Profile::select('id', 'address', 'department_id','user_id')
+        $profiles = Profile::select('id', 'address','user_id', 'phone_number')
+            ->whereHas('user')
             ->search($this->search)
             ->with(['user:id,name','department:id,acronym'])->paginate(10);
         // dd($profiles);
 
         return compact('profiles');
+    }
+
+    public function deleteUser($userId){
+        $user = User::findOrFail($userId);
+        $user->delete();
+        return redirect()->back();
     }
 
     public function render()

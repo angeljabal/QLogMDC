@@ -62,7 +62,9 @@
           </dd>
         </div>
         <div class="flex justify-end text-center bg-white px-8 py-5">
-          <button wire:click="submit" class="p-4 text-sm text-white bg-cyan-400 rounded-md">Update</button>
+          <button wire:click="submit" class="p-4 m-1 text-sm text-white bg-cyan-400 rounded-md hover:bg-cyan-600">Update</button>
+          <button wire:click="back" class="p-4 m-1 text-sm text-white bg-gray-400 rounded-md hover:bg-gray-500">Back</button>
+          {{-- <a href="{{ route('admin.users.show', ['user'=>$this->user->id]) }}" class="btn p-4 m-1 text-sm text-white bg-gray-400 rounded-md">Back</a> --}}
         </div>
       </dl>
     </div>
