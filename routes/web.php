@@ -15,21 +15,30 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->middleware('landing');
-
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function(){
-    
-    // // Dashboard
-    // Route::get('/', function () {
-    //     return view('admin.index');
-    // })->name('dashboard');
-    // // Users
-
-    Route::resource('users', \App\Http\Controllers\Admin\UsersController::class)->except(['store','update', 'destroy']);
 });
 
-Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth', 'verified']], function(){
-    Route::get('/', [\App\Http\Controllers\UsersController::class, 'index'])->name('index');
+/**
+ * Route is grouped into 'auth' middleware
+ */
+Route::group(['middleware' => 'auth'], function(){
+
+    /**
+     * Route is grouped into 'admin' middleware,
+     * Since it is inside a parent group with 'auth' middleware, it inherits the middleware as well
+     * 
+     */
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
+        Route::resource('users', \App\Http\Controllers\Admin\UsersController::class)->except(['store','update', 'destroy']);
+    });
+
+    /**
+     * 
+     */
+    Route::group(['prefix' => '/'], function(){
+        Route::get('dashboard', [\App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
+        Route::get('logs', [\App\Http\Controllers\HomeController::class, 'logs'])->name('logs');
+    });
+    
 });
 
 require __DIR__.'/auth.php';
