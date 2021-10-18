@@ -12,9 +12,12 @@ class Show extends Component
     public function getUserProperty()
     {
         return User::with(['profile' => function($query){
-                    return $query->with('department');
                 }])
                 ->find($this->userId);
+    }
+
+    public function back(){
+        return redirect('/admin/users');
     }
 
     public function render()

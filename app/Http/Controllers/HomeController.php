@@ -18,9 +18,12 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function display() {
-
-        return view('public.users.index');
-
+    public function dashboard()
+    {
+        return view('public.dashboard');
+    }
+    public function logs()
+    {
+        return view('public.logs');
     }
 }
