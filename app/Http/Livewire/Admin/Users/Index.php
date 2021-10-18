@@ -13,7 +13,7 @@ class Index extends Component
 
     public function loadProfiles()
     {
-        $profiles = Profile::select('id', 'address', 'department_id','user_id')
+        $profiles = Profile::select('id', 'address','user_id', 'phone_number')
             ->search($this->search)
             ->with(['user:id,name','department:id,acronym'])->paginate(10);
         // dd($profiles);

@@ -28,6 +28,7 @@ class ProfileFactory extends Factory
         // $department = Department::all()->pluck('id')->toArray();
         return [
             'address'       => $this->faker->address(),
+            'phone_number'  => $this->faker->phoneNumber()
             // 'year'          => $this->faker->numberBetween(1, 4),
             // 'department_id' => $this->faker->randomElement($department),
         ];
