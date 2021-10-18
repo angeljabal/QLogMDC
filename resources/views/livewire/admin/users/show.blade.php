@@ -18,12 +18,54 @@
                 {{ $this->user->name }}
                 </dd>
             </div>
-            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">
-                Application for
+                Email address
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                Backend Developer
+                {{$this->user->email}}
+                </dd>
+            </div>
+            
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                User Type
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{$this->user->type}}
+                </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                Role
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{$this->user->role}}
+                </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                  Profile
+                  <p class="mt-1 max-w-2xl text-xs font-thin">
+                    Personal details and application.
+                  </p>
+                </dt>
+            </div>
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                Address
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{$this->user->profile->address}}
+                </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">
+                Phone Number
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{$this->user->profile->phone_number}}
                 </dd>
             </div>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -92,6 +134,10 @@
                 </dd>
             </div>
             </dl>
+        </div>
+        <div class="flex justify-end text-center bg-white px-8 py-5">
+            <a href="{{ route('admin.users.edit', ['user'=>$this->user->id]) }}" class="btn p-4 m-1 text-sm text-white bg-cyan-600 rounded-md">Edit</a>
+            <button wire:click="back" class="p-4 m-1 text-sm text-white bg-gray-400 rounded-md">Back</button>
         </div>
     </div>
 
