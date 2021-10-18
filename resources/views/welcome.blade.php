@@ -18,14 +18,20 @@
                 vitae corrupti asperiores veritatis dolorum, commodi aperiam
                 enim.
               </p>
-
-              <a
+              @if (Auth::check())
+                <a
+                href="{{url('/profile')}}"
+                class="mt-6 mb-12 md:mb-0 md:mt-10 inline-block py-3 px-8 text-white bg-teal-500 hover:bg-teal-600 rounded-lg shadow"
+                >Generate QR Code</a>
+              @else
+                <a
                 href="{{url('/register')}}"
                 class="mt-6 mb-12 md:mb-0 md:mt-10 inline-block py-3 px-8 text-white bg-teal-500 hover:bg-teal-600 rounded-lg shadow"
-                >Get Started</a
-              >
+                >Get Started</a>
+              @endif
+              
             </div>
-            <div class="md:w-1/2 relative">
+            <div class="md:w-1/2 relative mt-12">
               <div class="hidden md:block">
                 <div
                   class="-ml-24 -mb-40 absolute left-0 bottom-0 w-40 bg-white rounded-lg shadow-lg px-6 py-8"
@@ -75,7 +81,7 @@
                 <img src="{{asset('images/download.png')}}" alt="">
                   
                   <div class="text-gray-800 text-center">
-                    Banking Services
+                    Generate <br> QR Code
                   </div>
                 </div>
 
@@ -117,7 +123,7 @@
                   <div class="w-32 bg-gray-200" style="height: 560px;"></div>
                   <div class="flex-1 p-6">
                     <h2 class="text-lg text-gray-700 font-bold mb-3">
-                      Popular Payments
+                      Facilities Visited
                     </h2>
                     <div class="flex mb-5">
                       <div class="w-16 rounded-full bg-gray-100 py-2 px-4 mr-2">
@@ -171,7 +177,7 @@
                     </div>
 
                     <h2 class="text-lg text-gray-700 font-bold mb-3">
-                      Popular Payments
+                      Logs
                     </h2>
 
                     <div
