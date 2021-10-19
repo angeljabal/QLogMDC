@@ -10,23 +10,30 @@ use Livewire\WithPagination;
 class Index extends Component
 {
 
-    public $perPage = 10, $search;
+    public $perPage = 10, $search, $confirmingUserDeletion = false, $user, $name;
 
     public function loadProfiles()
     {
         $profiles = Profile::select('id', 'address','user_id', 'phone_number')
             ->whereHas('user')
             ->search($this->search)
-            ->with(['user:id,name','department:id,acronym'])->paginate(10);
-        // dd($profiles);
+            ->with(['user:id,name'])
+            ->paginate($this->perPage);
 
         return compact('profiles');
     }
 
-    public function deleteUser($userId){
-        $user = User::findOrFail($userId);
-        $user->delete();
-        return redirect()->back();
+    public function deleteUser(){
+        $this->user->delete();
+        $this->confirmingUserDeletion = false;
+        return redirect('/admin/users')->with('deleted', 'Deleted Successfully');
+    }
+
+    public function confirmUserDeletion($userId) 
+    {
+        $this->user = User::findOrFail($userId);
+        $this->name = $this->user->name;
+        $this->confirmingUserDeletion = true;
     }
 
     public function render()

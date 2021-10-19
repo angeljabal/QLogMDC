@@ -11,8 +11,7 @@ class Show extends Component
 
     public function getUserProperty()
     {
-        return User::with(['profile' => function($query){
-                }])
+        return User::with('profile')
                 ->find($this->userId);
     }
 
