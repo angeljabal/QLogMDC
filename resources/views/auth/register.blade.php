@@ -1,6 +1,7 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
+            <div class="pt-5"></div>
             <a href="/">
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
             </a>
@@ -15,7 +16,7 @@
             <!-- Type -->
             <div>
                 <x-label for="type" :value="__('I am a')" />
-                <select name="type" id="" class="form-input w-full shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium text-gray-700" type="text" name="type" :value="old('type')" required autofocus>
+                <select name="type" id="" class="form-input w-full shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium text-gray-700" type="text" name="type" :value="old('type')" required autofocus>
                     <option value="Student">Student</option>
                     <option value="Teacher">Teacher</option>
                     <option value="Visitor">Visitor</option>
@@ -81,7 +82,7 @@
             <hr class="mt-4">
             <!-- Address -->
             <div class="mt-4">
-                <x-label for="address" :value="__('Address:')" />
+                <x-label for="address" :value="__('ADDRESS')" />
             </div>
 
             <div class="flex items-center justify-between mt-4">
