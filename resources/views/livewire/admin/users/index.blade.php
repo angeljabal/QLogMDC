@@ -1,9 +1,34 @@
 <div>
-    {{-- Close your eyes. Count to one. That is how long forever feels. --}}
+    {{-- Update success message. --}}
+    @if(session()->has('message'))
+    <div class="px-4 py-5 sm:px-6">
+      <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+        <div class="flex">
+          <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
+          <div>
+            <p class="font-bold">{{session('message')}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
 
+    {{-- Delete success message. --}}
+    @if(session()->has('deleted'))
+    <div class="px-4 py-5 sm:px-6">
+      <div class="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md" role="alert">
+        <div class="flex">
+          <div class="py-1"><svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
+          <div>
+            <p class="font-bold">{{session('deleted')}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
     
     <div class="mt-8">
-        <!-- Activity table (small breakpoint and up) -->
+        <!-- Users table (small breakpoint and up) -->
         <div class="hidden sm:block">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between w-full">
@@ -83,7 +108,7 @@
                                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                 </svg>
                                             </a>
-                                            <button wire:click="deleteUser({{$profile->user->id}})">
+                                            <button wire:click="confirmUserDeletion({{$profile->user->id}})">
                                                 <svg class="h-7 w-7 p-1 inline-block bg-red-500 text-white hover:bg-red-400 hover:text-cyan-700 rounded-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                                                 </svg>
@@ -97,13 +122,34 @@
                             </tbody>
                         </table>
                         <!-- Pagination -->
-                        <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" aria-label="Pagination">
-                            
-                        {{ $profiles->links() }}
+                        <nav class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6" aria-label="Pagination">
+                            {{-- <div class="flex-1 flex justify-between sm:justify-end"> --}}
+                                {{ $profiles->links() }}
+                            {{-- </div> --}}
                         </nav>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <x-confirmation-modal wire:model="confirmingUserDeletion">
+        <x-slot name="title">
+            {{ __('Delete User - ' . $name) }}
+        </x-slot>
+ 
+        <x-slot name="content">
+            {{ __('Are you sure you want to delete this user? ') }}
+        </x-slot>
+ 
+        <x-slot name="footer">
+            <x-secondary-button class="p-4 m-1 text-sm text-white bg-gray-400 rounded-md hover:bg-gray-700" wire:click="$set('confirmingUserDeletion', false)" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+ 
+            <button class="p-4 m-1 text-sm rounded-md bg-red-500 text-white hover:bg-red-700" wire:click="deleteUser()" wire:loading.attr="disabled">
+                {{ __('Delete') }}
+            </button>
+        </x-slot>
+    </x-confirmation-modal>
 </div>
