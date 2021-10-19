@@ -20,7 +20,7 @@
               </p>
               @if (Auth::check())
                 <a
-                href="{{url('/profile')}}"
+                href="{{url('/')}}"
                 class="mt-6 mb-12 md:mb-0 md:mt-10 inline-block py-3 px-8 text-white bg-teal-500 hover:bg-teal-600 rounded-lg shadow"
                 >Generate QR Code</a>
               @else
@@ -31,15 +31,13 @@
               @endif
               
             </div>
-            <div class="md:w-1/2 relative mt-12">
+            <div class="md:w-1/2 relative">
               <div class="hidden md:block">
                 <div
                   class="-ml-24 -mb-40 absolute left-0 bottom-0 w-40 bg-white rounded-lg shadow-lg px-6 py-8"
                   style="transform: rotate(-8deg);"
                 >
-                  <div
-                    class="bg-indigo-800 mx-auto rounded-lg px-2 pb-2 relative mb-8"
-                  >
+                  <div class="bg-gradient-to-r from-teal-700 to-cyan-900 mx-auto rounded-lg px-2 pb-2 relative mb-8">
                     <div class="mb-1">
                       <span
                         class="w-1 h-1 bg-indigo-100 rounded-full inline-block"
@@ -62,15 +60,15 @@
                     </div>
 
                     <div
-                      class="-mr-2 -mb-4 absolute bottom-0 right-0 h-16 w-10 rounded-lg bg-green-700 border-2 border-white"
+                      class="-mr-2 -mb-4 absolute bottom-0 right-0 h-16 w-10 rounded-lg bg-gray-900 border-2 border-white"
                     ></div>
                     <div
-                      class="w-2 h-2 rounded-full bg-green-800 mx-auto absolute bottom-0 right-0 mr-2 -mb-2 z-10 border-2 border-white"
+                      class="w-2 h-2 rounded-full bg-black-800 mx-auto absolute bottom-0 right-0 mr-2 -mb-2 z-10 border-2 border-white"
                     ></div>
                   </div>
 
                   <div class="text-gray-800 text-center">
-                    Online <br />Services
+                    Scan QR Code
                   </div>
                 </div>
 
@@ -89,30 +87,23 @@
                   class="ml-32 absolute left-0 bottom-0 w-48 bg-white rounded-lg shadow-lg px-10 py-8"
                   style="transform: rotate(-8deg); z-index: 2; margin-bottom: -220px;"
                 >
-                  <div
-                    class="bg-indigo-800 mx-auto rounded-lg pt-4 mb-16 relative"
-                  >
-                    <div class="h-4 bg-white"></div>
-
-                    <div class="text-right my-2 pb-1">
-                      <div
-                        class="inline-flex w-3 h-3 rounded-full bg-white -mr-2"
-                      ></div>
-                      <div
-                        class="inline-flex w-3 h-3 rounded-full bg-indigo-800 border-2 border-white mr-2"
-                      ></div>
+                  <div class="bg-gradient-to-r from-teal-700 to-cyan-900 mx-auto rounded-lg pt-4 mb-16 relative">
+                    <p class="text-center text-white text-xs mb-2">Priority Queue Number</p>
+                    <div class="h-4 bg-white">
                     </div>
 
-                    <div
-                      class="-ml-4 -mb-6 absolute left-0 bottom-0 w-16 bg-green-700 mx-auto rounded-lg pb-2 pt-3"
-                    >
+                    <div class="text-right my-2 pb-1">
+                    </div>
+
+                    <div class="-ml-4 -mb-12 absolute left-0 bottom-0 w-16 bg-gradient-to-l from-yellow-700 to-yellow-900 mx-auto rounded-lg pb-2 pt-3">
+                      <p class="text-center text-white text-sm mb-2 font-bold">#10</p>
                       <div class="h-2 bg-white mb-2"></div>
-                      <div class="h-2 bg-white w-6 ml-auto rounded mr-2"></div>
+                      <p class="text-white p-1" style="font-size: 8px">Cashier's Office</p>
                     </div>
                   </div>
 
                   <div class="text-gray-800 text-center">
-                    Payment for <br />Internet
+                    Priority Queue Viewing System
                   </div>
                 </div>
 
@@ -198,9 +189,9 @@
                       </div>
                       <div class="w-1/3">
                         <div
-                          class="w-16 rounded-full bg-green-100 py-2 px-4 mx-auto"
+                          class="w-16 rounded-full bg-teal-100 py-2 px-4 mx-auto"
                         >
-                          <div class="p-1 rounded-full bg-green-200"></div>
+                          <div class="p-1 rounded-full bg-teal-200"></div>
                         </div>
                       </div>
                       <div class="w-1/3">
@@ -293,7 +284,7 @@
                     class="h-2 w-2 rounded-full bg-orange-400 inline-block mr-1"
                   ></span>
                   <span
-                    class="h-2 w-2 rounded-full bg-green-500 inline-block mr-1"
+                    class="h-2 w-2 rounded-full bg-teal-500 inline-block mr-1"
                   ></span>
                 </div>
                 <div class="w-32 bg-gray-100 px-2 py-8" style="height: 340px;">
@@ -385,9 +376,9 @@
                     </div>
                     <div class="w-1/3">
                       <div
-                        class="w-16 rounded-full bg-green-100 py-2 px-4 mx-auto"
+                        class="w-16 rounded-full bg-teal-100 py-2 px-4 mx-auto"
                       >
-                        <div class="p-1 rounded-full bg-green-200"></div>
+                        <div class="p-1 rounded-full bg-teal-200"></div>
                       </div>
                     </div>
                     <div class="w-1/3">
@@ -437,16 +428,16 @@
                   <div class="h-3 bg-white"></div>
 
                   <div class="text-right my-2">
-                    <div
+                    {{-- <div
                       class="inline-flex w-3 h-3 rounded-full bg-white -mr-2"
                     ></div>
                     <div
                       class="inline-flex w-3 h-3 rounded-full bg-indigo-800 border-2 border-white mr-2"
-                    ></div>
+                    ></div> --}}
                   </div>
 
                   <div
-                    class="-ml-4 -mb-6 absolute left-0 bottom-0 w-16 bg-green-700 mx-auto rounded-lg pb-2 pt-3"
+                    class="-ml-4 -mb-6 absolute left-0 bottom-0 w-16 bg-teal-700 mx-auto rounded-lg pb-2 pt-3"
                   >
                     <div class="h-2 bg-white mb-2"></div>
                     <div class="h-2 bg-white w-6 ml-auto rounded mr-2"></div>
