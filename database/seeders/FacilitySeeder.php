@@ -155,9 +155,9 @@ class FacilitySeeder extends Seeder
             ],
             [
                 'name'          => 'Activity Center',
-                'code'          => '',
-                'head'          => '',
-                'building'      => '',
+                'code'          => 'AC',
+                'head'          => 'Joel Balibagoso',
+                'building'      => 'College Building',
             ],
             
 
