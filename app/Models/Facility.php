@@ -12,13 +12,13 @@ class Facility extends Model
     protected $fillable = [
         'name',
         'code',
-        'head',
+        'user_id',
         'building'
     ];
 
-    public function purposes(){
-        return $this->hasMany(Purpose::class);
-    }
+    // public function purposes(){
+    //     return $this->hasMany(Purpose::class);
+    // }
 
     public function logs(){
         return $this->hasMany(Log::class);

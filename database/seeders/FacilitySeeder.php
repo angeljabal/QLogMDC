@@ -17,14 +17,14 @@ class FacilitySeeder extends Seeder
         $data = [
             [
                 'name'          => 'Registrar Office',
-                'code'          => 'RE',
-                'head'          => 'Jose Ruel Alampayan',
+                'code'          => 'RO',
+                // 'head'          => 'Jose Ruel Alampayan',
                 'building'      => 'College Building',
             ],
             [
                 'name'          => 'Finance Office',
-                'code'          => 'FI',
-                'head'          => 'Dianne Sab Gastanes',
+                'code'          => 'FO01',
+                // 'head'          => 'Dianne Sab Gastanes',
                 'building'      => 'College Building',
             ],
             [

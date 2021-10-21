@@ -17,9 +17,11 @@ class CreateFacilitiesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->string('head');
+            // $table->string('head');
+            $table->bigInteger('user_id')->unsigned()->nullable();
             $table->string('building');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
