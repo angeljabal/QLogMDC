@@ -20,7 +20,7 @@ Route::get('/', function () {
 /**
  * Route is grouped into 'auth' middleware
  */
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => ['auth', 'verified']], function(){
 
     /**
      * Route is grouped into 'admin' middleware,

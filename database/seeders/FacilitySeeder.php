@@ -18,13 +18,13 @@ class FacilitySeeder extends Seeder
             [
                 'name'          => 'Registrar Office',
                 'code'          => 'RO',
-                'head'          => 'Jose Ruel Alampayan',
+                // 'head'          => 'Jose Ruel Alampayan',
                 'building'      => 'College Building',
             ],
             [
                 'name'          => 'Finance Office',
                 'code'          => 'FO01',
-                'head'          => 'Dianne Sab Gastanes',
+                // 'head'          => 'Dianne Sab Gastanes',
                 'building'      => 'College Building',
             ],
         ];
