@@ -45,6 +45,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function facility()
+    {
+        return $this->hasOne(Facility::class);
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
