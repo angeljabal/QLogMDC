@@ -16,9 +16,9 @@ class Facility extends Model
         'building'
     ];
 
-    // public function purposes(){
-    //     return $this->hasMany(Purpose::class);
-    // }
+    public function purposes(){
+        return $this->hasMany(Purpose::class);
+    }
 
     public function logs(){
         return $this->hasMany(Log::class);

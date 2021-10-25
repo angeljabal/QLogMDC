@@ -15,8 +15,10 @@ class CreatePurposesTable extends Migration
     {
         Schema::create('purposes', function (Blueprint $table) {
             $table->id();
-            $table->string('desc');
+            $table->foreignId('facility_id');
+            $table->string('purpose');
             $table->timestamps();
+            $table->foreign('facility_id')->references('id')->on('facilities')->onDelete('cascade');
         });
     }
 

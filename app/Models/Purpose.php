@@ -9,10 +9,11 @@ class Purpose extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'facility_id',
         'purpose'
     ];
 
-    // public function logs(){
-
-    // }
+    public function facility(){
+        return $this->belongsTo(Facility::class);
+    }
 }

@@ -11,7 +11,6 @@ class Log extends Model
     protected $fillable = [
         'user_id',
         'facility_id',
-        'purpose_id'
     ];
 
     public function user(){
@@ -19,10 +18,6 @@ class Log extends Model
     }
 
     public function facility(){
-        return $this->hasOne(Facility::class);
-    }
-
-    public function purpose(){
-        return $this->hasOne(Purpose::class);
+        return $this->belongsTo(Facility::class);
     }
 }
