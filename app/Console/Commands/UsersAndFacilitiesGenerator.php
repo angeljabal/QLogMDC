@@ -98,8 +98,13 @@ class UsersAndFacilitiesGenerator extends Command
 
         foreach($this->facultyHead() as $head)
         {
-            $user = User::create($head);
-            $user->facility()->create($this->facilities($user->name));
+            $user = User::updateOrCreate(
+                ['email' => $head['email']],
+                $head
+            );
+            $user->facility()->updateOrCreate(
+                ['user_id' => $user->id],
+                $this->facilities($user->name));
             $bar->advance();
         }
 
