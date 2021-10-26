@@ -12,15 +12,14 @@ class Facility extends Model
     protected $fillable = [
         'name',
         'code',
-        'user_id',
-        'building'
+        'user_id'
     ];
-
-    public function purposes(){
-        return $this->hasMany(Purpose::class);
-    }
-
+    
     public function logs(){
         return $this->hasMany(Log::class);
+    }
+
+    public function purposes(){
+        return $this->belongsToMany(Purpose::class, 'facilities_purposes');
     }
 }

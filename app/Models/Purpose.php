@@ -8,12 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Purpose extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'facility_id',
-        'purpose'
-    ];
+    protected $guarded = [];
 
-    public function facility(){
-        return $this->belongsTo(Facility::class);
+    public function facilities(){
+        return $this->belongsToMany(Facility::class, 'facilities_purposes');
     }
 }
