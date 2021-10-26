@@ -1,6 +1,126 @@
-Enrollment
+Enrolment
+    Finance Office
+    (Department:
+    CABM-B Office
+    CABM-H Office
+    CAST Office
+    CCJ Office
+    COE Office
+    CON Office)
+    Scholarship Office (if scholar)
     Registrar Office
-    Finance Office
 
-Pay Tuition 
+Request for T.O.R
     Finance Office
+    Registrar Office
+
+Request for Good Moral
+    Finance Office
+    Registrar Office
+
+Buy Books
+    Finance Office
+    Book Store
+
+Buy Uniforms
+    Finance Office
+    Book Store
+
+Attend to SSG Assembly
+    SSG Office (for attendance)
+    Activity Centre
+
+Attend to an Event
+    SSG Office
+    Activity Centre
+
+Attend to Symposium
+    SSG Office
+    Activity Centre
+    MMC
+
+Attend PTA Meeting
+    Activity Centre
+    MMC
+
+Attend Holy Mass
+    Activity Centre
+
+Attend to a Class/Practicum
+    Speech Lab
+    Science Lab
+    Activity Center
+
+Attend to a Practice
+    Activity Center
+    MMC
+
+Request for signature of Clearance
+    (Department Offices)
+    Finance Office
+    Registrar Office
+    Guidance Office
+    SSG Office
+    Scholarship Office
+    Library
+    Principal Office (HS and Elem. Department)
+    Campus Ministry
+    Clinic
+
+Consultation of Grades
+    CABM-B Office
+    CABM-H Office
+    CAST Office
+    CCJ Office
+    COE Office
+    CON Office
+    ROTC Office
+
+    Pass activities or project
+    CABM-B Office
+    CABM-H Office
+    CAST Office
+    CCJ Office
+    COE Office
+    CON Office
+
+Appointment to the Head
+    Scholarship Office
+    Graduate School Office
+    Sports Office
+    Campus Ministry Office
+    Clinic
+    ROTC Office
+    Speech Lab
+
+Appointment to the Dean
+    CABM-B Office
+    CABM-H Office
+    CAST Office
+    CCJ Office
+    COE Office
+    CON Office
+
+Appointment to the Guidance Counsellor
+    Guidance Office
+
+Appointment for Check-up
+    Clinic
+
+Request for I.D Verification
+    Registrar Office
+
+Request for Birth Certificate/NSO
+    Registrar Office
+
+Request for Class Schedules
+    Registrar Office
+
+Request for Grades
+    Registrar Office
+
+Request for Diploma
+    Registrar Office
+
+Request for Medical Consultation
+    Clinic
