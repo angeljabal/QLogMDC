@@ -1,0 +1,6 @@
+Enrollment
+    Registrar Office
+    Finance Office
+
+Pay Tuition 
+    Finance Office
