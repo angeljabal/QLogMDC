@@ -17,8 +17,7 @@ class CreateFacilitiesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->string('head');
-            $table->string('building');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

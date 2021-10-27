@@ -14,10 +14,11 @@ class Index extends Component
 
     public function loadProfiles()
     {
-        $profiles = Profile::select('id', 'address', 'department_id','user_id')
+        $profiles = Profile::select('id', 'address','user_id', 'phone_number')
+            ->whereHas('user')
             ->search($this->search)
-            ->with(['user:id,name','department:id,acronym'])->paginate(10);
-        // dd($profiles);
+            ->with(['user:id,name'])
+            ->paginate($this->perPage);
 
         return compact('profiles');
     }
@@ -25,9 +26,10 @@ class Index extends Component
     public function deleteUser(){
         $this->user->delete();
         $this->confirmingUserDeletion = false;
-        return redirect('/admin/users')->with('delete', 'Deleted Successfully');
+        return redirect('/admin/users')->with('deleted', 'Deleted Successfully');
     }
-    public function confirmItemDeletion($userId) 
+
+    public function confirmUserDeletion($userId) 
     {
         $this->user = User::findOrFail($userId);
         $this->name = $this->user->name;

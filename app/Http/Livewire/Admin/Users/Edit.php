@@ -10,15 +10,13 @@ use Livewire\Component;
 class Edit extends Component
 {
     public $userId, $name, $email, $address, $department, $type, $role, $phone_number, $roles, $types, $brgy, $city_town, $province;
-    // public $addresses;
     
     public function mount()
     {
-        $this->departments = Department::pluck('acronym','id')->toArray();
+        $this->roles = ["User", "Admin", "Facility Head"];
+        $this->types = ["Student", "Staff", "Visitor"];        
         $this->name = $this->user->name;
         $this->email = $this->user->email;
-        // $this->address = $this->user->profile->address;
-        // $this->department = $this->user->profile->department_id;
         $this->type = $this->user->type;
         $this->role = $this->user->role;
         $this->phone_number = $this->user->profile->phone_number;
@@ -29,14 +27,13 @@ class Edit extends Component
             $this->city_town = $this->address[1];
             $this->province = $this->address[2];
         }catch(Exception $ex){
+            $ex->getMessage();
         }
     }
 
     public function getUserProperty()
     {
-        return User::with(['profile' => function($query){
-                    return $query->with('department');
-                }])
+        return User::with('profile')
                 ->find($this->userId);
     }
 
@@ -53,21 +50,22 @@ class Edit extends Component
         ]);
 
         $this->user->update([
-            'name' => $this->name,
-            'email' => $this->email,
+            'name'          => $this->name,
+            'email'         => $this->email,
         ]);
 
         $this->user->profile()->update([
-            'address' => $this->address,
-            'department_id' => $this->department
+            'address'       => $this->address,
+            'phone_number'  => $this->phone_number
         ]);
-        // $this->user->profile->save();
-        // dd($this->user->profile()->wasChanged());
+        // dd($this->user->profile->wasChanged());
+        /**
+         * $this->user->profile->wasChanged() was not triggered
+         */
         if($this->user->wasChanged() || $this->user->profile->wasChanged()){
             return redirect('/admin/users')->with('message', 'Updated Successfully');
         }
         return redirect('/admin/users');
-
     }
 
     public function back(){
@@ -76,7 +74,6 @@ class Edit extends Component
 
     public function render()
     {
-        
         return view('livewire.admin.users.edit');
     }
 }
