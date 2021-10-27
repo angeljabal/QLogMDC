@@ -15,14 +15,10 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('facility_id')->unsigned();
-            // $table->bigInteger('purpose_id')->unsigned();
-            $table->string('string');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->unique;   
+            $table->foreignId('facility_id')->constrained()->onDelete('cascade')->unique;   
+            $table->string('purpose');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('facility_id')->references('id')->on('facilities')->onDelete('cascade');
-            // $table->foreign('purpose_id')->references('id')->on('purposes')->onDelete('cascade');
         });
     }
 

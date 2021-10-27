@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,11 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
+     * USER's ROLE
+     */
+    const HEAD   = 3;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var string[]
@@ -23,7 +29,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'type',
-        'role'
+        'role',
+        'email_verified_at'
     ];
 
     /**
@@ -47,7 +54,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function facility()
     {
-        return $this->hasOne(Facility::class);
+        if($this->role == self::HEAD)
+        {
+            return $this->hasOne(Facility::class);
+        }
+        return null;
     }
 
     public function profile()

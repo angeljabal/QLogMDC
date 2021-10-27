@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Purpose extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'purpose'
-    ];
+    protected $guarded = [];
 
-    // public function logs(){
-
-    // }
+    public function facilities(){
+        return $this->belongsToMany(Facility::class, 'facilities_purposes');
+    }
 }

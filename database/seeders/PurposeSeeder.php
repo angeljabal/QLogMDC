@@ -15,19 +15,22 @@ class PurposeSeeder extends Seeder
     public function run()
     {
         $data = [
-            [
-                'desc'  =>  'Pay Tuition Fee'
-            ],
-            [
-                'desc'  =>  'Pay for enrollment'
-            ],
-            [
-                'desc'  =>  'Pay for special exam'
-            ],
+            'Enrolment',
+            'Request for T.O.R',
+            'Request for Good Moral',
+            'Buy Book(s)',
+            'Buy Uniform(s)',
+            'Consultation of Grades',
+            'Appointment with the Dean',
+            'Medical Check-up',
+            'Request for I.D Verification',
+            'Request for Class Schedules',
+            'Request for Grades',
+            'Pay Tuition'
         ];
 
         foreach($data as $purpose){
-            Purpose::create($purpose);
-        }    
+            Purpose::create(['title'=>$purpose]);
+        }  
     }
 }
