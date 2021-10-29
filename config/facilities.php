@@ -6,27 +6,10 @@ return [
     'head'     =>  
     [
         [
-            'name'              => 'Alvin Jose Orcullo',
-            'email'             => 'admin@admin.com',
-            'password'          => 'admin123',
-            'type'              => 2,
-            'role'              => 2,
-            'email_verified_at' => Carbon::now()
-        ],
-        [
-            'name'              => 'Angel Jabal',
-            'email'             => 'admin1@admin.com',
-            'password'          => 'admin123',
-            'type'              => 2,
-            'role'              => 2,
-            'email_verified_at' => Carbon::now()
-        ],
-        [
             'name'              => 'Dianne Sab Gastanes',
             'email'             => 'faculty_FI@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -34,7 +17,6 @@ return [
             'email'             => 'faculty_RE@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -42,7 +24,6 @@ return [
             'email'             => 'faculty_GU@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -50,7 +31,6 @@ return [
             'email'             => 'faculty_SS@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -58,7 +38,6 @@ return [
             'email'             => 'faculty_SC@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -66,7 +45,6 @@ return [
             'email'             => 'faculty_CABMB@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -74,7 +52,6 @@ return [
             'email'             => 'faculty_CABMH@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -82,7 +59,6 @@ return [
             'email'             => 'faculty_CAST@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -90,7 +66,6 @@ return [
             'email'             => 'faculty_CCJ@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -98,7 +73,6 @@ return [
             'email'             => 'faculty_COE@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -106,7 +80,6 @@ return [
             'email'             => 'faculty_CON@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -114,7 +87,6 @@ return [
             'email'             => 'faculty_LIB@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -122,7 +94,6 @@ return [
             'email'             => 'faculty_MMC@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -130,7 +101,6 @@ return [
             'email'             => 'faculty_GRAD@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -138,7 +108,6 @@ return [
             'email'             => 'faculty_PRES@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -146,7 +115,6 @@ return [
             'email'             => 'faculty_SP@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -154,7 +122,6 @@ return [
             'email'             => 'faculty_BO@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -162,7 +129,6 @@ return [
             'email'             => 'faculty_PR01@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -170,7 +136,6 @@ return [
             'email'             => 'faculty_CMO@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
         [
@@ -178,7 +143,6 @@ return [
             'email'             => 'faculty_NU@qlog.com',
             'password'          => 'admin123',
             'type'              => 2,
-            'role'              => 3,
             'email_verified_at' => Carbon::now()
         ],
     ],

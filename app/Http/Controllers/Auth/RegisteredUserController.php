@@ -66,7 +66,7 @@ class RegisteredUserController extends Controller
         //     $mail->subject('Account Verification');
         //     $mail->from('mdc-qlog@gmail.com', 'QLOG System');
         // });
-
+        $user->assignRole('user');
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME)->with('status', 'verification-link-sent');

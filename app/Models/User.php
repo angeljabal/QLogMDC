@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, hasRoles;
 
     /**
      * USER's ROLE
@@ -29,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'type',
-        'role',
+        // 'role',
         'email_verified_at'
     ];
 
@@ -54,10 +54,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function facility()
     {
-        if($this->role == self::HEAD)
+        if($this->hasRole('head'))
         {
             return $this->hasOne(Facility::class);
         }
+        
         return null;
     }
 
