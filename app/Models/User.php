@@ -9,8 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, hasRoles;
 
@@ -18,7 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * USER's ROLE
      */
     const HEAD   = 3;
-
+    protected $guard_name = 'api';
     /**
      * The attributes that are mass assignable.
      *
@@ -69,5 +70,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function logs(){
         return $this->hasMany(Log::class);
+    }
+
+    public function getJWTIdentifier(){
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(){
+        return [];
     }
 }
