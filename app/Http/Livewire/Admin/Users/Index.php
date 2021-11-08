@@ -22,7 +22,10 @@ class Index extends Component
 
         return compact('profiles');
     }
-
+    public function back(){
+        return redirect('/admin/users');
+    }
+    
     public function deleteUser(){
         $this->user->delete();
         $this->confirmingUserDeletion = false;

@@ -36,7 +36,6 @@ class Profile extends Model
                         ->where('name', 'like', $term);
                 });
             });
-
         });
 
     }

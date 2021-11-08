@@ -2,24 +2,31 @@
 
 namespace App\Http\Livewire\Admin\Users;
 
-use App\Models\Department;
+use App\Models\Facility;
 use App\Models\User;
 use Exception;
+use GuzzleHttp\Psr7\Request;
 use Livewire\Component;
+use Spatie\Permission\Models\Role;
 
 class Edit extends Component
 {
-    public $userId, $name, $email, $address, $department, $type, $role, $phone_number, $roles, $types, $brgy, $city_town, $province;
-    
+    public $userId, $name, $email, $phone_number;
+    public $address, $type, $role, $roles, $selectedRoles, $types, $brgy, $city_town, $province;
+    public $facilities, $facilityId, $facility, $currentHeadId, $currentHead;
+
     public function mount()
     {
-        $this->roles = ["User", "Admin", "Facility Head"];
-        $this->types = ["Student", "Staff", "Visitor"];        
+        $this->role = $this->user->roles->pluck('name');
+        $this->roles = Role::whereNotIn('name', $this->role)->get();
+        $this->selectedRoles = $this->role;
+
+        $this->types = ["Student", "Staff", "Visitor"];
         $this->name = $this->user->name;
         $this->email = $this->user->email;
         $this->type = $this->user->type;
-        $this->role = $this->user->role;
         $this->phone_number = $this->user->profile->phone_number;
+        $this->facilityId = 1;
 
         try{
             $this->address = explode(",",  $this->user->profile->address);
@@ -29,6 +36,12 @@ class Edit extends Component
         }catch(Exception $ex){
             $ex->getMessage();
         }
+
+        if($this->user->role == 'Head' ){
+            $this->facilityId = $this->user->facility->id != null ? $this->user->facility->id : 1;
+        }
+
+        $this->facilities = Facility::all();    
     }
 
     public function getUserProperty()
@@ -48,24 +61,40 @@ class Edit extends Component
             'role'          => 'required',
             'phone_number'  => 'required|max:12'
         ]);
-
+        
         $this->user->update([
             'name'          => $this->name,
             'email'         => $this->email,
+            'type'          => $this->type,
         ]);
-
+        
         $this->user->profile()->update([
-            'address'       => $this->address,
+            'address'       => rtrim($this->address, ','),
             'phone_number'  => $this->phone_number
         ]);
-        // dd($this->user->profile->wasChanged());
-        /**
-         * $this->user->profile->wasChanged() was not triggered
-         */
-        if($this->user->wasChanged() || $this->user->profile->wasChanged()){
-            return redirect('/admin/users')->with('message', 'Updated Successfully');
+
+        if($this->role=='head')
+        {
+            $this->updateFacility($this->facilityId);
         }
-        return redirect('/admin/users');
+        
+        $this->user->assignRole($this->role);
+
+        return redirect('/admin/users')->with('message', 'Updated Successfully');
+    }
+
+    public function updateFacility($facilityId)
+    {
+        $this->facility = Facility::find($facilityId);
+        if($this->facility->user_id!=null)
+        {
+            $this->currentHeadId = $this->facility->user_id;
+            $this->currentHead = User::find($this->currentHeadId);
+            $this->currentHead->removeRole('head');
+        }
+
+        $this->facility->update(['user_id' => $this->user->id]);
+
     }
 
     public function back(){
