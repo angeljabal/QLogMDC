@@ -19,7 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
      * USER's ROLE
      */
     const HEAD   = 3;
-    protected $guard_name = 'api';
+
     /**
      * The attributes that are mass assignable.
      *
