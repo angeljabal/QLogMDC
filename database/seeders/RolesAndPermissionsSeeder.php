@@ -19,7 +19,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $arrayOfPermissionNames = [
             'manage profile', 'view logs',
-            'manager users', 'view its facility', 'manage purposes'
+            'manager users', 'view its facility', 'manage purposes',
+            'scan qr'
         ];
 
         $permissions = collect($arrayOfPermissionNames)->map(function ($permission) {
@@ -32,7 +33,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ->givePermissionTo(Permission::all());     
         
         Role::create(['name' => 'user'])->givePermissionTo(['manage profile', 'view logs']);
-        Role::create(['name' => 'head'])->givePermissionTo(['view its facility', 'manage purposes']);
-        Role::create(['name' => 'faculty']);
+        Role::create(['name' => 'head'])->givePermissionTo(['view its facility', 'manage purposes', 'scan qr']);
+        Role::create(['name' => 'faculty'])->givePermissionTo(['scan qr']);
     }
 }

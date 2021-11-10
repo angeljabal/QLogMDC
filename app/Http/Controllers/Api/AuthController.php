@@ -45,12 +45,26 @@ class AuthController extends Controller
     public function login(Request $request){
         $creds = $request->only('email', 'password');
 
-        if(!$token = auth()->attempt($creds)){
+        if(!$token = auth()->guard('api')->attempt($creds)){
             return response()->json(
-                ['error' =>  'Unauthorised'], 401);
+                [
+                    'success'   => false,
+                    'error'     =>  'Unauthorised',
+                ], 401);
+        }
+        $hasFacility = str_contains(auth()->guard('api')->user()->roles->pluck('name'), 'head');
+        $facility = null;
+
+        if($hasFacility){
+            $facility = auth()->guard('api')->user()->facility->name;
         }
 
-        return $this->respondWithToken($token);
+        return response()->json([
+            'success'               => true,
+            'token'                 => $token,
+            'hasPermission'         => auth()->guard('api')->user()->hasPermissionTo('scan qr'),
+            'facility'              => $facility
+        ]);
     }
 
     public function me(){
@@ -62,11 +76,4 @@ class AuthController extends Controller
         return response()->json(['message'  =>  'Successfully logged out']);
     }
 
-    private function respondWithToken($token){
-        return response()->json([
-            'access token'  => $token,
-            'token type'    => 'bearer',
-            'expires in'    => auth('api')->factory()->getTTL() * 60
-        ]);
-    }
 }
