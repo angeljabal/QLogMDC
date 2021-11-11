@@ -155,7 +155,7 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach ($logs as $log)
                                     <tr class="bg-white">
-                                            
+
                                         <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <div class="flex">
                                             <a href="#" class="group inline-flex space-x-2 truncate text-sm">

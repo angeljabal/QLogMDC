@@ -62,7 +62,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                
+
                             </tbody>
                         </table>
                         <nav class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6" aria-label="Pagination">
@@ -73,21 +73,21 @@
             </div>
         </div>
     </div>
-    
+
     <x-modals.confirmation wire:model="confirmingPurposeDeletion">
         <x-slot name="title">
             {{ __('Delete Purpose - ' . $title) }}
         </x-slot>
- 
+
         <x-slot name="content">
             {{ __('Are you sure you want to delete this purpose? ') }}
         </x-slot>
- 
+
         <x-slot name="footer">
             <x-buttons.secondary wire:click="back()" wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </x-buttons.secondary>
- 
+
             <button class="px-4 py-2 text-sm rounded-md text-white bg-red-500 text-white hover:bg-red-700" wire:click="deleteUser()" wire:loading.attr="disabled">
                 {{ __('Delete') }}
             </button>
@@ -98,7 +98,7 @@
         <x-slot name="title">
             {{ isset( $this->purpose->id) ? 'Edit Purpose' : 'Add Purpose'}}
         </x-slot>
- 
+
         <x-slot name="content" x-data="{facility:null}">
             <div class="col-span-6 sm:col-span-4">
                 <x-label for="title" value="{{ __('Title') }}" />
@@ -124,9 +124,9 @@
                     </div>
                 {{-- </a> --}}
             </div>
-            
+
         </x-slot>
- 
+
         <x-slot name="footer">
             <x-buttons.secondary wire:click="back()" wire:loading.attr="disabled">
                 {{ __('Cancel') }}
