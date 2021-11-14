@@ -1,5 +1,6 @@
-<!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-<div class="fixed inset-0 flex z-40 lg:hidden" role="dialog" aria-modal="true" x-data="{ 'open' : true }">
+<div class="" x-data="{ 'open' : false }">
+    <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+<div class="fixed flex z-40 lg:hidden" role="dialog" aria-modal="true" :class="open ? 'inset-0' : 'h-16 w-14'">
     <!--
         Off-canvas menu overlay, show/hide based on off-canvas menu state.
 
@@ -124,6 +125,7 @@
     <div @click="open = !open" class="flex-shrink-0 w-14 cursor-pointer" aria-hidden="true">
         <!-- Dummy element to force sidebar to shrink to fit close icon -->
     </div>
+</div>
 </div>
 <!-- Static sidebar for desktop -->
 <div class="hidden lg:flex lg:flex-shrink-0">
