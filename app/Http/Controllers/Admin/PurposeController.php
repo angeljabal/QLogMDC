@@ -24,7 +24,7 @@ class PurposeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.purposes.create');
     }
 
     /**
@@ -46,7 +46,7 @@ class PurposeController extends Controller
      */
     public function show($id)
     {
-        return view('admin.purposes.show', compact('id'));
+
     }
 
     /**
@@ -57,7 +57,7 @@ class PurposeController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.purposes.edit', compact('id'));
     }
 
     /**

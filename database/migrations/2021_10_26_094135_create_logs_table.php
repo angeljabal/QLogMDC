@@ -15,9 +15,11 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->unique;   
-            $table->foreignId('facility_id')->constrained()->onDelete('cascade')->unique;   
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');   
+            $table->foreignId('facility_id')->nullable()->constrained()->onDelete('cascade');
+            $table->integer('queue_no')->nullable();   
             $table->string('purpose');
+            $table->enum('status', ['waiting', 'serving', 'skipped', 'completed'])->nullable(); 
             $table->timestamps();
         });
     }

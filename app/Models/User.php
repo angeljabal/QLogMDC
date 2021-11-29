@@ -60,7 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
             return $this->hasOne(Facility::class);
         }
         
-        return null;
+        // return null;
     }
 
     public function profile()
@@ -78,5 +78,24 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 
     public function getJWTCustomClaims(){
         return [];
+    }
+
+    public function scopeSearch($query, $terms)
+    {
+        collect(explode(' ', $terms))->filter()->each(function($term) use($query)
+        {
+            $term = '%'.$term.'%';
+
+            $query->where(function($query) use($term){
+                $query->whereHas('profile', function($query) use($term){
+                    $query->select('user_id')
+                        ->from('profiles')
+                        ->where('address', 'like', $term);
+                })
+                ->orWhere('name', 'like', $term)
+                ->orWhere('type', 'like', $term);
+            });
+        });
+
     }
 }

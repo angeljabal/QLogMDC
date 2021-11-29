@@ -8,6 +8,7 @@
 
         <div class="mt-4">
             {{ $content }}
+            
         </div>
     </div>
 

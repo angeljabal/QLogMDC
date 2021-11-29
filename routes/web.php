@@ -31,6 +31,8 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except(['store','update', 'destroy']);
         Route::resource('purposes', \App\Http\Controllers\Admin\PurposeController::class)->except(['store','update', 'destroy']);
         Route::resource('logs', \App\Http\Controllers\Admin\LogsController::class)->except(['store','update', 'destroy']);
+        Route::resource('queues', \App\Http\Controllers\Admin\QueueController::class)->except(['store','update', 'destroy']);
+        Route::resource('facilities', \App\Http\Controllers\Admin\FacilityController::class)->except(['store','update', 'destroy']);
     });
 
     /**
@@ -40,6 +42,11 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
         Route::get('dashboard', [\App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
         Route::get('logs', [\App\Http\Controllers\HomeController::class, 'logs'])->name('logs');
         Route::get('generate-qrcode', [\App\Http\Controllers\HomeController::class, 'generate'])->name('generate-qrcode');
+
+        Route::group(['middleware' => 'role:head'], function(){
+            Route::resource('queue', \App\Http\Controllers\Head\QueueController::class)->except(['store','update', 'destroy']);
+            Route::resource('facility', \App\Http\Controllers\Head\FacilityController::class)->except(['store','update', 'destroy']);
+        });
         // Route::get('generate-qrcode', [\App\Http\Controllers\HomeController::class, 'generate'])->name('generate-qrcode');
     });
     

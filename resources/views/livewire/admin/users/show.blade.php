@@ -1,6 +1,4 @@
 <div>
-
-
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <div class="px-4 py-5 sm:px-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
@@ -40,9 +38,19 @@
                   Role
                   </dt>
                   <dd class="mt-1 text-sm capitalize text-gray-900 sm:mt-0 sm:col-span-2">
-                  {{$this->user->roles->pluck('name')->implode(',')}}
+                  {{$this->user->roles->pluck('name')->implode(' | ')}}
                   </dd>
               </div>
+              @if ($this->user->facility()!=null)
+              <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                    Facility
+                    </dt>
+                    <dd class="mt-1 text-sm capitalize text-gray-900 sm:mt-0 sm:col-span-2">
+                    {{$this->user->facility->name}}
+                    </dd>
+              </div>
+              @endif
               <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt class="text-sm font-medium text-gray-500">
                     Profile

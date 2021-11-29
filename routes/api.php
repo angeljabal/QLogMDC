@@ -18,9 +18,13 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
-Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
 
 Route::group(['middleware'=>'auth:api'], function(){
+    Route::post('/logs/create', [\App\Http\Controllers\Api\LogController::class, 'store']);
+    Route::get('/purposes', [\App\Http\Controllers\Api\LogController::class, 'showPurposes']);
+    Route::post('/users/find', [\App\Http\Controllers\Api\LogController::class, 'findUser']);
+    Route::post('/facilities', [\App\Http\Controllers\Api\LogController::class, 'showFacilities']);
+    Route::get('/logs', [\App\Http\Controllers\Api\LogController::class, 'showLogs']);
     Route::get('/user', [\App\Http\Controllers\Api\AuthController::class, 'me']);
     Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
 });

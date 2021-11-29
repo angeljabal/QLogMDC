@@ -5,28 +5,26 @@ namespace App\Http\Livewire\Admin\Users;
 use App\Models\Facility;
 use App\Models\User;
 use Exception;
-use GuzzleHttp\Psr7\Request;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
 class Edit extends Component
 {
     public $userId, $name, $email, $phone_number;
-    public $address, $type, $role, $roles, $selectedRoles, $types, $brgy, $city_town, $province;
+    public $address, $type, $roles, $types, $brgy, $city_town, $province;
     public $facilities, $facilityId, $facility, $currentHeadId, $currentHead;
-
+    public $role = [];
     public function mount()
     {
-        $this->role = $this->user->roles->pluck('name');
-        $this->roles = Role::whereNotIn('name', $this->role)->get();
-        $this->selectedRoles = $this->role;
+        $this->role = $this->user->roles->pluck('name')->toArray();
+        $this->roles = Role::select('id', 'name')->orderBy('id')->get();
 
         $this->types = ["Student", "Staff", "Visitor"];
         $this->name = $this->user->name;
         $this->email = $this->user->email;
         $this->type = $this->user->type;
         $this->phone_number = $this->user->profile->phone_number;
-        $this->facilityId = 1;
+        $this->facilityId = 0;
 
         try{
             $this->address = explode(",",  $this->user->profile->address);
@@ -37,8 +35,8 @@ class Edit extends Component
             $ex->getMessage();
         }
 
-        if($this->user->role == 'Head' ){
-            $this->facilityId = $this->user->facility->id != null ? $this->user->facility->id : 1;
+        if(in_array('head', $this->role)){
+            $this->facilityId = $this->user->facility->id != null ? $this->user->facility->id : 0;
         }
 
         $this->facilities = Facility::all();    
@@ -54,14 +52,14 @@ class Edit extends Component
     {
         $this->address = $this->brgy . ',' . $this->city_town . ',' . $this->province;
         $this->validate([
-            'name'          => 'required|min:3',
-            'email'         => 'required|email|max:255|unique:users,email,'.$this->user->id,
-            'address'       => 'required|min:3|max:255',
-            'type'          => 'required',
-            'role'          => 'required',
-            'phone_number'  => 'required|max:12'
+            'name'              => 'required|min:3',
+            'email'             => 'required|email|max:255|unique:users,email,'.$this->user->id,
+            'address'           => 'required|min:3|max:255',
+            'type'              => 'required',
+            'role'              => 'required|array|min:1',
+            'phone_number'      => ['required', 'regex:/^(09|\+639)\d{9}$/']
         ]);
-        
+
         $this->user->update([
             'name'          => $this->name,
             'email'         => $this->email,
@@ -72,14 +70,14 @@ class Edit extends Component
             'address'       => rtrim($this->address, ','),
             'phone_number'  => $this->phone_number
         ]);
-
-        if($this->role=='head')
+        
+        if(in_array('head', $this->role))
         {
+            $this->validate(['facilityId' => 'required|min:0|not_in:0']);
             $this->updateFacility($this->facilityId);
         }
-        
-        $this->user->assignRole($this->role);
 
+        $this->user->assignRole($this->role);
         return redirect('/admin/users')->with('message', 'Updated Successfully');
     }
 
@@ -94,7 +92,6 @@ class Edit extends Component
         }
 
         $this->facility->update(['user_id' => $this->user->id]);
-
     }
 
     public function back(){

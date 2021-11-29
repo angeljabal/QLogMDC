@@ -32,15 +32,36 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        $logs = Log::where('user_id', $this->id)
-                ->where('created_at', '>=', Carbon::today()->subDays(2))
-                ->paginate(10);
+        $today = Carbon::now()->format('M d, Y');
 
-        $count = Log::distinct('facility_id')
-                ->where('user_id', $this->id)
-                ->where('created_at', '>=', Carbon::today())
-                ->count();
-        return view('public.dashboard', compact('logs', 'count'));
+        if(auth()->user()->hasRole('head')){
+            $waiting = Log::where('facility_id', auth()->user()->facility->id)
+                            ->where('status', "waiting")
+                            ->where('created_at', '>=', Carbon::today())
+                            ->count();
+
+            $completed = Log::where('facility_id', auth()->user()->facility->id)
+                            ->where('status', "completed")
+                            ->where('created_at', '>=', Carbon::today())
+                            ->count();
+
+            $transactions = Log::where('facility_id', auth()->user()->facility->id)->count();
+
+            return view('public.dashboard', compact('transactions', 'waiting', 'completed', 'today'));
+
+        }else{
+            $logs = Log::where('user_id', $this->id)
+            ->where('created_at', '>=', Carbon::today()->subDays(2))
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+
+            $count = Log::distinct('facility_id')
+                    ->where('user_id', $this->id)
+                    ->where('created_at', '>=', Carbon::today())
+                    ->count();
+
+            return view('public.dashboard', compact('logs', 'count', 'today'));
+        }
     }
 
     public function logs()
@@ -53,26 +74,28 @@ class HomeController extends Controller
         // $start = Carbon::parse($request->start_date);
         // $end = Carbon::parse($request->end_date);
 
-        $logs = Log::where('user_id', $this->id)->paginate(10);
-        return view('public.logs', compact('logs'));
+        if(auth()->user()->hasRole('head')){
+            $today = Carbon::now()->format('M d, Y');
+
+            $logs = Log::where('facility_id', auth()->user()->facility->id)
+                        ->where('status', 'completed')
+                        ->where('created_at', '>=', Carbon::today())
+                        ->orderBy('created_at', 'DESC')->paginate(10);
+            $facility = auth()->user()->facility->name;
+            return view('public.logs', compact('logs', 'facility', 'today'));
+        }else{
+            $logs = Log::where('user_id', $this->id)->orderBy('created_at', 'DESC')->paginate(10);
+            return view('public.logs', compact('logs'));
+        }
+        
     }
 
     public function generate(){
         $user = User::with('profile')->where('id', auth()->user()->id)->first();
-        $first_name = $last_name = '';
-        try{
-            $splitName = explode(' ', $user->name, 2);
-            $first_name = $splitName[0];
-            $last_name = !empty($splitName[1]) ? $splitName[1] : '';
-
-        }catch(Exception $ex){
-            $ex->getMessage();
-
-        }
 
         $data = [
-            'lName'         => $first_name,
-            'fName'         => $last_name,
+            'id'            => $user->id,
+            'name'          =>  $user->name,
             'address'       => $user->profile->address,
             'phone_number'  => $user->profile->phone_number
         ];

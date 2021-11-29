@@ -2,25 +2,38 @@
 
 namespace App\Http\Livewire\Admin\Users;
 
-use App\Models\Profile;
 use App\Models\User;
 use Livewire\Component;
-use Livewire\WithPagination;
+use Spatie\Permission\Models\Role;
 
 class Index extends Component
 {
 
-    public $perPage = 10, $search, $confirmingUserDeletion = false, $user, $name;
+    public $perPage, $search, $confirmingUserDeletion = false, $user, $name;
+    public $role, $roles, $types, $type;
+
+    public function mount(){
+        $this->perPage = 10;
+        $this->role = $this->type = 'all';
+        $this->roles = Role::all();
+        $this->types = ["Student", "Staff", "Visitor"];
+    }
 
     public function loadProfiles()
     {
-        $profiles = Profile::select('id', 'address','user_id', 'phone_number')
-            ->whereHas('user')
-            ->search($this->search)
-            ->with(['user:id,name'])
-            ->paginate($this->perPage);
+        $query = User::select('id', 'name', 'type')->whereHas('profile')->with('profile')->search($this->search);
 
-        return compact('profiles');
+        if($this->type!='all'){
+            $query->where('type', $this->type);
+        }
+
+        if($this->role!='all'){
+            $query->role($this->role);
+        }
+
+        $users = $query->paginate($this->perPage);
+
+        return compact('users');
     }
     public function back(){
         return redirect('/admin/users');
