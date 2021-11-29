@@ -116,7 +116,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                
+
                             </tbody>
                         </table>
                         <nav class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6" aria-label="Pagination">
@@ -127,16 +127,16 @@
             </div>
         </div>
     </div>
-    
+
     <x-modals.confirmation wire:model="confirmingPurposeDeletion">
         <x-slot name="title">
             {{ __('Delete Purpose - ' . $title) }}
         </x-slot>
- 
+
         <x-slot name="content">
             {{ __('Are you sure you want to delete this purpose? ') }}
         </x-slot>
- 
+
         <x-slot name="footer">
             <x-buttons.secondary wire:click="back()" wire:loading.attr="disabled">
                 {{ __('Cancel') }}

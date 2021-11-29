@@ -1,8 +1,9 @@
-<!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-<div class="fixed inset-0 flex z-40 lg:hidden" role="dialog" aria-modal="true" x-data="{ 'open' : true }">
+<div class="" x-data="{ 'open' : false }">
+    <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+<div class="fixed flex z-40 lg:hidden" role="dialog" aria-modal="true" :class="open ? 'inset-0' : 'h-16 w-14'">
     <!--
         Off-canvas menu overlay, show/hide based on off-canvas menu state.
-        
+
         Entering: "transition-opacity ease-linear duration-300"
         From: "opacity-0"
         To: "opacity-100"
@@ -13,7 +14,7 @@
     <div x-show="open" class="fixed inset-0 bg-gray-600 bg-opacity-75" aria-hidden="true"></div>
     <!--
         Off-canvas menu, show/hide based on off-canvas menu state.
-        
+
         Entering: "transition ease-in-out duration-300 transform"
         From: "-translate-x-full"
         To: "translate-x-0"
@@ -24,7 +25,7 @@
     <div x-show="open" class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-cyan-700">
         <!--
             Close button, show/hide based on off-canvas menu state.
-            
+
             Entering: "ease-in-out duration-300"
                 From: "opacity-0"
                 To: "opacity-100"
@@ -47,7 +48,7 @@
             </a>
             {{-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg" alt="Easywire logo"> --}}
         </div>
-        <nav class="mt-5 flex-shrink-0 h-full divide-y divide-cyan-800 overflow-y-auto" aria-label="Sidebar">
+        <nav class="mt-5 flex-shrink-auto h-full divide-y divide-cyan-800 overflow-y-auto" aria-label="Sidebar">
             <div class="px-2 space-y-1">
                 <!-- Current: "bg-cyan-800 text-white", Default: "text-cyan-100 hover:text-white hover:bg-cyan-600" -->
                 <a href="{{ route('dashboard') }}" class="{{ Route::is('dashboard') ? 'bg-cyan-800' : 'bg-none' }} text-white hover:text-white hover:bg-cyan-600  group flex items-center px-2 py-2 text-base font-medium rounded-md" aria-current="page">
@@ -57,14 +58,14 @@
                 </svg>
                 Home
                 </a>
-                <a href="#" class="text-cyan-100 hover:text-white hover:bg-cyan-600 group flex items-center px-2 py-2 text-base font-medium rounded-md">
+                <a href="{{ url('logs') }}" class="{{ Route::is('logs') ? 'bg-cyan-800' : 'bg-none' }} text-white hover:text-white hover:bg-cyan-600  group flex items-center px-2 py-2 text-base font-medium rounded-md" aria-current="page">
                 <!-- Heroicon name: outline/clock -->
                 <svg class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 History
                 </a>
-                @if(auth()->user()->role=='Admin')
+                @if(auth()->user()->hasRole('admin'))
                 <span class="text-gray-100 bg-cyan-900 group flex items-center -mx-2 px-2 py-2 text-sm leading-6 font-medium">
                     For Admin Access
                 </span>
@@ -75,13 +76,22 @@
                     </svg>
                     Users
                     </a>
-                    <a href="#" class="text-cyan-100 hover:text-white hover:bg-cyan-600 group flex items-center px-2 py-2 text-base font-medium rounded-md">
+                    <a href="{{ url('admin/logs') }}" class="{{ Route::is('admin.logs.index') ? 'bg-cyan-800' : 'bg-none' }} text-cyan-100 hover:text-white hover:bg-cyan-600 group flex items-center px-2 py-2 text-base font-medium rounded-md">
                     <!-- Heroicon name: outline/credit-card -->
                     <svg class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                     </svg>
                     Logs
                     </a>
+                    <a href="{{ url('admin/purposes') }}" class="{{ Route::is('admin.purposes.index') ? 'bg-cyan-800' : 'bg-none' }} text-cyan-100 hover:text-white hover:bg-cyan-600 group flex items-center px-2 py-2 text-base font-medium rounded-md">
+                    <!-- Heroicon name: outline/credit-card -->
+                    <svg class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                    Purposes
+                    </a>
+
+
                 @endif
 
             </div>
@@ -104,7 +114,7 @@
                 </a>
                 <a href="#" class="group flex items-center px-2 py-2 text-base font-medium rounded-md text-cyan-100 hover:text-white hover:bg-cyan-600">
                     <!-- Heroicon name: outline/shield-check -->
-                    <svg class="mr-4 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <svg class="mr-4 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                     Privacy
@@ -116,6 +126,7 @@
     <div @click="open = !open" class="flex-shrink-0 w-14 cursor-pointer" aria-hidden="true">
         <!-- Dummy element to force sidebar to shrink to fit close icon -->
     </div>
+</div>
 </div>
 <!-- Static sidebar for desktop -->
 <div class="hidden lg:flex lg:flex-shrink-0">
@@ -129,7 +140,7 @@
                 {{-- <marquee behavior="" direction="">
                     <i><span class="text-white tracking-wide leading-loose font-bold px-4 text-2xl">A QRCode based visitor loggin and priority queue viewing system</span></i>
                 </marquee> --}}
-                
+
             </div>
             <nav class="mt-5 flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto" aria-label="Sidebar">
                 <div class="px-2 space-y-1">
