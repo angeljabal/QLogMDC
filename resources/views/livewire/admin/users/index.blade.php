@@ -1,33 +1,7 @@
 <div>
-    {{-- Update success message. --}}
-    @if(session()->has('message'))
-    <div class="px-4 py-5 sm:px-6">
-      <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
-        <div class="flex">
-          <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
-          <div>
-            <p class="font-bold">{{session('message')}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    @endif
-
-    {{-- Delete success message. --}}
-    @if(session()->has('deleted'))
-    <div class="px-4 py-5 sm:px-6">
-      <div class="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md" role="alert">
-        <div class="flex">
-          <div class="py-1"><svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
-          <div>
-            <p class="font-bold">{{session('deleted')}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    @endif
-    
-    <div class="mt-8">
+    <x-status.success :success="session('message')"></x-status.success>
+    <x-status.deleted :deleted="session('deleted')"></x-status.deleted>
+    <div>
         <!-- Users table (small breakpoint and up) -->
         <div class="hidden sm:block">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,26 +15,22 @@
                         <form class="w-full flex md:ml-0" action="#" method="GET">
                             <label for="search-field" class="sr-only">Search</label>
                             <div class="relative w-full text-gray-400 focus-within:text-gray-600">
-                            <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none p-1" aria-hidden="true">
-                                <!-- Heroicon name: solid/search -->
-                                <svg class="h-5 w-5 p-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <input wire:model.lazy="search" id="search-field" name="search-field" 
-                                    class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent sm:text-sm" 
+                                <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none p-1" aria-hidden="true">
+                                    <!-- Heroicon name: solid/search -->
+                                    <svg class="h-5 w-5 p-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input wire:model.lazy="search" id="search-field" name="search-field"
+                                    class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent sm:text-sm"
                                     placeholder="Search" type="search">
                             </div>
                         </form>
                     </div>
-                    {{-- <div class="flex items-center text-center">
-                        <label for="search">Search</label>       
-                        <input wire:model.lazy="search" type="text" class="ml-2 text-sm p-4">
-                    </div> --}}
                 </div>
                 <div class="flex flex-col mt-2">
-                    <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
-                        <table class="min-w-full divide-y divide-gray-200">
+                    <div class="align-middle min-w-full overflow-y-auto shadow overflow-hidden sm:rounded-sm">
+                        <table class="min-w-full divide-y divide-gray-200 overflow-auto">
                             <thead>
                                 <tr>
                                     <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -117,7 +87,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                
+
                                 <!-- More transactions... -->
                             </tbody>
                         </table>
@@ -132,24 +102,24 @@
             </div>
         </div>
     </div>
-    
-    <x-confirmation-modal wire:model="confirmingUserDeletion">
+
+    <x-modals.confirmation wire:model="confirmingUserDeletion">
         <x-slot name="title">
             {{ __('Delete User - ' . $name) }}
         </x-slot>
- 
+
         <x-slot name="content">
             {{ __('Are you sure you want to delete this user? ') }}
         </x-slot>
- 
+
         <x-slot name="footer">
-            <x-secondary-button class="p-4 m-1 text-sm text-white bg-gray-400 rounded-md hover:bg-gray-700" wire:click="$set('confirmingUserDeletion', false)" wire:loading.attr="disabled">
+            <x-buttons.secondary class="p-4 m-1 text-sm text-white bg-gray-400 rounded-md hover:bg-gray-700" x-on:click="show = false"  wire:loading.attr="disabled">
                 {{ __('Cancel') }}
-            </x-secondary-button>
- 
-            <button class="p-4 m-1 text-sm rounded-md bg-red-500 text-white hover:bg-red-700" wire:click="deleteUser()" wire:loading.attr="disabled">
+            </x-buttons.secondary>
+
+            <button class="px-4 py-2 text-sm rounded-md bg-red-500 text-white hover:bg-red-700" wire:click="deleteUser()" wire:loading.attr="disabled">
                 {{ __('Delete') }}
             </button>
         </x-slot>
-    </x-confirmation-modal>
+    </x-modals.confirmation>
 </div>

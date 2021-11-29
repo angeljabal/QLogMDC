@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, hasRoles;
 
     /**
      * USER's ROLE
@@ -29,7 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'type',
-        'role',
+        // 'role',
         'email_verified_at'
     ];
 
@@ -54,10 +55,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function facility()
     {
-        if($this->role == self::HEAD)
+        if($this->hasRole('head'))
         {
             return $this->hasOne(Facility::class);
         }
+        
         return null;
     }
 
@@ -68,5 +70,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function logs(){
         return $this->hasMany(Log::class);
+    }
+
+    public function getJWTIdentifier(){
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(){
+        return [];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -66,7 +67,7 @@ class RegisteredUserController extends Controller
         //     $mail->subject('Account Verification');
         //     $mail->from('mdc-qlog@gmail.com', 'QLOG System');
         // });
-
+        $user->assignRole('user');
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME)->with('status', 'verification-link-sent');

@@ -22,7 +22,10 @@ class Index extends Component
 
         return compact('profiles');
     }
-
+    public function back(){
+        return redirect('/admin/users');
+    }
+    
     public function deleteUser(){
         $this->user->delete();
         $this->confirmingUserDeletion = false;
@@ -35,7 +38,6 @@ class Index extends Component
         $this->name = $this->user->name;
         $this->confirmingUserDeletion = true;
     }
-
     public function render()
     {
         return view('livewire.admin.users.index', $this->loadProfiles());
