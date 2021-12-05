@@ -58,35 +58,35 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach ($facilities as $facility)
+                                @foreach ($facilities as $fac)
                                     <tr class="bg-white">
                                         <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <div  x-data="{selected:null}">
                                                 <button @click="selected !== 0 ? selected = 0 : selected = null" class="text-gray-500 font-bold truncate group-hover:text-gray-900">
-                                                    {{$facility->name . ' (' . $facility->code . ')'}}
+                                                    {{$fac->name . ' (' . $fac->code . ')'}}
                                                 </button>
                                                 <div x-show="selected == 0" class="py-2 px-2">
                                                     <dd class="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
                                                         </svg>
-                                                        {{$facility->user->name}}
+                                                        {{$fac->user->name}}
                                                     </dd>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-smt text-center text-gray-900">
-                                            <span class="{{$facility->isOpen ? 'bg-teal-100 text-teal-800' : 'bg-red-100 text-red-800'}}inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">
-                                                {{$facility->isOpen ? 'Open' : 'Closed'}}
+                                            <span class="{{$fac->isOpen ? 'bg-teal-100 text-teal-800' : 'bg-red-100 text-red-800'}}inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">
+                                                {{$fac->isOpen ? 'Open' : 'Closed'}}
                                             </span>
                                         </td>
                                         <td class="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                                            <button wire:click="confirmFacilityEdit({{$facility->id}})">
+                                            <button wire:click="confirmFacilityEdit({{$fac->id}})">
                                                 <svg class="h-7 w-7 p-1 inline-block bg-teal-500 text-white hover:bg-teal-400 hover:text-cyan-700 rounded-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                 </svg>
                                             </button>
-                                            <button wire:click="confirmFacilityDeletion({{$facility->id}})">
+                                            <button wire:click="confirmFacilityDeletion({{$fac->id}})">
                                                 <svg class="h-7 w-7 p-1 inline-block bg-red-500 text-white hover:bg-red-400 hover:text-cyan-700 rounded-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                                                 </svg>
@@ -106,7 +106,7 @@
         </div>
     </div>
     
-    <x-modals.confirmation wire:model="confirmingFacilityDeletion">
+    <x-modals.confirmation wire:model="confirmingFacilityDeletion" wire:keydown.escape="$set('confirmingFacilityDeletion', false)">
         <x-slot name="title">
             {{ __('Delete Facility - ' . $facility_name) }}
         </x-slot>
@@ -116,7 +116,7 @@
         </x-slot>
  
         <x-slot name="footer">
-            <x-buttons.secondary wire:click="back()" wire:loading.attr="disabled">
+            <x-buttons.secondary wire:click="$set('confirmingFacilityDeletion', false)" wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </x-buttons.secondary>
  
@@ -126,7 +126,7 @@
         </x-slot>
     </x-modals.confirmation>
 
-    <x-modals.add wire:model="confirmingFacilityAdd" wire:keydown.escape="back()">
+    <x-modals.add wire:model="confirmingFacilityAdd" wire:keydown.escape="$set('confirmingFacilityAdd', false)">
         <x-slot name="title">
             {{ isset( $this->facility->id) ? 'Edit Facility' : 'Add Facility'}}
         </x-slot>
@@ -167,7 +167,7 @@
         </x-slot>
  
         <x-slot name="footer">
-            <x-buttons.secondary wire:click="back()" wire:loading.attr="disabled">
+            <x-buttons.secondary wire:click="$set('confirmingFacilityAdd', false)" wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </x-buttons.secondary>
             <x-buttons.button wire:click="saveFacility()" wire:loading.attr="disabled">

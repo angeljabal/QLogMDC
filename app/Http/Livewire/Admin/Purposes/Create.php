@@ -17,7 +17,7 @@ class Create extends Component
     public function submit(){
 
         $this->validate([
-            'title'     => 'required|max:40|unique:purposes,title,'
+            'title'     => 'required|unique:purposes,title,'
         ]);
         
         $purpose = Purpose::create(['title'   => $this->title]);

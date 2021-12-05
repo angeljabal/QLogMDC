@@ -5,9 +5,12 @@ namespace App\Http\Livewire\Admin\Logs;
 use App\Models\Facility;
 use App\Models\Log;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
+
     public $facilities, $purposes, $facility;
     
     public function mount(){

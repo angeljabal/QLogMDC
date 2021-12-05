@@ -4,11 +4,13 @@ namespace App\Http\Livewire\Admin\Facilities;
 
 use App\Models\Facility;
 use App\Models\User;
-use Exception;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
+
     public $confirmingFacilityAdd = false;
     public $confirmingFacilityDeletion = false;
     public $facility, $facility_name, $name, $code, $head, $isOpen, $status, $search;
@@ -34,12 +36,16 @@ class Index extends Component
     }
 
     public function deleteFacility(){
+        $this->currentHead = User::find($this->facility->user_id);
+        $this->currentHead->removeRole('head');
         $this->facility->delete();
         $this->confirmingFacilityDeletion = false;
         return redirect($this->link)->with('deleted', 'Deleted Successfully');
     }
 
     public function confirmFacilityAdd(){
+        $this->facility = null;
+        $this->reset('name','code','head');
         $this->confirmingFacilityAdd = true;
     }
 
@@ -50,10 +56,6 @@ class Index extends Component
         $this->head = $this->facility->user->name;
         $this->isOpen = $this->facility->isOpen;
         $this->confirmingFacilityAdd = true;
-    }
-
-    public function back(){
-        return redirect($this->link);
     }
 
     public function saveFacility(){
@@ -80,7 +82,7 @@ class Index extends Component
             return redirect($this->link)->with('message', 'Updated Successfully');
         }else{
             $this->validate([
-                'name'      => 'required|min:10|unique:facilities,name',
+                'name'      => 'required|unique:facilities,name',
                 'code'      => 'required|min:2|unique:facilities,code',
                 'head'      => 'required|exists:users,name'
             ]);

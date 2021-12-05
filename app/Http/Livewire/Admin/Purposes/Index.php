@@ -21,7 +21,7 @@ class Index extends Component
 
     public function loadPurposes()
     {
-        $query = Purpose::orderBy('title')->search($this->search);
+        $query = Purpose::with('facilities')->orderBy('title')->search($this->search);
         if($this->facility!=0){
             $query->whereHas('facilities', function(Builder $q){
                 $q->where('facility_id', 'like', $this->facility);
@@ -33,23 +33,6 @@ class Index extends Component
     }
 
     public function addPurpose(){
-        // if( isset( $this->purpose->id)) {
-        //     $this->validate([
-        //         'title'     => 'required|max:40|unique:purposes,title,'.$this->purpose->id
-        //     ]);
-        //     $this->purpose->save();
-        //     $this->confirmingPurposeAdd = false;
-        //     session()->flash('message', 'Saved Successfully');
-        // } else {
-        //     $this->validate([
-        //         'title'     => 'required|max:40|unique:purposes,title,'
-        //     ]);
-        //     Purpose::create([
-        //         'title'   => $this->title
-        //     ]);
-        //     $this->confirmingPurposeAdd = false;
-        //     return redirect('admin/purposes')->with('message', 'Added Successfully');
-        // }
         return redirect('/admin/purposes/create');
     }
 

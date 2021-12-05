@@ -23,6 +23,50 @@ class LogController extends Controller
         //
     }
 
+    public function walkInLog(Request $request){
+        $purpose = "Walk-in";
+        $request->validate([
+            'user_id'         => 'required'
+        ]);
+        $exists = Log::where('user_id', $request->user_id)->where('purpose',$purpose)
+                ->where('created_at', '>=', Carbon::today())->exists();
+        if(!$exists) {
+            Log::create([
+                'user_id'       => $request->user_id,
+                'facility_id'   => null,
+                'purpose'       => $purpose
+            ]);
+        }
+        return response()->json(['message'   =>  'Added Successfully'], 202);
+    }
+
+    public function createLog(Request $request)
+    {
+        $purposes = $request->purposes;
+        return array_column($purposes, 'facilityIds');
+        $data = array_column($purposes, 'facilityIds');
+        return array_unique($data);
+
+        // $purposes = [
+        //     'Title 1' => [
+        //         'id'=> 1,
+        //         'facilityIds' => [1,2,3],
+        //     ],
+        //     'Title 2' => [
+        //         'id'=> 2,
+        //         'facilityIds' => [1,3],
+        //     ]
+        // ]
+
+        $uniqueFacilityIds = [];
+        foreach($purposes as $purpose => $value)
+        {
+            $facilityIds = $value['facilityIds'];
+            $uniqueFacilityIds[] = array_unique(array_merge($uniqueFacilityIds,$facilityIds));
+
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -33,55 +77,70 @@ class LogController extends Controller
     {
         $request->validate([
             'user_id'         => 'required',
-            'purpose'         => 'required'
+            'purposes'        => 'required'
         ]);
-        
-        if(!empty($request->facilities)){
-            $facilities = explode(",", $request->facilities);
+        // $this->walkInLog($request);
 
-            foreach($facilities as $facility){
-                $facilityId = Facility::where('name', $facility)->select('id')->first();
-                $count = Log::where('facility_id', $facilityId->id)
+        $purposeList = explode(",", $request->purposes);
+        
+        $facilities = Facility::whereHas('purposes', function($q) use($purposeList) {
+                    $q->whereIn('title', $purposeList);
+                    })
+                    ->where('isOpen', true)
+                    ->select('id','name')
+                    ->with('purposes:title')->get();
+
+        $facilitiesUnique = $facilities->unique('id');
+        foreach($purposeList as $purpose){
+             
+        }
+
+        if($request->purposes!='Walk-in' && isset($facilitiesUnique)){
+            foreach($facilitiesUnique as $facility){
+                $count = Log::where('facility_id', $facility->id)
                         ->where('created_at', '>=', Carbon::today())
                         ->count();
 
+                $purposes = implode(", ",$facility->purposes()->pluck("title")->toArray());
+                $log = Log::where('user_id', $request->user_id)
+                            ->where('facility_id', $facility->id)
+                            ->where('created_at', '>=', Carbon::today())
+                            ->first();
                 try{
+                    if($log){
+                        $logs[] = $this->responseLogs($log);
+                        continue;
+                    }
                     $log = Log::create([
                         'user_id'       => $request->user_id,
-                        'facility_id'   => $facilityId->id,
+                        'facility_id'   => $facility->id,
                         'queue_no'      => ++$count,
-                        'purpose'       => $request->purpose
+                        'purpose'       => $purposes
                     ]);
-    
+                    $logs[] = $this->responseLogs($log);
                 }catch(Exception $ex) {
                     return response()->json([
                         'success'   =>  false,
                         'error'     =>  $ex->getMessage()
                     ],500);
                 }
-
-                $logs[] = [
-                    'name'      => $log->user->name,
-                    'facility'  => $log->facility->name,
-                    'queue_no'  => $log->queue_no,
-                    'purpose'   => $log->purpose
-                ];
             }
+
             return response()->json([
                 'success'   => true,
                 'log'       => $logs
             ], 202);
-        }else{
 
+        }else{
             try{
                 $log = Log::create([
                     'user_id'       => $request->user_id,
                     'facility_id'   => null,
-                    'purpose'       => $request->purpose
+                    'purpose'       => $request->purposes
                 ]);
                 return response()->json([
                     'success'   => true,
-                    'log'       => $log
+                    'log'       => $this->responseLogs($log)
                 ], 202);
             }catch(Exception $ex) {
                 return response()->json([
@@ -89,16 +148,26 @@ class LogController extends Controller
                     'error'     =>  $ex->getMessage()
                 ],500);
             }
-            
         }
+    }
+
+    public function responseLogs($log){
+        $logs[] = [
+            'name'      => $log->user->name,
+            'facility'  => $log->facility->name ?? null,
+            'queue_no'  => $log->queue_no,
+            'purpose'   => $log->purpose
+        ];
+        return $logs;
     }
 
     public function showPurposes(){
         try{
-            $purposes = Purpose::orderBy('title')->select('title')->get();
+            $purposes = Purpose::orderBy('title')->whereHas('facilities')->get();
+
             return response()->json([
-                'success'   => true,
-                'purposes'  => $purposes
+                'success'       => true,
+                'purposes'      => $purposes
             ], 202);
         }catch(Exception $ex){
             return response()->json([
@@ -109,20 +178,20 @@ class LogController extends Controller
 
     }
 
-    public function showFacilities(Request $title){
-        $facilities = Facility::whereHas('purposes', function($q) use($title) {
-            $q->whereIn('title', $title);
-        })->where('isOpen', true)->select('id','name')->get();
+    public function showFacilities(Request $request){
+        $purposeIds = explode(",", $request->id);
 
-        $others = Facility::whereNotIn('id', $facilities->pluck('id')->toArray())
-            ->where('isOpen', true)->select('id','name')->get();
+        $facilities = Facility::whereHas('purposes', function($q) use($purposeIds) {
+            $q->whereIn('id', $purposeIds);
+            })
+            ->where('isOpen', true)
+            ->select('id','name')->get();
 
+        $facilitiesUnique = $facilities->unique('id');
         return response()->json([
             'success'       => true,
-            'facilities'    => $facilities,
-            'others'        => $others
+            'facilities'    => $facilitiesUnique
         ], 202);
-
     }
 
     public function showLogs()
@@ -144,15 +213,20 @@ class LogController extends Controller
         ], 202);
     }
 
-    public function findUser(Request $request){
-        $user = User::where('name',  $request->name)
-                    ->select('id', 'name')
-                    ->with('profile')->first();
+    public function loadUsers(Request $request){
+        $request->validate([
+            'name'      => 'required|min:2'
+        ]);
 
-        if(isset($user)){
+        $users = User::search($request->name)
+                    ->select('id', 'name', 'type')
+                    ->with('profile')
+                    ->get();
+
+        if(isset($users)){
             return response()->json([
                 'success'       => true,
-                'user'          => $user
+                'users'         => $users
             ], 202);
         }else{
             return response()->json([

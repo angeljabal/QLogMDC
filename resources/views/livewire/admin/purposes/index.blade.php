@@ -90,7 +90,7 @@
                                                     {{$purpose->title}}
                                                 </button>
                                                 <div x-show="selected == 0" class="py-2 px-2">
-                                                    @if ($purpose->facilities->contains($purpose->id))
+                                                    @if ($purpose->facilities->count())
                                                         @foreach ($purpose->facilities as $facility)
                                                             <li>{{$facility->name}}</li>
                                                         @endforeach

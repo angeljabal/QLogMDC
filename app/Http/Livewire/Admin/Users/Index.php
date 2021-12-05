@@ -4,11 +4,13 @@ namespace App\Http\Livewire\Admin\Users;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 
 class Index extends Component
 {
-
+    use WithPagination;
+    
     public $perPage, $search, $confirmingUserDeletion = false, $user, $name;
     public $role, $roles, $types, $type;
 
