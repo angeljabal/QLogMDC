@@ -10,7 +10,8 @@ class Facility extends Model
     use HasFactory;
 
     protected $guarded = [];
-    
+    protected $hidden = array('pivot');
+
     public function logs(){
         return $this->hasMany(Log::class);
     }

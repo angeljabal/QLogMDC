@@ -23,23 +23,6 @@ class LogController extends Controller
         //
     }
 
-    public function walkInLog(Request $request){
-        $purpose = "Walk-in";
-        $request->validate([
-            'user_id'         => 'required'
-        ]);
-        $exists = Log::where('user_id', $request->user_id)->where('purpose',$purpose)
-                ->where('created_at', '>=', Carbon::today())->exists();
-        if(!$exists) {
-            Log::create([
-                'user_id'       => $request->user_id,
-                'facility_id'   => null,
-                'purpose'       => $purpose
-            ]);
-        }
-        return response()->json(['message'   =>  'Added Successfully'], 202);
-    }
-
     public function createLog(Request $request)
     {
         $purposes = $request->purposes;
@@ -67,6 +50,62 @@ class LogController extends Controller
         }
     }
 
+    public function log(Request $request){
+        $request->validate([
+            'user_id'         => 'required'
+        ]);
+        if(isset($request->purposes)){
+            $purposeId = explode(",", $request->purposes);
+            $facilities = Facility::whereHas('purposes', function($q) use($purposeId) {
+                $q->whereIn('id', $purposeId);
+                })
+                ->where('isOpen', true)
+                ->select('id','name')
+                ->with(['purposes'=>function($q) use($purposeId) {
+                    $q->whereIn('id', $purposeId);
+            }])->get();
+
+            foreach($facilities as $facility){
+                $count = Log::where('facility_id', $facility->id)
+                        ->where('created_at', '>=', Carbon::today())
+                        ->count();
+                $purposes = implode(",",$facility->purposes->pluck("title")->toArray());
+                $log = Log::where('user_id', $request->user_id)
+                        ->where('facility_id', $facility->id)
+                        ->where('created_at', '>=', Carbon::today())
+                        ->first();
+
+
+                if($log){
+                    $logs[] = $this->responseLogs($log);
+                    continue;
+                }
+                $log = Log::create([
+                    'user_id'       => $request->user_id,
+                    'facility_id'   => $facility->id,
+                    'queue_no'      => ++$count,
+                    'purpose'       => $purposes,
+                    'status'        => "waiting"
+                ]);
+                $logs[] = $this->responseLogs($log);
+            }
+            return response()->json([
+                'success'   => true,
+                'log'       => $logs
+            ], 202);
+        }else{
+            $log = Log::create([
+                'user_id'       => $request->user_id,
+                'facility_id'   => null,
+                'purpose'       => "Walk-in"
+            ]);
+            return response()->json([
+                'success'   => true,
+                'log'       => $this->responseLogs($log)
+            ], 202);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -81,27 +120,27 @@ class LogController extends Controller
         ]);
         // $this->walkInLog($request);
 
-        $purposeList = explode(",", $request->purposes);
+        $purposeId = explode(",", $request->purposes);
         
-        $facilities = Facility::whereHas('purposes', function($q) use($purposeList) {
-                    $q->whereIn('title', $purposeList);
+        $facilities = Facility::whereHas('purposes', function($q) use($purposeId) {
+                    $q->whereIn('id', $purposeId);
                     })
                     ->where('isOpen', true)
                     ->select('id','name')
-                    ->with('purposes:title')->get();
+                    ->with(['purposes'=>function($q) use($purposeId) {
+                        $q->whereIn('id', $purposeId);
+                    }])->get();
 
-        $facilitiesUnique = $facilities->unique('id');
-        foreach($purposeList as $purpose){
+        // foreach($purposeList as $purpose){
              
-        }
+        // }
 
-        if($request->purposes!='Walk-in' && isset($facilitiesUnique)){
-            foreach($facilitiesUnique as $facility){
+        if($request->purposes!='Walk-in' && isset($facilities)){
+            foreach($facilities as $facility){
                 $count = Log::where('facility_id', $facility->id)
                         ->where('created_at', '>=', Carbon::today())
                         ->count();
-
-                $purposes = implode(", ",$facility->purposes()->pluck("title")->toArray());
+                $purposes = implode(",",$facility->purposes()->pluck("title")->toArray());
                 $log = Log::where('user_id', $request->user_id)
                             ->where('facility_id', $facility->id)
                             ->where('created_at', '>=', Carbon::today())
@@ -152,18 +191,20 @@ class LogController extends Controller
     }
 
     public function responseLogs($log){
-        $logs[] = [
+        $logs = [
             'name'      => $log->user->name,
             'facility'  => $log->facility->name ?? null,
             'queue_no'  => $log->queue_no,
-            'purpose'   => $log->purpose
+            'purpose'   => $log->purpose,
+            'status'    => $log->status
         ];
         return $logs;
     }
 
     public function showPurposes(){
         try{
-            $purposes = Purpose::orderBy('title')->whereHas('facilities')->get();
+            $purposes = Purpose::orderBy('title')->whereHas('facilities')
+                        ->with('facilities:id,name')->get();
 
             return response()->json([
                 'success'       => true,
@@ -179,18 +220,15 @@ class LogController extends Controller
     }
 
     public function showFacilities(Request $request){
-        $purposeIds = explode(",", $request->id);
-
-        $facilities = Facility::whereHas('purposes', function($q) use($purposeIds) {
-            $q->whereIn('id', $purposeIds);
+        $facilities = Facility::whereHas('purposes', function($q) use($request) {
+            $q->whereIn('id', $request);
             })
             ->where('isOpen', true)
-            ->select('id','name')->get();
-
-        $facilitiesUnique = $facilities->unique('id');
+            ->select('id','name', 'code')->get();
+        
         return response()->json([
             'success'       => true,
-            'facilities'    => $facilitiesUnique
+            'facilities'    => $facilities
         ], 202);
     }
 
@@ -213,14 +251,10 @@ class LogController extends Controller
         ], 202);
     }
 
-    public function loadUsers(Request $request){
-        $request->validate([
-            'name'      => 'required|min:2'
-        ]);
+    public function loadUsers(){
 
-        $users = User::search($request->name)
-                    ->select('id', 'name', 'type')
-                    ->with('profile')
+        $users = User::select('id', 'name', 'type')
+                    ->with('profile:user_id,address,phone_number')
                     ->get();
 
         if(isset($users)){
@@ -233,5 +267,15 @@ class LogController extends Controller
                 'success'       => false
             ], 404);
         }
+    }
+
+    public function loadDepartments(){
+        $departments = Facility::where('name', 'like', '%college of%')->where('isOpen', true)
+                                ->select('id','name','code')->get();
+
+        return response()->json([
+            'success'       => true,
+            'departments'   => $departments
+        ], 202);
     }
 }

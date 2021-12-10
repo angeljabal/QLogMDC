@@ -9,6 +9,7 @@ class Purpose extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $hidden = array('pivot');
 
     public function facilities(){
         return $this->belongsToMany(Facility::class, 'facilities_purposes');

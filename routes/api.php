@@ -20,15 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 
 Route::group(['middleware'=>'auth:api'], function(){
-    Route::get('/purposes', [\App\Http\Controllers\Api\LogController::class, 'showPurposes']);
-    Route::post('/users', [\App\Http\Controllers\Api\LogController::class, 'loadUsers']);
-    Route::post('/users/find', [\App\Http\Controllers\Api\LogController::class, 'findUser']);
-    Route::post('/facilities', [\App\Http\Controllers\Api\LogController::class, 'showFacilities']);
-    Route::get('/logs', [\App\Http\Controllers\Api\LogController::class, 'showLogs']);
-    Route::post('/logs/create', [\App\Http\Controllers\Api\LogController::class, 'store']);
-    Route::post('/logs/walk-in', [\App\Http\Controllers\Api\LogController::class, 'walkInLog']);
-    Route::get('/user', [\App\Http\Controllers\Api\AuthController::class, 'me']);
     Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
-
-    Route::post('/test', ['\App\Http\Controllers\Api\LogController', 'createLog']);
+    Route::post('/facilities', ['App\Http\Controllers\Api\ShowFacilitiesController', 'show']);
+    Route::get('/purposes', ['App\Http\Controllers\Api\ShowPurposesController', 'show']);
+    Route::get('/users', ['App\Http\Controllers\Api\ShowUsersController', 'show']);
+    
+    Route::group(['prefix' => '/logs'], function(){
+        Route::post('create', ['App\Http\Controllers\Api\CreateLogController', 'store']);
+        Route::post('walk-in', ['App\Http\Controllers\Api\CreateLogController', 'walkIn']);
+    });
 });
