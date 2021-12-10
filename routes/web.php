@@ -43,6 +43,12 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
         Route::get('logs', [\App\Http\Controllers\HomeController::class, 'logs'])->name('logs');
         Route::get('generate-qrcode', [\App\Http\Controllers\HomeController::class, 'generate'])->name('generate-qrcode');
 
+        Route::group(['prefix' => '/profile'], function(){
+            Route::get('/', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
+            Route::get('/edit', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('edit-profile');
+
+        });
+
         Route::group(['middleware' => 'role:head'], function(){
             Route::resource('queue', \App\Http\Controllers\Head\QueueController::class)->except(['store','update', 'destroy']);
             Route::resource('facility', \App\Http\Controllers\Head\FacilityController::class)->except(['store','update', 'destroy']);

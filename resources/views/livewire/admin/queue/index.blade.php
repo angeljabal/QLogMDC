@@ -4,9 +4,9 @@
             <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
         </a>
     </div>
-    <div class="mx-auto px-4 sm:px-6 lg:px-8" wire:poll.5s>
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-lg inline leading-6 font-extrabold text-gray-700 uppercase text-3xl">Current Serving</h2>
-        <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2">
+        <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2" wire:poll.keep-alive>
             <!-- Card -->
             @foreach ($current_serving as $current)
             <div class="bg-green-100 overflow-hidden shadow rounded-lg">

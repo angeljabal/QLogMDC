@@ -1,5 +1,5 @@
 
-<div>
+<div wire:poll.keep-alive>
     <x-status.success :success="session('message')"></x-status.success>
     <x-status.deleted :deleted="session('deleted')"></x-status.deleted>
    

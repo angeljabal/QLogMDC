@@ -20,11 +20,7 @@ class HomeController extends Controller
        });
 
     }
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return view('home');
@@ -66,14 +62,6 @@ class HomeController extends Controller
 
     public function logs()
     {
-        // $this->validate($request,[
-        //     'start_date' => 'required|date',
-        //     'end_date' => 'required|date|before_or_equal:start_date',
-        // ]);
-
-        // $start = Carbon::parse($request->start_date);
-        // $end = Carbon::parse($request->end_date);
-
         if(auth()->user()->hasRole('head')){
             $today = Carbon::now()->format('M d, Y');
 
@@ -95,7 +83,7 @@ class HomeController extends Controller
 
         $data = [
             'id'            => $user->id,
-            'name'          =>  $user->name,
+            'name'          => $user->name,
             'address'       => $user->profile->address,
             'phone_number'  => $user->profile->phone_number
         ];

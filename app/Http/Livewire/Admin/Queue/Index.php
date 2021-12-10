@@ -19,19 +19,6 @@ class Index extends Component
                 ->where('created_at', '>=', $this->today)->get();
     }
 
-    // public function loadQueue()
-    // {
-    //     $current_serving = Log::where('status', "serving")
-    //                         ->where('created_at', '>=', $this->today)->get();
-
-    //     $logs = Log::where('status', 'waiting')
-    //             ->where('created_at', '>=', $this->today)
-    //             ->whereHas('facility')
-    //             ->get();
-
-    //     return compact('logs', 'current_serving');
-    // }
-
     public function render()
     {
         return view('livewire.admin.queue.index');
