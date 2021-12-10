@@ -9,7 +9,7 @@ use Livewire\Component;
 class Head extends Component
 {
     public $startDate, $endDate;
-    protected $listeners = ['dateRange'];
+    protected $listeners = ['updateCounter'];
 
     public function dateRange(){
         dd($this->startDate);
@@ -31,6 +31,12 @@ class Head extends Component
 
         return compact('transactions', 'waiting', 'completed');
     }
+
+    public function updateCounter()
+    {
+        dd('fired');
+    }
+
     public function render()
     {
         return view('livewire.admin.dashboard.head', $this->loadOverview());

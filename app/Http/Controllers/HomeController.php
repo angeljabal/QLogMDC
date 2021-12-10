@@ -15,7 +15,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->id = auth()->user()->id;
+            $this->id = auth()->id();
             return $next($request);
        });
 

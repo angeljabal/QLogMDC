@@ -16,6 +16,11 @@ class Range extends Component
     public function dateRange($selectedDates, $date){
         $this->dateStr = $date;
         $this->selectedDates = $selectedDates;
+
+        if(count($this->selectedDates) > 1)
+        {
+            $this->emit('updateCounter', $this->selectedDates);
+        }
     }
 
     public function render()
