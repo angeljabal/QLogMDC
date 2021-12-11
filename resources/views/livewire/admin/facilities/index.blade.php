@@ -144,9 +144,24 @@
                     @error('code') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
                 </div>
                 <div>
-                    <x-label for="head" value="{{ __('Head') }}" />
+                    {{-- <x-label for="head" value="{{ __('Head') }}" />
                     <x-input id="head" class="mt-1 block w-full" wire:model.defer="head" autofocus/>
+                    @error('head') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror --}}
+                    <x-label for="head" value="{{ __('Head') }}" />
+                    <select wire:model.lazy="head"
+                    class="form-input w-full shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium mt-1 block w-full">
+                    @if ($allHeads==$unavailableHeads)
+                        <option hidden="true">No Available Heads</option>
+                        <option selected disabled>No Available Heads</option>     
+                    @else
+                        <option hidden="true">Choose Facility Head</option>
+                        <option selected disabled>Choose Facility Head</option>
+                        @foreach ($heads as $value)
+                        <option value="{{ $value->id }}" {{$value->id == $head ? 'selected' : '' }} {{$value->facility!=null && $value->id != $head ? 'disabled' : ''}}>{{ $value->name }}</option>
+                        @endforeach
+                    @endif
                     @error('head') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
+            </select>
                 </div>
                 
             </div>

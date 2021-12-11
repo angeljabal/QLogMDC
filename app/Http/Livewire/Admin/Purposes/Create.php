@@ -17,13 +17,12 @@ class Create extends Component
     public function submit(){
 
         $this->validate([
-            'title'     => 'required|unique:purposes,title,'
+            'title'         => 'required|unique:purposes,title,',
+            'facilityIds'   => 'required'
         ]);
         
         $purpose = Purpose::create(['title'   => $this->title]);
-        if(isset($this->facilityIds)){
-            $purpose->facilities()->sync($this->facilityIds);
-        }
+        $purpose->facilities()->sync($this->facilityIds);
         return redirect('admin/purposes')->with('message', 'Added Successfully');
     }
 

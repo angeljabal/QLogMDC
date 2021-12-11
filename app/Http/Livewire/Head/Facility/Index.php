@@ -2,23 +2,39 @@
 
 namespace App\Http\Livewire\Head\Facility;
 
-use App\Models\Facility;
 use App\Models\Log;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Index extends Component
 {
-    public $isOpen;
+    protected $listeners = ['selectedDates' => 'setDateRange'];
+    public $isOpen, $startDate, $endDate;
 
     public function mount(){
         $this->isOpen = auth()->user()->facility->isOpen;
     }
 
     public function loadLogs(){
-        $logs = Log::orderBy('created_at', 'DESC')->paginate(10);
+        $query = Log::orderBy('created_at', 'DESC');
+
+        if(isset($this->startDate)){
+            $query->where('created_at', '>=', $this->startDate);
+            if($this->startDate!=$this->endDate){
+                $query->where('created_at', '<=', $this->endDate);
+            }
+        }
+        
+        $logs = $query->paginate(10);
         return compact('logs');
     }
 
+    public function setDateRange($dateRange)
+    {
+        $this->startDate = Carbon::parse($dateRange[0]);
+        $this->endDate = Carbon::parse($dateRange[1]);
+    }
+    
     public function changeStatus(){
         $facility = auth()->user()->facility;
         $this->isOpen ? $facility->update(['isOpen' => 0]) : $facility->update(['isOpen' => 1]);

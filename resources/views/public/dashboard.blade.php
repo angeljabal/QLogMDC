@@ -8,15 +8,13 @@
             <div class="flex-1 min-w-0">
                 <!-- Profile -->
                 <div class="flex items-center">
-                    <img class="hidden h-16 w-16 rounded-full sm:block" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80" alt="">
                     <div>
                     <div class="flex items-center">
-                        <img class="h-16 w-16 rounded-full sm:hidden" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80" alt="">
                         <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
                             {{auth()->user()->name}}
                         </h1>
                     </div>
-                    <dl class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
+                    <dl class="ml-2 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
                         @if (auth()->user()->hasAnyRole('head', 'admin'))
                         <dd class="mt-3 flex items-center text-sm font-medium sm:mr-6 sm:mt-0 capitalize text-green-500">
                               <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 mr-1.5 h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
@@ -49,7 +47,17 @@
     </div>
     <div class="mt-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            @if(auth()->user()->hasAnyRole('head','admin'))
             <livewire:admin.dashboard.partials.range/>
+            @else
+            <div>
+                <div class="flex flex-wrap items-center">
+                    <div class="relative w-full max-w-full flex-grow flex-1">
+                        <h3 class="font-semibold text-lg text-gray-900">Overview</h3>
+                    </div>
+                </div>
+            </div>
+            @endif
 
             <!-- HEAD OVERVIEW-->
             @if(auth()->user()->hasRole('head'))
@@ -59,6 +67,7 @@
             @elseif (auth()->user()->hasRole('admin'))
                 <livewire:admin.dashboard.admin/>
             @else
+            <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 <div class="bg-white overflow-hidden shadow rounded-lg">
                     <div class="p-5">
                         <div class="flex items-center">
@@ -90,6 +99,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
             @endif
         </div>
         @if (isset($logs) && $logs->count()!=0 && !auth()->user()->hasAnyRole('head|admin'))

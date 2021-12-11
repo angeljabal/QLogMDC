@@ -35,7 +35,7 @@ class Edit extends Component
             $ex->getMessage();
         }
 
-        if(in_array('head', $this->role)){
+        if(in_array('head', $this->role) && isset($this->user->facility->id)){
             $this->facilityId = $this->user->facility->id != null ? $this->user->facility->id : 0;
         }
 
@@ -71,9 +71,8 @@ class Edit extends Component
             'phone_number'  => $this->phone_number
         ]);
         
-        if(in_array('head', $this->role))
+        if(in_array('head', $this->role) && $this->facilityId!=null)
         {
-            $this->validate(['facilityId' => 'required|min:0|not_in:0']);
             $this->updateFacility($this->facilityId);
         }
 

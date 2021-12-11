@@ -30,7 +30,6 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         'email',
         'password',
         'type',
-        // 'role',
         'email_verified_at'
     ];
 
@@ -55,12 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 
     public function facility()
     {
-        if($this->hasRole('head'))
-        {
-            return $this->hasOne(Facility::class);
-        }
-        
-        // return null;
+        return $this->hasOne(Facility::class);
     }
 
     public function profile()

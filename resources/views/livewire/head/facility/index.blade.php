@@ -37,10 +37,15 @@
 </div>
 <div class="hidden sm:block">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-20">
-        <div class="">
-            <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8">
-                {{-- {{auth()->user()->hasRole('head') ? "Logs: ($facility)" : "Logs"}} --}}
-            </h2>
+        <div class="grid grid-cols-4 gap-4 mt-5">
+            <div>
+                <h2 class="max-w-6xl mx-auto mt-4 text-2xl leading-6 font-medium text-gray-900 sm:px-6 lg:px-8">
+                    Logs
+                </h2>
+            </div>
+            <div class="col-end-6">
+                <livewire:admin.partials.range/>
+            </div>
         </div>
         <div class="flex flex-col mt-2">
             <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">

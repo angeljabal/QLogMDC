@@ -23,9 +23,10 @@ class Edit extends Component
     public function submit(){
         $this->validate([
             'title' => 'required|min:3',
+            'facilityIds'   => 'required'
         ]);
-        $this->purpose->facilities()->sync($this->facilityIds);
-        return redirect('/admin/purposes')->with('message', 'Updated Successfully');
+            $this->purpose->facilities()->sync($this->facilityIds);
+            return redirect('/admin/purposes')->with('message', 'Updated Successfully');
     }
 
     public function back(){

@@ -169,30 +169,6 @@ return [
             'name'                  => 'Scholarship Office',
             'code'                  => 'SC',
         ],
-        'Angelica Balatucan'        => [
-            'name'                  => 'College of Accountancy, Business, and Manangement - Business Department',
-            'code'                  => 'CABM-B',
-        ],
-        'Sheila A. Monte de Ramos'  => [
-            'name'                  => 'College of Accountancy, Business, and Manangement - Hospitality Department',
-            'code'                  => 'CABM-H',
-        ],
-        'Josefina Pangan'           => [
-            'name'                  => 'College of Arts, Sciences, and Technology',
-            'code'                  => 'CAST',
-        ],
-        'Avelino Lofranco'          => [
-            'name'                  => 'College of Criminal Justice',
-            'code'                  => 'CCJ',
-        ],
-        'Nimfa Reserva'             => [
-            'name'                  => 'College of Education',
-            'code'                  => 'COE',
-        ],
-        'Rosario Poligrates'        => [
-            'name'                  => 'College of Nursing',
-            'code'                  => 'CON',
-        ],
         'Edna Coscos'               => [
             'name'                  => 'Library',
             'code'                  => 'LIB',

@@ -34,6 +34,7 @@
                                 @endforeach
                             </select>
                         </div>
+                      @error('facilityIds') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
                     </dd>
                 </div>
                 <div class="flex justify-end text-center bg-white px-8 py-5">

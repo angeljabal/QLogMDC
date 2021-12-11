@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Dashboard\Partials;
+namespace App\Http\Livewire\Admin\Partials;
 
 use Carbon\Carbon;
 use Livewire\Component;
 
 class Range extends Component
 {
-    public $dateStr, $selectedDates;
+    public $selectedDates;
     
     public function mount(){
         $this->dateStr = Carbon::now()->format('M d, Y');
     }
 
-    public function dateRange($selectedDates, $date){
-        $this->dateStr = $date;
+    public function dateRange($selectedDates){
         $this->selectedDates = $selectedDates;
 
         if(count($this->selectedDates) > 1)
@@ -25,6 +24,6 @@ class Range extends Component
 
     public function render()
     {
-        return view('livewire.admin.dashboard.partials.range');
+        return view('livewire.admin.partials.range');
     }
 }

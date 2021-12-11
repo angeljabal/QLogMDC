@@ -13,11 +13,18 @@ class Index extends Component
 
     public $confirmingFacilityAdd = false;
     public $confirmingFacilityDeletion = false;
-    public $facility, $facility_name, $name, $code, $head, $isOpen, $status, $search;
+    public $facility, $facility_name, $name, $code, $head, $isOpen, $status, $search, $heads, $allHeads, $unavailableHeads;
     public $link = '/admin/facilities';
 
     public function mount(){
         $this->status = 'all';
+        $this->heads = User::role('head')->select('id', 'name')->get();
+        $this->allHeads = $this->heads->count();
+        foreach($this->heads as $head){
+            if($head->facility!=null){
+                $this->unavailableHeads++;
+            }
+        }
     }
 
     public function loadFacilities(){
@@ -53,7 +60,7 @@ class Index extends Component
         $this->facility = Facility::where('id', $facilityId)->firstOrFail();
         $this->name = $this->facility->name;
         $this->code = $this->facility->code;
-        $this->head = $this->facility->user->name;
+        $this->head = $this->facility->user->id;
         $this->isOpen = $this->facility->isOpen;
         $this->confirmingFacilityAdd = true;
     }
@@ -63,37 +70,40 @@ class Index extends Component
             $this->validate([
                 'name'      => 'required|min:5|unique:facilities,name,'.$this->facility->id,
                 'code'      => 'required|min:2|unique:facilities,code,'.$this->facility->id,
-                'head'      => 'required|exists:users,name',
+                'head'      => 'required',
                 'isOpen'    => 'required|boolean',
-            ],[
-                'head.exists'   => 'User does not exists.'
             ]);
+            $isHead = User::where('id',$this->head)->role('head')->exists();
+            if($isHead){
+                $this->facility->update([
+                    'name'      => ucwords($this->name),
+                    'code'      => strtoupper($this->code),
+                    'user_id'   => $this->head,
+                    'isOpen'    => $this->isOpen
+                ]);
+                return redirect($this->link)->with('message', 'Updated Successfully');
+            }else{
+                return redirect($this->link)->with('deleted', 'Failed to update.');
+            }
 
-            $this->currentHead = User::find($this->facility->user_id);
-            $this->currentHead->removeRole('head');
-            $user = User::where('name', $this->head)->select('id')->first();
-            $user->assignRole('head');
-            $this->facility->update([
-                'name'      => ucwords($this->name),
-                'code'      => strtoupper($this->code),
-                'user_id'   => $user->id,
-                'isOpen'    => $this->isOpen
-            ]);
-            return redirect($this->link)->with('message', 'Updated Successfully');
         }else{
             $this->validate([
                 'name'      => 'required|unique:facilities,name',
                 'code'      => 'required|min:2|unique:facilities,code',
-                'head'      => 'required|exists:users,name'
+                'head'      => 'required'
             ]);
-            $user = User::where('name', $this->head)->select('id')->first();
-            $user->assignRole('head');
-            Facility::create([
-                'name'      => $this->name,
-                'code'      => $this->code,
-                'user_id'   => $user->id
-            ]);
-            return redirect($this->link)->with('message', 'Added Successfully');
+            $isHead = User::where('id',$this->head)->role('head')->whereDoesntHave('facility')->exists();
+            if($isHead){
+                Facility::create([
+                    'name'      => $this->name,
+                    'code'      => $this->code,
+                    'user_id'   => $this->head
+                ]);
+                return redirect($this->link)->with('message', 'Added Successfully');
+            }else{
+                return redirect($this->link)->with('deleted', 'Failed to update.');
+            }
+
         }
     }
 

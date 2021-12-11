@@ -23,7 +23,7 @@
 	}
 	
 	.select2-container .select2-selection--multiple {
-		@apply box-border overflow-hidden h-4 cursor-pointer block select-none capitalize;
+		@apply box-border overflow-hidden h-4 cursor-pointer block select-none;
 	}
 
 	.select2-container .select2-selection--multiple .select2-selection__rendered {
@@ -142,7 +142,7 @@
 	}
 	.select2-container--default .select2-selection--single .select2-selection__placeholder {
     	/* Selection bar - Color of the placeholder text before selection - If this property is enabled */
-    	@apply text-gray-600;
+    	@apply text-gray-600, capitalize;
 	}
 	.select2-container--default .select2-selection--single .select2-selection__arrow {
 		/* Selection bar - DIV where the arrow pointing down is living*/
@@ -183,7 +183,7 @@
 }
 
 .select2-container--default .select2-selection--multiple {
-	@apply p-1 min-h-full h-full border-solid border rounded shadow bg-white capitalize; 
+	@apply p-1 min-h-full h-full border-solid border rounded shadow bg-white; 
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
@@ -274,7 +274,7 @@
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
 	/* Background color and text color of the options rows when select is open */
-	@apply bg-cyan-500 text-white capitalize;
+	@apply bg-cyan-500 text-white;
 }
 
 .select2-container--default .select2-results__group {

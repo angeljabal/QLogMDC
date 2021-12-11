@@ -16,7 +16,7 @@
                         </dt>
                         <dd>
                             <div class="text-lg font-medium text-gray-900">
-                            {{-- {{$waiting}} --}}
+                            {{$waiting}}
                             </div>
                         </dd>
                     </dl>
@@ -25,7 +25,7 @@
             </div>
             <div class="bg-gray-50 px-5 py-3">
                 <div class="text-sm">
-                <a href="{{url('/queue')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
+                <a href="{{url('/admin/logs')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
                 View all
                 </a>
                 </div>
@@ -46,7 +46,7 @@
                         </dt>
                         <dd>
                             <div class="text-lg font-medium text-gray-900">
-                            {{-- {{$completed}} --}}
+                            {{$completed}}
                             </div>
                         </dd>
                     </dl>
@@ -77,7 +77,7 @@
                         </dt>
                         <dd>
                             <div class="text-lg font-medium text-gray-900">
-                            {{-- {{$transactions}} --}}
+                            {{$walkIns}}
                             </div>
                         </dd>
                     </dl>
@@ -86,8 +86,8 @@
             </div>
             <div class="bg-gray-50 px-5 py-3">
                 <div class="text-sm">
-                <a href="{{url('/facility')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
-                View all
+                <a href="{{url('/admin/logs')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
+                    View all
                 </a>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                         </dt>
                         <dd>
                             <div class="text-lg font-medium text-gray-900">
-                            {{-- {{$transactions}} --}}
+                            {{$facilitiesAvailable}}
                             </div>
                         </dd>
                     </dl>
@@ -117,8 +117,8 @@
             </div>
             <div class="bg-gray-50 px-5 py-3">
                 <div class="text-sm">
-                <a href="{{url('/facility')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
-                View all
+                <a href="{{url('/admin/facilities')}}" class="font-medium text-cyan-700 hover:text-cyan-900">                
+                    View all
                 </a>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                         </dt>
                         <dd>
                             <div class="text-lg font-medium text-gray-900">
-                            {{-- {{$transactions}} --}}
+                            {{$transactions}}
                             </div>
                         </dd>
                     </dl>
@@ -148,7 +148,7 @@
             </div>
             <div class="bg-gray-50 px-5 py-3">
                 <div class="text-sm">
-                <a href="{{url('/facility')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
+                <a href="{{url('/admin/logs')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
                 View all
                 </a>
                 </div>
