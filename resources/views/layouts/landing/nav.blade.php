@@ -9,24 +9,24 @@
             @if (Auth::check())
               <a
               href="{{ url('/dashboard') }}"
-              class="inline-block py-1 md:py-4 text-cyan-200 hover:text-gray-100 mr-6 hover:text-white"
+              class="inline-block py-1 md:py-4 text-cyan-200 md:mr-6 mr-2 hover:text-white text-sm md:text-base"
               >Dashboard
               </a>
               <a
               href="{{ url('#') }}"
-              class="inline-block py-1 md:py-4 text-cyan-200 hover:text-gray-100 mr-6 hover:text-white"
+              class="inline-block py-1 md:py-4 text-cyan-200 md:mr-6 mr-2 hover:text-white text-sm md:text-base"
               >Help
               </a>
               <a
               href="{{ url('#') }}"
-              class="inline-block py-1 md:py-4 text-cyan-200 hover:text-gray-100 mr-6 hover:text-white"
+              class="inline-block py-1 md:py-4 text-cyan-200 md:mr-6 mr-2 hover:text-white text-sm md:text-base"
               >Privacy
               </a>
 
             @else
               <a
               href="{{ url('/login') }}"
-              class="inline-block py-1 md:py-4 text-cyan-200 hover:text-gray-100 mr-6 hover:text-white"
+              class="inline-block py-1 md:py-4 text-cyan-200 mr-6 hover:text-white"
               >Login
               </a>
 

@@ -29,10 +29,11 @@ class CreateLogController extends Controller
                 $count = Log::where('facility_id', $facility->id)
                         ->where('created_at', '>=', Carbon::today())
                         ->count();
-                $purposes = implode(",",$facility->purposes->pluck("title")->toArray());
+                $purposes = implode(", ",$facility->purposes->pluck("title")->toArray());
                 $log = Log::where('user_id', $request->user_id)
                         ->where('facility_id', $facility->id)
                         ->where('created_at', '>=', Carbon::today())
+                        ->where('status', 'waiting')
                         ->first();
                 if($log){
                     $logs[] = $this->responseLogs($log);

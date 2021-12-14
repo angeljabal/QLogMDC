@@ -16,13 +16,11 @@ class Index extends Component
     }
 
     public function loadLogs(){
-        $query = Log::orderBy('created_at', 'DESC');
+        $query = Log::orderBy('created_at', 'DESC')->where('facility_id', auth()->user()->facility->id);
 
         if(isset($this->startDate)){
-            $query->where('created_at', '>=', $this->startDate);
-            if($this->startDate!=$this->endDate){
-                $query->where('created_at', '<=', $this->endDate);
-            }
+            $query->whereDate('created_at', '>=', $this->startDate)
+                    ->whereDate('created_at', '<=', $this->endDate);
         }
         
         $logs = $query->paginate(10);

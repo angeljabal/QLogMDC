@@ -36,22 +36,22 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'lname' => ['required', 'string', 'max:255'],
-            'fname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'type'  => ['required'],
-            'brgy'   => ['required', 'string', 'max:255'],
-            'city_town'   => ['required', 'string', 'max:255'],
-            'province'   => ['required', 'string', 'max:255'],
-            'phone_number'    => ['required', 'string', 'max:12']
+            'lname'             => ['required', 'string', 'max:255'],
+            'fname'             => ['required', 'string', 'max:255'],
+            'email'             => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'          => ['required', 'confirmed', Rules\Password::defaults()],
+            'type'              => ['required'],
+            'brgy'              => ['required', 'string', 'max:255'],
+            'city_town'         => ['required', 'string', 'max:255'],
+            'province'          => ['required', 'string', 'max:255'],
+            'phone_number'      => ['required', 'string', 'max:12']
         ]);
 
         $user = User::create([
-            'name' => $request->fname . " " . $request->lname,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'type'  => $request->type
+            'name'          => ucfirst($request->fname . " " . $request->lname),
+            'email'         => $request->email,
+            'password'      => Hash::make($request->password),
+            'type'          => $request->type
         ]);
 
         $user->profile()->create([

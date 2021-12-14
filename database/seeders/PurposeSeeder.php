@@ -20,8 +20,6 @@ class PurposeSeeder extends Seeder
             'Request for Good Moral',
             'Buy Book(s)',
             'Buy Uniform(s)',
-            'Consultation of Grades',
-            'Appointment with the Dean',
             'Medical Check-up',
             'Request for I.D Verification',
             'Request for Class Schedules',

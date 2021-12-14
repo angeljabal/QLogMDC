@@ -6,20 +6,19 @@
     </div>
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="inline leading-6 font-extrabold text-gray-700 uppercase text-3xl">Current Serving</h2>
-        <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2" wire:poll.keep-alive>
-            <!-- Card -->
+        <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2" wire:poll.5000ms.visible>
             @foreach ($current_serving as $current)
             <div class="bg-green-100 overflow-hidden shadow rounded-lg">
                 <div class="p-5">
                     <div class="flex items-center">
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="ml-2 flex-1 block break-words text-3xl font-semibold">
+                            <dt class="ml-2 flex-1 block break-words md:text-3xl text-xl font-semibold">
                                 {{$current->facility->name}}
                             </dt>
                         </dl>
                     </div>
-                    <div class="flex-shrink-0 text-green-500 text-9xl font-extrabold">
+                    <div class="flex-shrink-0 text-green-500 lg:text-9xl text-7xl font-extrabold">
                         {{sprintf('%03d', $current->queue_no)}}
                     </div>
                     </div>
@@ -28,30 +27,4 @@
             @endforeach
         </div>
     </div>
-    {{-- <div class="mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-        <h2 class="text-lg inline leading-6 font-extrabold text-gray-900 uppercase text-3xl">Queue</h2>
-        <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <!-- Card -->
-            @foreach ($current_serving as $current)
-            <div class="bg-white overflow-hidden shadow rounded-lg">
-                <div class="p-5">
-                    <div class="flex items-center">
-
-                    <div class="ml-5 w-0 flex-1">
-                        <dl>
-                            <dt class="text-sm font-medium text-teal-700 truncate text-xl">
-                                {{$current->facility->name}}
-                            </dt>
-                        </dl>
-                    </div>
-                    <div class="flex-shrink-0 text-teal-500 text-5xl font-extrabold">
-                        {{sprintf('%03d', $current->queue_no)}}
-                    </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div> --}}
-
 </div>

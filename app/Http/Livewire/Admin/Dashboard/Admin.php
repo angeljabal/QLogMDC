@@ -11,7 +11,7 @@ class Admin extends Component
 {
     protected $listeners = ['selectedDates' => 'setDateRange'];
 
-    public $waiting, $completed, $walkIns, $facilitiesAvailable, $transactions, $startDate, $endDate;
+    public $serving, $waiting, $completed, $walkIns, $facilitiesAvailable, $transactions, $startDate, $endDate;
 
     public function mount(){
         $this->startDate = Carbon::today();
@@ -19,37 +19,26 @@ class Admin extends Component
         $this->loadData();
     }
 
-    public function countLogs($column, $term){
-        if($this->startDate==$this->endDate){
-            $log = Log::where($column, $term)
-                ->where('created_at', '>=', $this->startDate)->count();
+    public function loadData($dateRange=null){
+        $logQuery = Log::toBase()
+                        ->selectRaw("count(case when status = 'waiting' then 1 end) as waiting")
+                        ->selectRaw("count(case when status = 'serving' then 1 end) as serving")
+                        ->selectRaw("count(case when status = 'completed' then 1 end) as completed")
+                        ->selectRaw("count(case when purpose = 'walk-in' then 1 end) as walk_in");
+
+        if(!is_null($dateRange)){
+            $logQuery->whereDate('created_at', '>=', Carbon::parse($dateRange[0]))
+                    ->whereDate('created_at', '<=', Carbon::parse($dateRange[1]));
         }else{
-            $log = Log::where($column, $term)
-                ->where('created_at', '>=', $this->startDate)
-                ->where('created_at', '<=', $this->endDate)
-                ->count();
+            $logQuery->where('created_at', '>=', Carbon::today());
         }
 
-       return $log;
-    }
-
-    public function countTotalTransactions(){
-        if($this->startDate==$this->endDate){
-            $count = Log::where('created_at', '>=', $this->startDate)->count();
-        }else{
-            $count = Log::where('created_at', '>=', $this->startDate)
-                     ->where('created_at', '<=', $this->endDate)->count();
-        }
-
-        return $count;
-    }
-
-    public function loadData(){
-        $this->waiting = $this->countLogs('status','waiting');
-        $this->completed = $this->countLogs('status','completed');
-        $this->walkIns = $this->countLogs('purpose','walk-in');
-        $this->facilitiesAvailable = Facility::where('isOpen', true)->count();
-        $this->transactions = $this->countTotalTransactions();
+        $logCount = $logQuery->first();
+        $this->waiting = $logCount->waiting;
+        $this->completed = $logCount->completed;
+        $this->walkIns = $logCount->walk_in;
+        $this->serving = $logCount->serving;
+        $this->transactions = $logQuery->count();
     }
 
     public function render()
@@ -59,8 +48,6 @@ class Admin extends Component
 
     public function setDateRange($dateRange)
     {
-        $this->startDate = Carbon::parse($dateRange[0]);
-        $this->endDate = Carbon::parse($dateRange[1]);
-        $this->loadData();  
+        $this->loadData($dateRange);  
     }
 }

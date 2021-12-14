@@ -1,5 +1,5 @@
 <div class="px-10 bg-white shadow">
-    <div class="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
+    <div class="px-4 sm:px-6 lg:max-w-full lg:mx-auto lg:px-8">
         <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
             <div class="flex-1 min-w-0">
                 <!-- Profile -->
@@ -35,7 +35,7 @@
         </div>
     </div>
 </div>
-<div class="hidden sm:block">
+<div class="sm:block">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-20">
         <div class="grid grid-cols-4 gap-4 mt-5">
             <div>
@@ -48,18 +48,18 @@
             </div>
         </div>
         <div class="flex flex-col mt-2">
-            <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
+            <div class="align-middle min-w-full overflow-x-auto shadow overflow- sm:rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                     <tr>
                         <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purpose
                         </th>
-                        <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">
                             Name
                         </th>
-                        <th class="hidden px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider md:block">
-                            Time In
+                        <th class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Time
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Date
@@ -69,12 +69,12 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach ($logs as $log)
                         <tr class="bg-white">
-                            <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900 truncate">
                                 <span class="text-gray-500 truncate group-hover:text-gray-900">
                                     {{$log->purpose}}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                            <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 hidden md:block">
                                 <span class="text-gray-900 font-medium">
                                     {{$log->user->name}}
                                 </span>

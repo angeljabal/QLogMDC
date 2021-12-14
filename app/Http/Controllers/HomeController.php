@@ -6,7 +6,10 @@ use App\Models\Log;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Session;
 
 class HomeController extends Controller
 {
@@ -28,20 +31,18 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        $today = Carbon::now()->format('M d, Y');
+        return view('public.dashboard');
+    }
 
-        $logs = Log::where('user_id', $this->id)
-                    ->where('created_at', '>=', Carbon::today()->subDays(2))
-                    ->orderBy('created_at', 'DESC')
-                    ->paginate(10);
-
-        $count = Log::distinct('facility_id')
-                ->where('user_id', $this->id)
-                ->where('created_at', '>=', Carbon::today())
-                ->count();
-
-        return view('public.dashboard', compact('logs', 'count', 'today'));
-    
+    public function loginAsAdmin(){
+        if(Session::has('admin_id')){
+            $admin = User::findOrFail(Session::get('admin_id'));
+            if($admin->hasRole('admin')){
+                Auth::loginUsingId(Session::get('admin_id'));
+                Session::forget('admin_id');
+            }
+        }
+        return redirect('/dashboard');
     }
 
     public function logs()
@@ -70,9 +71,7 @@ class HomeController extends Controller
 
         $data = [
             'id'            => $user->id,
-            'name'          => $user->name,
-            'address'       => $user->profile->address,
-            'phone_number'  => $user->profile->phone_number
+            'name'          => $user->name
         ];
 
         $jsonData = json_encode($data);

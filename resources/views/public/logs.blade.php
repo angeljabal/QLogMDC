@@ -2,7 +2,7 @@
 
 @section('content')
 <div>
-    <div class="hidden sm:block">
+    <div class="sm:block">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-20">
             <div class="">
                 <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8">
@@ -17,13 +17,13 @@
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Purpose
                             </th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th class="px-2 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 {{auth()->user()->hasRole('head') ? 'Name' : 'Facility Visited'}}
                             </th>
-                            <th class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th class="px-2 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Time In
                             </th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th class="px-2 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Date
                             </th>
                         </tr>

@@ -61,9 +61,9 @@ class Edit extends Component
         ]);
 
         $this->user->update([
-            'name'          => $this->name,
+            'name'          => ucfirst($this->name),
             'email'         => $this->email,
-            'type'          => $this->type,
+            'type'          => $this->type
         ]);
         
         $this->user->profile()->update([
@@ -83,12 +83,12 @@ class Edit extends Component
     public function updateFacility($facilityId)
     {
         $this->facility = Facility::find($facilityId);
-        if($this->facility->user_id!=null)
-        {
-            $this->currentHeadId = $this->facility->user_id;
-            $this->currentHead = User::find($this->currentHeadId);
-            $this->currentHead->removeRole('head');
-        }
+        // if($this->facility->user_id!=null)
+        // {
+        //     $this->currentHeadId = $this->facility->user_id;
+        //     $this->currentHead = User::find($this->currentHeadId);
+        //     $this->currentHead->removeRole('head');
+        // }
 
         $this->facility->update(['user_id' => $this->user->id]);
     }

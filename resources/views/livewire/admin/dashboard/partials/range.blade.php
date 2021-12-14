@@ -26,7 +26,7 @@
 
     <script>
         $("#date-filter").flatpickr({
-        enableTime: false,
+        enableTime: true,
         disableMobile: true,
         mode: "range",
         dateFormat: 'M d, Y',

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <livewire:dashboard.index/>
+
+    <livewire:admin.users.create/>
+
 @endsection
-
-

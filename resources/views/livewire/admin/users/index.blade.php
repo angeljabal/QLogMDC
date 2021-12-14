@@ -3,18 +3,18 @@
     <x-status.deleted :deleted="session('deleted')"></x-status.deleted>
     <div>
         <!-- Users table (small breakpoint and up) -->
-        <div class="hidden sm:block">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="sm:block">
+            <div class="max-w-6xl mx-auto px-4 lg:px-8">
                 <div class="rounded-t mb-0 py-3 border-0">
                     <div class="flex flex-wrap items-center">
                         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-                            <h3 class="font-semibold text-lg text-base text-gray-900">List of Users</h3>
+                            <h3 class="font-semibold text-2xl text-gray-900">List of Users</h3>
                         </div>
-                        <div class="my-2 flex sm:flex-row flex-col">
-                            <div class="flex flex-row mb-1 sm:mb-0 ">
+                        <div class="my-2 flex flex-row">
+                            <div class="flex flex-row mb-1 sm:mb-0">
                                 <div class="relative">
                                     <select wire:model.lazy="perPage"
-                                        class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-200  text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white">
+                                        class="h-full rounded-l border block appearance-none w-full bg-white border-gray-200  text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white">
                                         <option>5</option>
                                         <option>10</option>
                                         <option>20</option>
@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="relative">
                                     <select wire:model.lazy="role"
-                                        class="appearance-none capitalize h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-200  text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white">
+                                        class="capitalize h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-200  text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white">
                                         <option value="all">All</option>
                                         @foreach ($roles as $r)
                                             <option value="{{ $r->name }}">{{ $r->name }}</option>
@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="relative">
                                     <select wire:model.lazy="type"
-                                        class="appearance-none h-full border block appearance-none w-full bg-white border-gray-200  text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white">
+                                        class="h-full border block appearance-none w-full bg-white border-gray-200  text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white">
                                         <option value="all">All</option>
                                         @foreach ($types as $value)
                                         <option value="{{ $value }}">{{ $value }}</option>
@@ -69,49 +69,24 @@
                                     class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-200  border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white  focus:text-gray-700 focus:outline-none" 
                                     type="search"/>
                             </div>
+                            <a href="{{ route('admin.users.create') }}" class="ml-3 hidden md:inline-flex items-center px-4 py-2 bg-teal-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-teal-700 active:bg-teal-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150'">
+                                Create User
+                            </a>
                         </div>
                     </div>
                 </div>
-                {{-- <div class="flex justify-between w-full">
-                    
-                    <div class="inline">
-                        <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8">
-                            List of Users
-                        </h2>
-                    </div>
-                    
-                    <div class="flex items-center text-center">
-                        <form class="w-full flex md:ml-0" action="#" method="GET">
-                            <label for="search-field" class="sr-only">Search</label>
-                            <div class="relative w-full text-gray-400 focus-within:text-gray-600">
-                                <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none p-1" aria-hidden="true">
-                                    <!-- Heroicon name: solid/search -->
-                                    <svg class="h-5 w-5 p-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                                <input wire:model.lazy="search" id="search-field" name="search-field"
-                                    class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent sm:text-sm"
-                                    placeholder="Search" type="search">
-                            </div>
-                        </form>
-                    </div>
-                </div> --}}
                 <div class="flex flex-col mt-2">
-                    <div class="align-middle min-w-full overflow-y-auto shadow overflow-hidden sm:rounded-sm">
-                        <table class="min-w-full divide-y divide-gray-200 overflow-auto">
+                    <div class="align-middle sm:min-w-full shadow sm:rounded-sm">
+                        <table class="min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr>
-                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th class="md:pl-10 pl-6 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Name
                                     </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider md:block hidden">
                                         Address
                                     </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Phone Number
-                                    </th>
-                                    <th class="hidden px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider md:block">
+                                    <th class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Actions
                                     </th>
                                 </tr>
@@ -119,52 +94,42 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach ($users as $user)
                                     <tr class="bg-white">
-                                        <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            <div class="flex">
-                                            {{-- <a href="{{ route('admin.users.show', ['user'=>$user->user->id]) }}" class="group inline-flex space-x-2 truncate text-sm"> --}}
-                                                <p class="text-gray-500 font-bold truncate group-hover:text-gray-900">
-                                                    {{$user->name}}
-                                                </p>
-                                            {{-- </a> --}}
-                                            </div>
+                                        <td class="md:pl-10 pl-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <p class="text-gray-900 font-semibold truncate">
+                                                {{$user->name}}
+                                            </p>
                                         </td>
-                                        <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                                            <span class="text-gray-900 font-medium">{{$user->profile->address}}</span>
+                                        <td class="px-4 py-4 text-right whitespace-nowrap text-sm text-gray-500 md:block hidden">
+                                            <p class="text-gray-900 font-medium truncate">{{$user->profile->address}}</p>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <span class="text-gray-900 font-medium">
-                                            {{$user->profile->phone_number}}
-                                            </span>
-                                        </td>
-                                        <td class="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                                            <a href="{{ route('admin.users.show', ['user'=>$user->id]) }}">
+                                        <td class="text-center px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <a href="{{ route('admin.users.show', ['user'=>$user->id]) }}" title="View">
                                                 <svg class="h-7 w-7 p-1 inline-block bg-yellow-500 text-white hover:bg-yellow-400 hover:text-cyan-700 rounded-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                                 </svg>
                                             </a>
-                                            <a href="{{ route('admin.users.edit', ['user'=>$user->id]) }}">
-                                                <svg class="h-7 w-7 p-1 inline-block bg-teal-500 text-white hover:bg-teal-400 hover:text-cyan-700 rounded-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <a href="{{ route('admin.users.edit', ['user'=>$user->id]) }}" title="Edit">
+                                                <svg class="h-7 w-7 p-1 inline-block bg-cyan-500 text-white hover:bg-cyan-400 hover:text-cyan-700 rounded-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                 </svg>
                                             </a>
-                                            <button wire:click="confirmUserDeletion({{$user->id}})">
+                                            <button wire:click="confirmUserDeletion({{$user->id}})" title="Delete">
                                                 <svg class="h-7 w-7 p-1 inline-block bg-red-500 text-white hover:bg-red-400 hover:text-cyan-700 rounded-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                                                 </svg>
                                             </button>
-                                            {{-- <a href="{{ route('admin.users.show', ['user'=>$user->user->id]) }}" class="button p-4 m-1 text-sm text-white bg-cyan-600 rounded-md">Edit</a> --}}
+                                            <button wire:click="alertConfirm({{$user->id}})" title="Login As">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 p-1 inline-block bg-teal-500 text-white hover:bg-teal-400 hover:text-cyan-700 rounded-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                                </svg>
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
-
-                                <!-- More transactions... -->
                             </tbody>
                         </table>
-                        <!-- Pagination -->
-                        <nav class="bg-white px-4 py-3 border-t border-gray-200  sm:px-6" aria-label="Pagination">
-                            {{-- <div class="flex-1 flex justify-between sm:justify-end"> --}}
+                        <nav class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6" aria-label="Pagination">
                                 {{ $users->links() }}
-                            {{-- </div> --}}
                         </nav>
                     </div>
                 </div>
@@ -191,4 +156,26 @@
             </button>
         </x-slot>
     </x-modals.confirmation>
+
+
+    @push('js')
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script>
+            window.addEventListener('swal:confirm', event => { 
+            swal({
+                title: event.detail.message,
+                text: event.detail.text,
+                icon: event.detail.type,
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willLogin) => {
+            if (willLogin) {
+                window.livewire.emit('login');
+            }
+            });
+            });
+        </script>
+    @endpush
 </div>

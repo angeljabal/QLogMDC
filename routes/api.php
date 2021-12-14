@@ -24,6 +24,7 @@ Route::group(['middleware'=>'auth:api'], function(){
     Route::post('/facilities', ['App\Http\Controllers\Api\ShowFacilitiesController', 'show']);
     Route::get('/purposes', ['App\Http\Controllers\Api\ShowPurposesController', 'show']);
     Route::get('/users', ['App\Http\Controllers\Api\ShowUsersController', 'show']);
+    Route::post('/users/find', ['App\Http\Controllers\Api\FindUserController', 'find']);
     
     Route::group(['prefix' => '/logs'], function(){
         Route::post('create', ['App\Http\Controllers\Api\CreateLogController', 'store']);

@@ -21,7 +21,9 @@ class Create extends Component
             'facilityIds'   => 'required'
         ]);
         
-        $purpose = Purpose::create(['title'   => $this->title]);
+        $purpose = Purpose::create([
+            'title'     => $this->title
+        ]);
         $purpose->facilities()->sync($this->facilityIds);
         return redirect('admin/purposes')->with('message', 'Added Successfully');
     }

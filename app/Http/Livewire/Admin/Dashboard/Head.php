@@ -8,53 +8,36 @@ use Livewire\Component;
 
 class Head extends Component
 {
-    public $startDate, $endDate, $waiting, $completed, $transactions;
+    public $waiting, $completed, $transactions;
     protected $listeners = ['selectedDates' => 'setDateRange'];
 
     public function mount(){
-        $this->startDate = Carbon::today();
-        $this->endDate = Carbon::today();
         $this->loadData();
     }
 
-    public function countLogs($term){
-        if($this->startDate==$this->endDate){
-            $log = Log::where('facility_id', auth()->user()->facility->id)
-                ->where('status', $term)
-                ->where('created_at', '>=', $this->startDate)->count();
+    public function loadData($dateRange=null){
+        $logQuery = Log::toBase()
+                        ->selectRaw("count(case when status = 'waiting' then 1 end) as waiting")
+                        ->selectRaw("count(case when status = 'serving' then 1 end) as serving")
+                        ->selectRaw("count(case when status = 'completed' then 1 end) as completed")
+                        ->where('facility_id', auth()->user()->facility->id);
+        
+        if(!is_null($dateRange)){
+            $logQuery->whereDate('created_at', '>=', Carbon::parse($dateRange[0]))
+                    ->whereDate('created_at', '<=', Carbon::parse($dateRange[1]));
         }else{
-            $log = Log::where('facility_id', auth()->user()->facility->id)
-                ->where('status', $term)
-                ->where('created_at', '>=', $this->startDate)
-                ->where('created_at', '<=', $this->endDate)
-                ->count();
+            $logQuery->where('created_at', '>=', Carbon::today());
         }
 
-       return $log;
-    }
-
-    public function countTotalTransactions(){
-        if($this->startDate==$this->endDate){
-            $count = Log::where('facility_id', auth()->user()->facility->id)->where('created_at', '>=', $this->startDate)->count();
-        }else{
-            $count = Log::where('facility_id', auth()->user()->facility->id)
-                        ->where('created_at', '>=', $this->startDate) ->where('created_at', '<=', $this->endDate)->count();
-        }
-
-        return $count;
-    }
-
-    public function loadData(){
-        $this->waiting = $this->countLogs('waiting');
-        $this->completed = $this->countLogs('completed');
-        $this->transactions = $this->countTotalTransactions();
+        $logCount = $logQuery->first();
+        $this->waiting = $logCount->waiting;
+        $this->completed = $logCount->completed;
+        $this->transactions = $logQuery->count();
     }
 
     public function setDateRange($dateRange)
-    {          
-        $this->startDate = Carbon::parse($dateRange[0]);
-        $this->endDate = Carbon::parse($dateRange[1]);
-        $this->loadData();
+    {   
+        $this->loadData($dateRange);
     }
 
     public function render()

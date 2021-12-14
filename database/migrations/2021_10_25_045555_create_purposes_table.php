@@ -16,7 +16,6 @@ class CreatePurposesTable extends Migration
         Schema::create('purposes', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->boolean('hasRequiredFacility')->default(false);
             $table->timestamps();
         });
     }

@@ -6,7 +6,7 @@
 <div>
     <div class="bg-cyan-900 md:overflow-hidden">
       <div class="px-4 py-20 md:py-4">
-        <div class="md:max-w-6xl md:mx-auto">
+        <div class="md:max-w-full md:mx-auto">
           <div class="md:flex md:flex-wrap">
             <div class="md:w-1/2 text-center md:text-left md:pt-16">
                 <h1 class="font-bold text-white text-2xl md:text-5xl leading-tight mb-4">
@@ -20,7 +20,7 @@
               </p>
               @if (Auth::check())
                 <a
-                href="{{url('/')}}"
+                href="{{url('/generate-qrcode')}}"
                 class="mt-6 mb-12 md:mb-0 md:mt-10 inline-block py-3 px-8 text-white bg-teal-500 hover:bg-teal-600 rounded-lg shadow"
                 >Generate QR Code</a>
               @else
@@ -309,7 +309,7 @@
                 </div>
                 <div class="flex-1 px-4 py-8">
                   <h2 class="text-xs text-gray-700 font-bold mb-1">
-                    Popular Payments
+                    Facilities Visited
                   </h2>
                   <div class="flex mb-5">
                     <div class="p-2 w-12 rounded-full bg-gray-100 mr-2"></div>
@@ -355,7 +355,7 @@
                   </div>
 
                   <h2 class="text-xs text-gray-700 font-bold mb-1">
-                    Popular Payments
+                    Logs
                   </h2>
 
                   <div
@@ -445,7 +445,7 @@
                 </div>
 
                 <div class="text-gray-800 text-center text-sm">
-                  Payment for <br />Internet
+                  Priority <br />Queue
                 </div>
               </div>
             </div>

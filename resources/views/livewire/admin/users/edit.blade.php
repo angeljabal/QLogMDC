@@ -48,21 +48,19 @@
               <div wire:ignore>
                   <select
                           class="js-example-basic-multiple w-1/2 capitalize"
-                          data-placeholder="Select facilities..."
+                          data-placeholder="Select roles..."
                           data-allow-clear="false"
                           multiple="multiple"
-                          id="facilities"
-                          title="Select facility...">
+                          id="roles"
+                          title="Select roles...">
                       @foreach ($roles as $value)
                       <option value="{{ $value->name }}" {{in_array($value->name, $role) ? 'selected' : ''}}>{{$value->name}}</option>
                     @endforeach
                   </select>
               </div>
-              
               @error('role') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
           </dd>
         </div>
-        
         @if (in_array('head', $this->role))
           <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt class="text-sm font-medium text-gray-500">
@@ -123,12 +121,6 @@
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
             <x-input wire:model.defer="phone_number" type="text" value="{{ $this->user->profile->phone_number }}"/>
             @error('phone_number') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
-            {{-- <input class="px-4 py-2 w-full" type="text" value="{{ $this->user->profile->address }}"> --}}
-            {{-- <select wire:model.defer="department" class="px-4 py-2 w-1/2" name="" id="">
-              @foreach ($departments as $key => $value)
-                  <option value="{{ $key }}" {{ $key === $department ? 'selected' : '' }}>{{ $value }}</option>
-              @endforeach
-            </select> --}}
           </dd>
         </div>
         
@@ -154,7 +146,7 @@
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
         });
-        $('#facilities').on('change', function(){
+        $('#roles').on('change', function(){
             @this.set('role', $(this).val());
             console.log($(this).val());
         });

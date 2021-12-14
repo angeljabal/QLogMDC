@@ -62,7 +62,7 @@ class Index extends Component
     public function deletePurpose(){
         $this->purpose->delete();
         $this->confirmingPurposeDeletion = false;
-        return redirect('/admin/purposes')->with('deleted', 'Deleted Successfully');
+        return redirect('/admin/purposes')->with('message', 'Deleted Successfully');
     }
 
     public function render()

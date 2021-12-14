@@ -37,7 +37,7 @@ class Edit extends Component
         ]);
 
         $this->user->update([
-            'name'          => $this->name,
+            'name'          => ucfirst($this->name)
         ]);
         
         $this->user->profile()->update([

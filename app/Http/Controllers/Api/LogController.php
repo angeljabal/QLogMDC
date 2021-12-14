@@ -269,6 +269,19 @@ class LogController extends Controller
         }
     }
 
+    public function findUser(Request $request){
+        $request->validate([
+            'id'         => 'required|exists:users'
+        ]);
+
+        $user = User::where('id',$request->id)->with('profile')->first();
+        
+        return response()->json([
+            'success'       => true,
+            'user'         => $user
+        ], 202);
+    }
+
     public function loadDepartments(){
         $departments = Facility::where('name', 'like', '%college of%')->where('isOpen', true)
                                 ->select('id','name','code')->get();

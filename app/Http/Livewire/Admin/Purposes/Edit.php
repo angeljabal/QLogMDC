@@ -8,6 +8,7 @@ use Livewire\Component;
 
 class Edit extends Component
 {
+    public $link = '/admin/purposes';
     public $purposeId, $title, $facilities, $facilityIds = [];
     public function mount(){
         $this->title = $this->purpose->title;
@@ -22,15 +23,20 @@ class Edit extends Component
 
     public function submit(){
         $this->validate([
-            'title' => 'required|min:3',
-            'facilityIds'   => 'required'
+            'title'         => 'required|min:3',
+            'facilityIds'   => 'required',
         ]);
-            $this->purpose->facilities()->sync($this->facilityIds);
-            return redirect('/admin/purposes')->with('message', 'Updated Successfully');
+        $this->purpose->update([
+            'title'     => $this->title
+        ]);
+        if($this->purpose->facilities()->sync($this->facilityIds)){
+            $wasChanged = true;
+        }
+        return redirect($this->link);
     }
 
     public function back(){
-        return redirect('/admin/purposes');
+        return redirect($this->link);
     }
     
     public function render()

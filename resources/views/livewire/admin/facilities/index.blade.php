@@ -2,13 +2,16 @@
     <x-status.success :success="session('message')"></x-status.success>
     <x-status.deleted :deleted="session('deleted')"></x-status.deleted>
     <div>
-        <div class="hidden sm:block">
+        <div class="sm:block">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8  m-5">
+                <div class="relative w-full max-w-full mb-5">
+                    <h3 class="font-semibold text-2xl text-gray-900">List of Facilities</h3>
+                </div>
                 <div class="grid grid-cols-4 gap-4">
-                    <div>
+                    <div class="md:col-span-1 col-span-3">
                         <div class="block relative">
                             <select wire:model.lazy="status"
-                                    class="appearance-none  h-full rounded-md border block rounded w-full bg-white text-gray-700 py-2 px-5 pr-8 leading-tight focus:outline-none focus:bg-white">
+                                    class="appearance-none  h-full border block rounded w-full bg-white text-gray-700 py-2 px-5 pr-8 leading-tight focus:outline-none focus:bg-white">
                                     <option value="all">All</option>
                                     <option value="1">Open</option>
                                     <option value="0">Closed</option>
@@ -22,7 +25,7 @@
                         </div> 
                     </div>
                     <div>
-                        <div class="block relative">
+                        <div class="md:block relative hidden">
                             <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
                                 <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current text-gray-500">
                                     <path
@@ -49,7 +52,7 @@
                                     <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Facilities
                                     </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">
                                         Status
                                     </th>
                                     <th class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -60,7 +63,7 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach ($facilities as $fac)
                                     <tr class="bg-white">
-                                        <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td class="max-w-0 w-full px-6 py-4 truncate whitespace-nowrap text-sm text-gray-900">
                                             <div  x-data="{selected:null}">
                                                 <button @click="selected !== 0 ? selected = 0 : selected = null" class="text-gray-500 font-bold truncate group-hover:text-gray-900">
                                                     {{$fac->name . ' (' . $fac->code . ')'}}
@@ -75,22 +78,24 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-smt text-center text-gray-900">
+                                        <td class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-center text-gray-900 md:block hidden">
                                             <span class="{{$fac->isOpen ? 'bg-teal-100 text-teal-800' : 'bg-red-100 text-red-800'}}inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">
                                                 {{$fac->isOpen ? 'Open' : 'Closed'}}
                                             </span>
                                         </td>
-                                        <td class="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                                             <button wire:click="confirmFacilityEdit({{$fac->id}})">
                                                 <svg class="h-7 w-7 p-1 inline-block bg-teal-500 text-white hover:bg-teal-400 hover:text-cyan-700 rounded-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                 </svg>
                                             </button>
+                                            @if (auth()->user()->hasRole('admin'))
                                             <button wire:click="confirmFacilityDeletion({{$fac->id}})">
                                                 <svg class="h-7 w-7 p-1 inline-block bg-red-500 text-white hover:bg-red-400 hover:text-cyan-700 rounded-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                                                 </svg>
                                             </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -144,13 +149,10 @@
                     @error('code') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
                 </div>
                 <div>
-                    {{-- <x-label for="head" value="{{ __('Head') }}" />
-                    <x-input id="head" class="mt-1 block w-full" wire:model.defer="head" autofocus/>
-                    @error('head') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror --}}
                     <x-label for="head" value="{{ __('Head') }}" />
                     <select wire:model.lazy="head"
-                    class="form-input w-full shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium mt-1 block w-full">
-                    @if ($allHeads==$unavailableHeads)
+                    class="form-input shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium mt-1 block w-full">
+                    @if ($allHeads==$unavailableHeads && !isset($head))
                         <option hidden="true">No Available Heads</option>
                         <option selected disabled>No Available Heads</option>     
                     @else
@@ -190,7 +192,6 @@
             </x-buttons.button>
         </x-slot>
     </x-modals.add>
-
 </div>
 
 <style>
@@ -201,5 +202,16 @@
 
     #isOpen:checked ~ .line {
         background-color: #48bb78;
+    }
+    option{
+        color:#00421c;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    option:disabled{
+        color:#dad1cb;
+        font-size: 15px;
+        font-weight: 300;
     }
 </style>

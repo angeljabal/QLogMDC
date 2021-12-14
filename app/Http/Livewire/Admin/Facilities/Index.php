@@ -47,7 +47,7 @@ class Index extends Component
         $this->currentHead->removeRole('head');
         $this->facility->delete();
         $this->confirmingFacilityDeletion = false;
-        return redirect($this->link)->with('deleted', 'Deleted Successfully');
+        return redirect($this->link)->with('message', 'Deleted Successfully');
     }
 
     public function confirmFacilityAdd(){
@@ -81,11 +81,8 @@ class Index extends Component
                     'user_id'   => $this->head,
                     'isOpen'    => $this->isOpen
                 ]);
-                return redirect($this->link)->with('message', 'Updated Successfully');
-            }else{
-                return redirect($this->link)->with('deleted', 'Failed to update.');
+                return redirect($this->link);
             }
-
         }else{
             $this->validate([
                 'name'      => 'required|unique:facilities,name',
@@ -100,11 +97,10 @@ class Index extends Component
                     'user_id'   => $this->head
                 ]);
                 return redirect($this->link)->with('message', 'Added Successfully');
-            }else{
-                return redirect($this->link)->with('deleted', 'Failed to update.');
             }
 
         }
+        return redirect($this->link)->with('error', 'Failed to update.');
     }
 
     public function render()

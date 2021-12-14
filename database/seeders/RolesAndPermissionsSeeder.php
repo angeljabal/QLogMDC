@@ -17,21 +17,11 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $arrayOfPermissionNames = [
-            'manage users', 'view its facility', 'manage purposes', 'manage queue', 'view logs', 'scan qr'
-        ];
-
-        $permissions = collect($arrayOfPermissionNames)->map(function ($permission) {
-            return ['name' => $permission, 'guard_name' => 'web'];
-        });
-
-        Permission::insert($permissions->toArray());
-
-        Role::create(['name' => 'admin'])
-            ->givePermissionTo(Permission::all());     
+        Permission::create(['name' => 'scan qr']);
+        Role::create(['name' => 'admin'])->givePermissionTo(Permission::all());     
         
-        Role::create(['name' => 'head'])->givePermissionTo(['view its facility', 'manage purposes', 'manage queue', 'view logs', 'scan qr']);
-        Role::create(['name' => 'faculty'])->givePermissionTo(['scan qr']);
+        Role::create(['name' => 'head']);
+        Role::create(['name' => 'scanner'])->givePermissionTo(['scan qr']);
         Role::create(['name' => 'user']);
     }
 }
