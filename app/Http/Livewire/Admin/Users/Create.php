@@ -37,7 +37,7 @@ class Create extends Component
         ]);
         $this->address = $this->brgy . ',' . $this->city_town . ',' . $this->province;
         $user = User::create([
-            'name'              => ucfirst($this->name),
+            'name'              => ucwords($this->name),
             'email'             => $this->email,
             'password'          => Hash::make($this->password),
             'type'              => $this->type,
@@ -45,7 +45,7 @@ class Create extends Component
         ]);
 
         $user->profile()->create([
-            'address' => ucfirst($this->address),
+            'address' => ucwords($this->address),
             'phone_number' => $this->phone_number
         ]);
 
@@ -55,7 +55,7 @@ class Create extends Component
         }
 
         $user->assignRole($this->role);
-        return redirect('/admin/users')->with('message', 'Updated Successfully');
+        return redirect('/admin/users/')->with('message', 'Created Successfully');
     }
 
     public function back(){

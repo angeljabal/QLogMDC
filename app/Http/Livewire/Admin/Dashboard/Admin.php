@@ -41,6 +41,14 @@ class Admin extends Component
         $this->transactions = $logQuery->count();
     }
 
+    public function walkIn(){
+        return redirect('admin/logs')->with('purpose', 'walk-in');
+    }
+
+    public function status(){
+        return redirect('admin/logs')->with('status', 'waiting');
+    }
+
     public function render()
     {
         return view('livewire.admin.dashboard.admin');

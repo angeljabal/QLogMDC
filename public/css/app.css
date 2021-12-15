@@ -666,7 +666,6 @@ video {
       -ms-user-select: none;
           user-select: none;
   overflow: hidden;
-  text-transform: capitalize;
 }
 
 .select2-container .select2-selection--multiple .select2-selection__rendered {
@@ -924,7 +923,6 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
   padding: 0.25rem;
-  text-transform: capitalize;
   --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
@@ -1085,7 +1083,6 @@ video {
   /* Background color and text color of the options rows when select is open */
   --tw-bg-opacity: 1;
   background-color: rgba(6, 182, 212, var(--tw-bg-opacity));
-  text-transform: capitalize;
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }

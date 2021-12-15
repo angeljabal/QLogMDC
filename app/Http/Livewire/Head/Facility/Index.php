@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Head\Facility;
 
+use App\Exports\LogExport;
 use App\Models\Log;
 use Carbon\Carbon;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -37,6 +39,11 @@ class Index extends Component
         $facility = auth()->user()->facility;
         $this->isOpen ? $facility->update(['isOpen' => 0]) : $facility->update(['isOpen' => 1]);
         $this->isOpen = auth()->user()->facility->isOpen;
+    }
+
+    public function export() 
+    {
+        return Excel::download(new LogExport(auth()->user()->facility->id, $this->startDate, $this->endDate), 'log.xlsx');
     }
     
     public function render()

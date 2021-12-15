@@ -47,7 +47,7 @@ class HomeController extends Controller
 
     public function logs()
     {
-        if(auth()->user()->hasRole('head')){
+        if(auth()->user()->hasRole('head') && isset(auth()->user()->facility)){
             $logs = Log::where('facility_id', auth()->user()->facility->id)
                         ->where('status', 'completed')
                         ->where('created_at', '>=', Carbon::today())
@@ -66,16 +66,18 @@ class HomeController extends Controller
         
     }
 
-    public function generate(){
-        $user = User::with('profile')->where('id', auth()->user()->id)->first();
-
-        $data = [
-            'id'            => $user->id,
-            'name'          => $user->name
-        ];
-
-        $jsonData = json_encode($data);
-        $qrcode = QrCode::format('png')->size(300)->generate($jsonData);
-        return view('public.generate-qrcode', compact('qrcode'));
+    public function generate(User $user){
+        if($user->id==auth()->user()->id||auth()->user()->hasRole('admin|scanner')){
+            $name = $user->name;
+            $data = [
+                'id'            => $user->id,
+                'name'          => $name
+            ];
+    
+            $jsonData = json_encode($data);
+            $qrcode = QrCode::format('png')->size(300)->generate($jsonData);
+            return view('public.generate-qrcode', compact('qrcode', 'name'));
+        }
+        return redirect('/dashboard');
     }
 }

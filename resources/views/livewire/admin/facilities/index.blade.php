@@ -154,7 +154,7 @@
                     class="form-input shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium mt-1 block w-full">
                     @if ($allHeads==$unavailableHeads && !isset($head))
                         <option hidden="true">No Available Heads</option>
-                        <option selected disabled>No Available Heads</option>     
+                        <option selected disabled value="null">No Available Heads</option>     
                     @else
                         <option hidden="true">Choose Facility Head</option>
                         <option selected disabled>Choose Facility Head</option>
@@ -162,8 +162,10 @@
                         <option value="{{ $value->id }}" {{$value->id == $head ? 'selected' : '' }} {{$value->facility!=null && $value->id != $head ? 'disabled' : ''}}>{{ $value->name }}</option>
                         @endforeach
                     @endif
+
+                    </select>
                     @error('head') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
-            </select>
+
                 </div>
                 
             </div>

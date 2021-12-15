@@ -7,7 +7,7 @@
     <div class="bg-cyan-900 md:overflow-hidden">
       <div class="px-4 py-20 md:py-4">
         <div class="md:max-w-full md:mx-auto">
-          <div class="md:flex md:flex-wrap">
+          <div class="md:ml-10 md:flex md:flex-wrap">
             <div class="md:w-1/2 text-center md:text-left md:pt-16">
                 <h1 class="font-bold text-white text-2xl md:text-5xl leading-tight mb-4">
                 A QRCode based visitor log-in and priority queue viewing system
@@ -20,7 +20,7 @@
               </p>
               @if (Auth::check())
                 <a
-                href="{{url('/generate-qrcode')}}"
+                href="{{url('generate-qrcode', ['user'=>auth()->user()->id])}}"
                 class="mt-6 mb-12 md:mb-0 md:mt-10 inline-block py-3 px-8 text-white bg-teal-500 hover:bg-teal-600 rounded-lg shadow"
                 >Generate QR Code</a>
               @else

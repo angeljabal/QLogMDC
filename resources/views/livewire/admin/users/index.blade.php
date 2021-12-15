@@ -108,6 +108,7 @@
                                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                                 </svg>
                                             </a>
+                                            @if (auth()->user()->hasRole('admin'))
                                             <a href="{{ route('admin.users.edit', ['user'=>$user->id]) }}" title="Edit">
                                                 <svg class="h-7 w-7 p-1 inline-block bg-cyan-500 text-white hover:bg-cyan-400 hover:text-cyan-700 rounded-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
@@ -122,8 +123,15 @@
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 p-1 inline-block bg-teal-500 text-white hover:bg-teal-400 hover:text-cyan-700 rounded-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                                                 </svg>
-                                            </button>
+                                            </button> 
+                                            @endif
+                                            <a href="{{ url('generate-qrcode', ['user'=>$user->id]) }}" title="Generate QR Code">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 p-1 inline-block bg-gray-500 text-white hover:bg-gray-400 hover:text-gray-700 rounded-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                                                  </svg>
+                                            </a>
                                         </td>
+
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -163,18 +171,18 @@
 
         <script>
             window.addEventListener('swal:confirm', event => { 
-            swal({
-                title: event.detail.message,
-                text: event.detail.text,
-                icon: event.detail.type,
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willLogin) => {
-            if (willLogin) {
-                window.livewire.emit('login');
-            }
-            });
+                swal({
+                    title: event.detail.message,
+                    text: event.detail.text,
+                    icon: event.detail.type,
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willLogin) => {
+                    if (willLogin) {
+                        window.livewire.emit('login');
+                    }
+                });
             });
         </script>
     @endpush

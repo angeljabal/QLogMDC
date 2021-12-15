@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire\Admin\Logs;
 
+use App\Exports\LogExport;
 use App\Models\Facility;
 use App\Models\Log;
+use App\Models\Purpose;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -18,13 +21,24 @@ class Index extends Component
     public function mount(){
         $this->facility=0;
         $this->facilities = Facility::all();
+        if(session('purpose')){
+            $this->facility = -1;
+        }
     }
 
     public function loadLogs(){
         $query = Log::orderBy('created_at', 'DESC');
 
-        if($this->facility!=0){
+        if(session('status')){
+            $query->where('status', 'waiting');
+        }
+
+        if($this->facility!=0 && $this->facility!=-1){
             $query->where('facility_id', $this->facility);
+        }
+        
+        if($this->facility==-1){
+            $query->where('purpose', "Walk-in");
         }
 
         if(isset($this->startDate)){
@@ -42,6 +56,10 @@ class Index extends Component
         $this->endDate = Carbon::parse($dateRange[1]);
     }
 
+    public function export() 
+    {
+        return Excel::download(new LogExport($this->facility, $this->startDate, $this->endDate), 'log.xlsx');
+    }
 
     public function render()
     {

@@ -27,11 +27,17 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
      * Since it is inside a parent group with 'auth' middleware, it inherits the middleware as well
      * 
      */
-    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'role:admin|editor'], function(){
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'role:admin|scanner'], function(){
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except(['store','update', 'destroy']);
-        Route::resource('purposes', \App\Http\Controllers\Admin\PurposeController::class)->except(['store','update', 'destroy']);
-        Route::resource('logs', \App\Http\Controllers\Admin\LogsController::class)->except(['store','update', 'destroy']);
-        Route::resource('facilities', \App\Http\Controllers\Admin\FacilityController::class)->except(['store','update', 'destroy']);
+    });
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){ 
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except(['store','update', 'destroy'])
+                ->middleware(['role:admin|scanner']);
+        Route::group(['middleware' => 'role:admin'], function(){
+            Route::resource('purposes', \App\Http\Controllers\Admin\PurposeController::class)->except(['store','update', 'destroy']);
+            Route::resource('logs', \App\Http\Controllers\Admin\LogsController::class)->except(['store','update', 'destroy']);
+            Route::resource('facilities', \App\Http\Controllers\Admin\FacilityController::class)->except(['store','update', 'destroy']);
+        });
     });
 
     /**
@@ -40,7 +46,7 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
     Route::group(['prefix' => '/'], function(){
         Route::get('dashboard', [\App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
         Route::get('logs', [\App\Http\Controllers\HomeController::class, 'logs'])->name('logs');
-        Route::get('generate-qrcode', [\App\Http\Controllers\HomeController::class, 'generate'])->name('generate-qrcode');
+        Route::get('generate-qrcode/{user}', [\App\Http\Controllers\HomeController::class, 'generate']);
         Route::post('/loginAsAdmin', [\App\Http\Controllers\HomeController::class, 'loginAsAdmin'])->name('loginAsAdmin');
         Route::resource('queues', \App\Http\Controllers\Admin\QueueController::class)->except(['store','update', 'destroy']);
 

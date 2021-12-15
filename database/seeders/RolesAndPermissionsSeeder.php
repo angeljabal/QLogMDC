@@ -18,10 +18,12 @@ class RolesAndPermissionsSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         Permission::create(['name' => 'scan qr']);
+        Permission::create(['name' => 'create user']);
+        Permission::create(['name' => 'edit user']);
         Role::create(['name' => 'admin'])->givePermissionTo(Permission::all());     
         
         Role::create(['name' => 'head']);
-        Role::create(['name' => 'scanner'])->givePermissionTo(['scan qr']);
+        Role::create(['name' => 'scanner'])->givePermissionTo(['scan qr', 'create user', 'edit user']);
         Role::create(['name' => 'user']);
     }
 }

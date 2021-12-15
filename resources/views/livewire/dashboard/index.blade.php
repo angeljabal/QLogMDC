@@ -27,7 +27,7 @@
                             <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd" />
                             </svg>
-                            {{auth()->user()->hasRole('head') ? auth()->user()->facility->name : auth()->user()->profile->address}}
+                            {{isset(auth()->user()->facility->name) ? auth()->user()->facility->name : auth()->user()->profile->address}}
                         </dd>
                         </div>
                     </dl>
@@ -38,7 +38,7 @@
                 <a href="{{auth()->user()->hasRole('head') ? url('/facility') : url('/logs')}}" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
                 {{auth()->user()->hasRole('head') ? 'View Facility' : 'Checkout logs'}}
                 </a>
-                <a href="{{route('generate-qrcode')}}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                <a href="{{url('generate-qrcode', ['user'=>auth()->user()->id])}}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
                 Generate QRCode
                 </a>
             </div>
@@ -60,7 +60,7 @@
             @endif
 
             <!-- HEAD OVERVIEW-->
-            @if(auth()->user()->hasRole('head'))
+            @if(auth()->user()->hasRole('head') && isset(auth()->user()->facility))
                 <livewire:admin.dashboard.head/>
 
             <!-- ADMIN OVERVIEW-->

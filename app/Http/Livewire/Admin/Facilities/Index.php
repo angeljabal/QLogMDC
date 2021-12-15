@@ -92,8 +92,8 @@ class Index extends Component
             $isHead = User::where('id',$this->head)->role('head')->whereDoesntHave('facility')->exists();
             if($isHead){
                 Facility::create([
-                    'name'      => $this->name,
-                    'code'      => $this->code,
+                    'name'      => ucwords($this->name),
+                    'code'      => strtoupper($this->code),
                     'user_id'   => $this->head
                 ]);
                 return redirect($this->link)->with('message', 'Added Successfully');

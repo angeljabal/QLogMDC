@@ -33,11 +33,11 @@ class Edit extends Component
         $this->validate([
             'name'              => 'required|min:3',
             'address'           => 'required|min:3|max:255',
-            'phone_number'      => ['required', 'regex:/^(09|\+639)\d{9}$/']
+            'phone_number'      => 'required'
         ]);
 
         $this->user->update([
-            'name'          => ucfirst($this->name)
+            'name'          => ucwords($this->name)
         ]);
         
         $this->user->profile()->update([

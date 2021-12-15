@@ -8,7 +8,10 @@ use App\Models\Purpose;
 class ShowPurposesController extends Controller
 {
     public function show(){
-        $purposes = Purpose::orderBy('title')->whereHas('facilities')->get();
+        $purposes = Purpose::orderBy('title')
+                        ->whereHas('facilities',  function ($query) {
+                            $query->where('isOpen', true);
+                        })->get();
 
         return response()->json([
             'success'       => true,

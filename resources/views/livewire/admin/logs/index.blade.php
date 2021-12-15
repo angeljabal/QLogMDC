@@ -3,25 +3,31 @@
         <div class="sm:block">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-4 gap-4 mt-5">
-                    <div>
-                        <div class="block relative py-2 ">
+                    <div class="col-span-2">
+                        <div class="block relative py-2">
                             <select wire:model.lazy="facility"
                                     class="appearance-none  h-full border block rounded w-full bg-white text-gray-700 py-2 px-5 pr-8 leading-tight focus:outline-none focus:bg-white">
                                     <option value="0">All</option>
                                     @foreach ($facilities as $faci)
                                         <option value="{{$faci->id}}">{{$faci->name}}</option>
                                     @endforeach
+                                    <option value="-1">Walk-in</option>
                             </select>
                             <div 
                                 class="grid grid-cols-2 pointer-events-none absolute inset-y-0 md:right-1 -right-2 mx-2 items-center px-auto text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <svg class="fill-current h-4 w-4 col-end-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                 </svg>
                             </div>
                         </div> 
                     </div>
                     <div class="col-end-6">
-                        <livewire:admin.partials.range/>
+                        <div class="flex items-center">
+                            <livewire:admin.partials.range/>
+                            <x-buttons.button wire:click="export()" class="ml-5">
+                                {{ __('Export Logs') }}
+                            </x-buttons.button>
+                        </div>
                     </div>
                 </div>
                 <div class="flex flex-col mt-2">
@@ -63,7 +69,7 @@
                                         </a>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
+                                    <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                                         <span class="text-gray-900 font-medium">
                                             {{$log->user->name}}
                                         </span>

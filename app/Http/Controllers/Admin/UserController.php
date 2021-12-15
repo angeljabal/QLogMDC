@@ -46,6 +46,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.users.edit', compact('id'));
+        if(auth()->user()->hasRole('admin')){
+            return view('admin.users.edit', compact('id'));
+
+        }
+        return redirect()->back();
     }
 }

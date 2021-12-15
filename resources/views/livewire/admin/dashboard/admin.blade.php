@@ -25,7 +25,7 @@
             </div>
             <div class="bg-gray-50 px-5 py-3">
                 <div class="text-sm">
-                <a href="{{url('/admin/logs')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
+                <a href="#" wire:click="status()" class="font-medium text-cyan-700 hover:text-cyan-900">
                 View all
                 </a>
                 </div>
@@ -56,7 +56,7 @@
             </div>
             <div class="bg-gray-50 px-5 py-3">
                 <div class="text-sm">
-                <a href="{{url('/admin/facilities')}}" class="font-medium text-cyan-700 hover:text-cyan-900">                
+                <a href="{{url('/queues')}}" class="font-medium text-cyan-700 hover:text-cyan-900">                
                     View all
                 </a>
                 </div>
@@ -117,7 +117,7 @@
             </div>
             <div class="bg-gray-50 px-5 py-3">
                 <div class="text-sm">
-                <a href="{{url('/admin/logs')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
+                <a href="#" wire:click="walkIn()" class="font-medium text-cyan-700 hover:text-cyan-900">
                     View all
                 </a>
                 </div>

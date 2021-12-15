@@ -52,7 +52,7 @@
             @endforeach
         </div>
         
-        <div class="col-span-4 md:mt-3 mt-5 md:col-span-1 bg-white sm:block w-full">
+        <div class="col-span-4 md:mt-3 mt-5 md:col-span-1 bg-white sm:block grid grid-cols-3 w-full">
             <div class="text-center">
                 <select wire:model.lazy="status" class="w-full py-6 border-b-2 text-xl text-gray-600 px-8 capitalize focus:outline-none">
                     @foreach ($statuses as $key => $value)

@@ -33,7 +33,7 @@ class CreateLogController extends Controller
                 $log = Log::where('user_id', $request->user_id)
                         ->where('facility_id', $facility->id)
                         ->where('created_at', '>=', Carbon::today())
-                        ->where('status', 'waiting')
+                        ->where('status', '!=', 'completed')
                         ->first();
                 if($log){
                     $logs[] = $this->responseLogs($log);

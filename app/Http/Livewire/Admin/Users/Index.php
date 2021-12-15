@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Index extends Component
 {
@@ -48,7 +49,7 @@ class Index extends Component
         $this->dispatchBrowserEvent('swal:confirm', [
                 'type' => 'warning',  
                 'message' => "Login as $this->name?"
-            ]);
+        ]);
     }
 
     public function login()

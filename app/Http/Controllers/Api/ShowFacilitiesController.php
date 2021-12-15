@@ -9,12 +9,14 @@ use Illuminate\Http\Request;
 class ShowFacilitiesController extends Controller
 {
     public function show(Request $request){
+        // $facilities = Facility::whereHas('purposes', function($q) use($request) {
+        //     $q->whereIn('id', $request);
+        //     })
+        //     ->where('isOpen', true)
+        //     ->select('id','name', 'code')->get();
         $facilities = Facility::whereHas('purposes', function($q) use($request) {
-            $q->whereIn('id', $request);
-            })
-            ->where('isOpen', true)
-            ->select('id','name', 'code')->get();
-        
+                            $q->whereIn('id', $request);
+                        })->get();
         return response()->json([
             'success'       => true,
             'facilities'    => $facilities

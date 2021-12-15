@@ -58,7 +58,7 @@
             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <div wire:ignore>
                     <select
-                            class="js-example-basic-multiple w-1/2 capitalize"
+                            class="js-example-basic-multiple w-1/2"
                             data-placeholder="Select role..."
                             data-allow-clear="false"
                             multiple="multiple"
@@ -82,8 +82,8 @@
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <div>
                   <select wire:model.defer="facilityId" class="form-input mt-2 w-1/2 shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium" name="facilityId" id="facilityId">
-                    <option hidden="true">Choose Facility</option>
-                    <option selected disabled>Choose Facility</option>
+                    <option hidden="true">None</option>
+                    <option selected disabled>None</option>
                     @foreach ($facilities as $faci)
                     <option value="{{ $faci->id }}">{{ $faci->name}} </option>
                     @endforeach

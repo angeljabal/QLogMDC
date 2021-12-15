@@ -131,10 +131,6 @@ class LogController extends Controller
                         $q->whereIn('id', $purposeId);
                     }])->get();
 
-        // foreach($purposeList as $purpose){
-             
-        // }
-
         if($request->purposes!='Walk-in' && isset($facilities)){
             foreach($facilities as $facility){
                 $count = Log::where('facility_id', $facility->id)

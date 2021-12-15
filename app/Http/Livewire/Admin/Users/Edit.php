@@ -57,11 +57,11 @@ class Edit extends Component
             'address'           => 'required|min:3|max:255',
             'type'              => 'required',
             'role'              => 'required|array|min:1',
-            'phone_number'      => ['required', 'regex:/^(09|\+639)\d{9}$/']
+            'phone_number'      => 'required'
         ]);
 
         $this->user->update([
-            'name'          => ucfirst($this->name),
+            'name'          => ucwords($this->name),
             'email'         => $this->email,
             'type'          => $this->type
         ]);
@@ -82,14 +82,7 @@ class Edit extends Component
 
     public function updateFacility($facilityId)
     {
-        $this->facility = Facility::find($facilityId);
-        // if($this->facility->user_id!=null)
-        // {
-        //     $this->currentHeadId = $this->facility->user_id;
-        //     $this->currentHead = User::find($this->currentHeadId);
-        //     $this->currentHead->removeRole('head');
-        // }
-
+        $this->facility = Facility::findOrFail($facilityId);
         $this->facility->update(['user_id' => $this->user->id]);
     }
 
