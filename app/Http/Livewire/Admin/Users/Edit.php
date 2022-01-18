@@ -82,8 +82,14 @@ class Edit extends Component
 
     public function updateFacility($facilityId)
     {
-        $this->facility = Facility::findOrFail($facilityId);
-        $this->facility->update(['user_id' => $this->user->id]);
+        if(isset($this->user->facility->id)){
+            $oldFaci = Facility::findOrFail($this->user->facility->id);
+            $oldFaci->update(['user_id' => null]);
+        }
+        if($facilityId!='None'){
+            $this->facility = Facility::findOrFail($facilityId);
+            $this->facility->update(['user_id' => $this->user->id]);
+        }
     }
 
     public function back(){

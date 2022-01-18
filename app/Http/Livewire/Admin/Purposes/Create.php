@@ -11,7 +11,7 @@ class Create extends Component
     public $facilities, $facilityIds, $title;
     
     public function mount(){
-        $this->facilities = Facility::all();
+        $this->facilities = Facility::whereHas('user')->get();
     }
 
     public function submit(){

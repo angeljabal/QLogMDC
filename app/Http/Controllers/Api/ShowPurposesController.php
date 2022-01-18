@@ -10,7 +10,7 @@ class ShowPurposesController extends Controller
     public function show(){
         $purposes = Purpose::orderBy('title')
                         ->whereHas('facilities',  function ($query) {
-                            $query->where('isOpen', true);
+                            $query->where('isOpen', true)->whereHas('user');
                         })->get();
 
         return response()->json([

@@ -12,7 +12,7 @@
 
             @include('partials.navigation')
 
-            <main class="flex-1 relative pb-8 z-0 overflow-y-auto">
+            <main class="flex-1 relative pb-8 z-0">
                <!-- Page header -->
 
                 @yield('content')

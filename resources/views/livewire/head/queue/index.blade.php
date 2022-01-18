@@ -24,10 +24,13 @@
             @foreach ($current_serving as $serving)
                 <div class="mt-8 p-4 sm:items-center rounded-md bg-white shadow-lg">
                     <hr>
-                    <div class="rounded text-center m-5">
-                        <h1 class="text-7xl font-bold text-yellow-600">{{$serving->queue_no}}</h1>
+                    <div class="rounded text-center">
+                        <h1 class="text-7xl font-bold text-yellow-600 my-2">{{$serving->queue_no}}</h1>
+                        <div class="ml-3 text-gray-700 font-medium border-t py-5">
+                            (Window {{$serving->window}})
+                        </div>
                     </div>
-                    <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-t">
+                    <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-m font-medium text-gray-500">
                         Name:
                         </dt>
@@ -53,6 +56,13 @@
         </div>
         
         <div class="col-span-4 md:mt-3 mt-5 md:col-span-1 bg-white sm:block grid grid-cols-3 w-full">
+            <div class="text-center">
+                <select wire:model.lazy="selectedWindow" class="w-full py-6 border-b-2 text-xl text-gray-600 px-8 capitalize focus:outline-none">
+                    @for ($i=1; $i<=$windows; $i++)
+                        <option value="{{$i}}">Window {{$i}}</option>
+                    @endfor
+                </select>
+            </div>
             <div class="text-center">
                 <select wire:model.lazy="status" class="w-full py-6 border-b-2 text-xl text-gray-600 px-8 capitalize focus:outline-none">
                     @foreach ($statuses as $key => $value)

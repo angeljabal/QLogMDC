@@ -70,7 +70,7 @@
               <div>
                 <select wire:model.defer="facilityId" class="form-input mt-2 w-1/2 shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium" name="facilityId" id="facilityId">
                   <option hidden="true">None</option>
-                  <option selected disabled>None</option>
+                  <option selected>None</option>
                   @foreach ($facilities as $faci)
                   <option value="{{ $faci->id }}" {{ $faci->id === $facilityId ? 'selected' : '' }}>{{ $faci->name}} </option>
                   @endforeach

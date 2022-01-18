@@ -2,6 +2,6 @@
 
 @section('content')
 
-<livewire:profile.show/>
+<livewire:profile.change-password/>
 
 @endsection

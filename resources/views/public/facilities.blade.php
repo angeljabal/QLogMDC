@@ -2,6 +2,7 @@
 
 @section('content')
 
-<livewire:profile.show/>
+<livewire:show-facilities/>
 
 @endsection
+

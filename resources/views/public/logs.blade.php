@@ -4,10 +4,11 @@
 <div>
     <div class="sm:block">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-20">
-            <div class="">
-                <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8">
+            <div class="relative w-full max-w-full flex-grow flex-1 mt-10 mx-5">
+                <h3 class="font-semibold text-xl text-gray-900">
                     {{auth()->user()->hasRole('head') && isset(auth()->user()->facility)? "Logs: ($facility)" : "Logs"}}
-                </h2>
+                </h3>
+                <h2 class="text-xs inline leading-6 text-gray-500">({{\Carbon\Carbon::today()->format('M d, Y')}})</h2>
             </div>
             <div class="flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">

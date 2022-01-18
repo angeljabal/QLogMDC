@@ -49,18 +49,18 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
         Route::get('generate-qrcode/{user}', [\App\Http\Controllers\HomeController::class, 'generate']);
         Route::post('/loginAsAdmin', [\App\Http\Controllers\HomeController::class, 'loginAsAdmin'])->name('loginAsAdmin');
         Route::resource('queues', \App\Http\Controllers\Admin\QueueController::class)->except(['store','update', 'destroy']);
+        Route::get('facilities', [\App\Http\Controllers\ShowFacilitiesController::class, 'show'])->name('facilities');
 
         Route::group(['prefix' => '/profile'], function(){
             Route::get('/', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
             Route::get('/edit', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('edit-profile');
-
+            Route::get('/change-password', [\App\Http\Controllers\ProfileController::class, 'changePassword'])->name('change-password');
         });
 
         Route::group(['prefix' => '/facility', 'middleware' => 'role:head'], function(){
             Route::resource('/', \App\Http\Controllers\Head\FacilityController::class)->except(['store','update', 'destroy']);
             Route::resource('/queue', \App\Http\Controllers\Head\QueueController::class)->except(['store','update', 'destroy']);
         });
-        // Route::get('generate-qrcode', [\App\Http\Controllers\HomeController::class, 'generate'])->name('generate-qrcode');
     });
     
 });

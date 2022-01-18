@@ -9,12 +9,14 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    public $perPage = 10, $status, $statuses, $log, $today, $autoServe;
+    public $perPage = 10, $status, $statuses, $log, $today, $autoServe, $windows, $selectedWindow;
 
     public function mount(){
         $this->statuses = ["waiting", "skipped", "completed"];
         $this->status = "waiting";
         $this->today = Carbon::today();
+        $this->windows = auth()->user()->facility->windowsAvailable;
+        $this->selectedWindow = 1;
     }
 
     public function loadQueue()
@@ -40,13 +42,13 @@ class Index extends Component
                         ->where('status', "waiting")
                         ->where('created_at', '>=', $this->today)
                         ->firstOrFail();
-                $next->update(["status" => "serving"]);
+                $next->update(["status" => "serving", "window" => $this->selectedWindow]);
             }catch(Exception $e){
                 $e->getMessage();
             }
         }
 
-        $this->log->update(["status" => $status]);
+        $this->log->update(["status" => $status, "window" => $this->selectedWindow]);
     }
 
     public function render()

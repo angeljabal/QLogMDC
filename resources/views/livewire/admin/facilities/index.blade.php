@@ -73,7 +73,7 @@
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
                                                         </svg>
-                                                        {{$fac->user->name}}
+                                                        {{optional($fac->user)->name}}
                                                     </dd>
                                                 </div>
                                             </div>
@@ -150,7 +150,7 @@
                 </div>
                 <div>
                     <x-label for="head" value="{{ __('Head') }}" />
-                    <select wire:model.lazy="head"
+                    <select wire:model.defer="head"
                     class="form-input shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium mt-1 block w-full">
                     @if ($allHeads==$unavailableHeads && !isset($head))
                         <option hidden="true">No Available Heads</option>

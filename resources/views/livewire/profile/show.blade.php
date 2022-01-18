@@ -34,7 +34,7 @@
                     {{auth()->user()->type}}
                 </dd>
                 </div>
-                @if (auth()->user()->facility()!=null && isset(auth()->user()->facility->id))
+                @if (optional(auth()->user()->facility)->facility)
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
                     Role
@@ -88,6 +88,7 @@
                   </svg>
             </span>
             </a>
+            <a href="{{ url('profile/change-password') }}" class="p-4 m-1 text-sm text-white bg-gray-400 rounded-md hover:bg-gray-700">Change Password</a>
         </div>
     </div>
 </div>

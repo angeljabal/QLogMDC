@@ -6,12 +6,15 @@ use App\Exports\LogExport;
 use App\Models\Log;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
+    use WithPagination;
     protected $listeners = ['selectedDates' => 'setDateRange'];
-    public $isOpen, $startDate, $endDate;
+    public $isOpen, $startDate, $endDate, $windowsAvailable;
+    public $confirmingWindowsEdit = false;
 
     public function mount(){
         $this->isOpen = auth()->user()->facility->isOpen;
@@ -27,6 +30,20 @@ class Index extends Component
         
         $logs = $query->paginate(10);
         return compact('logs');
+    }
+
+    public function confirmWindowsEdit(){
+        $this->windowsAvailable = auth()->user()->facility->windowsAvailable;
+        $this->confirmingWindowsEdit = true;
+    }
+
+    public function save(){
+        $this->validate([
+            'windowsAvailable'  => 'required|numeric|min:1'
+        ]);
+        $facility = auth()->user()->facility;
+        $facility->update(['windowsAvailable' => $this->windowsAvailable]);
+        $this->confirmingWindowsEdit = false;
     }
 
     public function setDateRange($dateRange)

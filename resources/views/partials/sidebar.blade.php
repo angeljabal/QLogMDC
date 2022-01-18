@@ -36,6 +36,14 @@
                     </svg>
                     Priority Queue
                 </x-sidebar.mobile-link>
+                @if (auth()->user()->hasRole('user'))
+                <x-sidebar.mobile-link href="{{url('/facilities')}}" :active="request()->is('facilities')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                    Facilities
+                </x-sidebar.mobile-link>
+                @endif
                 @if(auth()->user()->hasAnyRole('scanner'))
                 <span class="text-gray-100 bg-cyan-900 group flex items-center -mx-2 px-2 py-2 text-sm leading-6 font-medium">
                     For Scanner Access
@@ -120,18 +128,26 @@
             </div>
             <nav class="mt-5 flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto" aria-label="Sidebar">
                 <div class="px-2 space-y-1">
-                <x-sidebar.link href="{{ url('dashboard') }}" :active="Route::is('dashboard')">
+                <x-sidebar.link href="{{ url('dashboard') }}" :active="request()->is('dashboard')">
                     <svg class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
                     Home
                 </x-sidebar.link>
-                <x-sidebar.link href="{{ url('logs') }}" :active="Route::is('logs')">
+                <x-sidebar.link href="{{ url('logs') }}" :active="request()->is('logs')">
                     <svg class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     History
                 </x-sidebar.link>
+                @if (auth()->user()->hasRole('user'))
+                <x-sidebar.link href="{{url('/facilities')}}" :active="request()->is('facilities')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                    Facilities
+                </x-sidebar.link>
+                @endif
                 <x-sidebar.link href="{{url('queues')}}" :active="auth()->user()->hasRole('admin') ? request()->is('admin/queue*') : request()->is('queue*')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />

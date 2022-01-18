@@ -47,16 +47,17 @@
     </div>
     <div class="mt-8">
         <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
-            @if(auth()->user()->hasAnyRole('head','admin'))
-            <livewire:admin.dashboard.partials.range/>
+            @if(auth()->user()->hasAnyRole('admin') || isset(auth()->user()->facility))
+                <livewire:admin.dashboard.partials.range/>
             @else
-            <div>
-                <div class="flex flex-wrap items-center">
-                    <div class="relative w-full max-w-full flex-grow flex-1">
-                        <h3 class="font-semibold text-lg text-gray-900">Overview</h3>
+                <div>
+                    <div class="flex flex-wrap items-center">
+                        <div class="relative w-full max-w-full flex-grow flex-1">
+                            <h3 class="font-semibold text-lg text-gray-900">Overview</h3>
+                            <h2 class="text-xs inline leading-6 text-gray-500">({{\Carbon\Carbon::today()->format('M d, Y')}})</h2>
+                        </div>
                     </div>
                 </div>
-            </div>
             @endif
 
             <!-- HEAD OVERVIEW-->
@@ -64,52 +65,82 @@
                 <livewire:admin.dashboard.head/>
 
             <!-- ADMIN OVERVIEW-->
-            @elseif (auth()->user()->hasRole('admin|faculty'))
+            @elseif (auth()->user()->hasRole('admin'))
                 <livewire:admin.dashboard.admin/>
             @else
-            <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                <div class="bg-white overflow-hidden shadow rounded-lg">
-                    <div class="p-5">
-                        <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <!-- Heroicon name: outline/scale -->
-                            <svg class="h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-                            </svg>
+                <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <!-- Heroicon name: outline/scale -->
+                                <svg class="h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                                </svg>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">
+                                        Total Facilities Visits
+                                    </dt>
+                                    <dd>
+                                        <div class="text-lg font-medium text-gray-900">
+                                        {{$count}}
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </div>
+                            </div>
                         </div>
-                        <div class="ml-5 w-0 flex-1">
-                            <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">
-                                    Total Facilities Visits Today
-                                </dt>
-                                <dd>
-                                    <div class="text-lg font-medium text-gray-900">
-                                    {{$count}}
-                                    </div>
-                                </dd>
-                            </dl>
-                        </div>
+                        <div class="bg-gray-50 px-5 py-3">
+                            <div class="text-sm">
+                            <a href="{{url('/logs')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
+                            View all
+                            </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-5 py-3">
-                        <div class="text-sm">
-                        <a href="{{url('/logs')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
-                        View all
-                        </a>
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                                </svg>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-teal-700 truncate">
+                                        Total Facilities Available
+                                    </dt>
+                                    <dd>
+                                        <div class="text-lg font-medium text-gray-900">
+                                        {{$facilitiesAvailable}}
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 px-5 py-3">
+                            <div class="text-sm">
+                            <a href="{{url('/facilities')}}" class="font-medium text-cyan-700 hover:text-cyan-900">
+                            View all
+                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
             @endif
         </div>
         @if (isset($logs) && $logs->count()!=0 && !auth()->user()->hasAnyRole('head|admin'))
-            <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8">
+            <h2 class="mx-auto mt-8 md:px-10 px-5 text-lg leading-6 font-medium text-gray-900">
                 Recent activity
             </h2>
             <!-- Activity table (small breakpoint and up) -->
-            <div class="hidden sm:block">
-                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="sm:block">
+                <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col mt-2">
                         <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200">

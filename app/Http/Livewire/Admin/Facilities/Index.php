@@ -60,7 +60,7 @@ class Index extends Component
         $this->facility = Facility::where('id', $facilityId)->firstOrFail();
         $this->name = $this->facility->name;
         $this->code = $this->facility->code;
-        $this->head = $this->facility->user->id;
+        $this->head = optional($this->facility->user)->id;
         $this->isOpen = $this->facility->isOpen;
         $this->confirmingFacilityAdd = true;
     }
@@ -70,7 +70,6 @@ class Index extends Component
             $this->validate([
                 'name'      => 'required|min:5|unique:facilities,name,'.$this->facility->id,
                 'code'      => 'required|min:2|unique:facilities,code,'.$this->facility->id,
-                'head'      => 'required',
                 'isOpen'    => 'required|boolean',
             ]);
             $isHead = User::where('id',$this->head)->role('head')->exists();
@@ -81,24 +80,27 @@ class Index extends Component
                     'user_id'   => $this->head,
                     'isOpen'    => $this->isOpen
                 ]);
-                return redirect($this->link);
+                return redirect($this->link)->with('message', 'Updated Successfully');
             }
         }else{
             $this->validate([
                 'name'      => 'required|unique:facilities,name',
-                'code'      => 'required|min:2|unique:facilities,code',
-                'head'      => 'required'
+                'code'      => 'required|min:2|unique:facilities,code'
             ]);
-            $isHead = User::where('id',$this->head)->role('head')->whereDoesntHave('facility')->exists();
-            if($isHead){
-                Facility::create([
-                    'name'      => ucwords($this->name),
-                    'code'      => strtoupper($this->code),
-                    'user_id'   => $this->head
-                ]);
-                return redirect($this->link)->with('message', 'Added Successfully');
+            Facility::create([
+                'name'      => ucwords($this->name),
+                'code'      => strtoupper($this->code)
+            ]);
+            if(isset($this->head)){
+                $isHead = User::where('id',$this->head)->role('head')->whereDoesntHave('facility')->exists();
+                if($isHead){
+                    Facility::create([
+                        'name'      => ucwords($this->name),
+                        'code'      => strtoupper($this->code)
+                    ]);
+                }
             }
-
+            return redirect($this->link)->with('message', 'Added Successfully');
         }
         return redirect($this->link)->with('error', 'Failed to update.');
     }

@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Index extends Component
 {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Models\Facility;
 use App\Models\Log;
 use App\Models\User;
 use Carbon\Carbon;
@@ -9,7 +10,7 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    public $admin, $today, $count;
+    public $admin, $today, $count, $facilitiesAvailable;
 
     public function mount(){
         if(session('admin')){
@@ -18,18 +19,19 @@ class Index extends Component
         $this->today = Carbon::now()->format('M d, Y');
 
         $this->count = Log::distinct('facility_id')
-                ->where('user_id', $this->id)
+                ->where('user_id', auth()->user()->id)
                 ->where('created_at', '>=', Carbon::today())
                 ->count();
+        
+        $this->facilitiesAvailable = Facility::where('isOpen', true)->whereHas('user')->count();
     }
 
     public function loadLogs(){
-        $logs = Log::where('user_id', $this->id)
+        $logs = Log::where('user_id', auth()->user()->id)
                     ->where('created_at', '>=', Carbon::today()->subDays(2))
                     ->orderBy('created_at', 'DESC')
                     ->paginate(10);
-        
-        return compact($logs);
+        return compact('logs');
     }
 
     public function render()

@@ -20,6 +20,7 @@ class CreateLogsTable extends Migration
             $table->integer('queue_no')->nullable();   
             $table->string('purpose');
             $table->enum('status', ['waiting', 'serving', 'skipped', 'completed'])->nullable(); 
+            $table->integer('window')->unsigned()->nullable();
             $table->timestamps();
         });
     }

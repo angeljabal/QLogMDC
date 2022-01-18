@@ -12,7 +12,7 @@ class Edit extends Component
     public $purposeId, $title, $facilities, $facilityIds = [];
     public function mount(){
         $this->title = $this->purpose->title;
-        $this->facilities = Facility::all();
+        $this->facilities = Facility::whereHas('user')->get();
         $this->facilityIds = $this->purpose->facilities()->pluck('id')->toArray();
     }
 

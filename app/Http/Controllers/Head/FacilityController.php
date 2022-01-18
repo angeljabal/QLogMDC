@@ -14,7 +14,10 @@ class FacilityController extends Controller
      */
     public function index()
     {
-        return view('head.facility.index');
+        if(isset(auth()->user()->facility)){
+            return view('head.facility.index');
+        }
+        return redirect()->back();
     }
 
     /**
