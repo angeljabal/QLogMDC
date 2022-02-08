@@ -12,7 +12,7 @@
               class="inline-block py-1 md:py-4 text-cyan-200 md:mr-6 mr-2 hover:text-white text-sm md:text-base"
               >Dashboard
               </a>
-              <a
+              {{-- <a
               href="{{ url('#') }}"
               class="inline-block py-1 md:py-4 text-cyan-200 md:mr-6 mr-2 hover:text-white text-sm md:text-base"
               >Help
@@ -21,7 +21,7 @@
               href="{{ url('#') }}"
               class="inline-block py-1 md:py-4 text-cyan-200 md:mr-6 mr-2 hover:text-white text-sm md:text-base"
               >Privacy
-              </a>
+              </a> --}}
 
             @else
               <a

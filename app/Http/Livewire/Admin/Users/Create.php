@@ -13,7 +13,7 @@ use Spatie\Permission\Models\Role;
 class Create extends Component
 {
     public $name, $email, $phone_number, $password;
-    public $address, $type, $roles, $types, $brgy, $city_town, $province;
+    public $address, $type, $roles, $types, $brgy, $city_town, $province, $user_id;
     public $facilities, $facilityId, $facility;
     public $role = [];
 
@@ -44,6 +44,7 @@ class Create extends Component
             'email_verified_at' => Carbon::now()
         ]);
 
+        $this->user_id = $user->id;
         $user->profile()->create([
             'address' => ucwords($this->address),
             'phone_number' => $this->phone_number
@@ -65,7 +66,7 @@ class Create extends Component
     public function updateFacility($facilityId)
     {
         $this->facility = Facility::find($facilityId);
-        $this->facility->update(['user_id' => $this->user->id]);
+        $this->facility->update(['user_id' => $this->user_id]);
     }
 
 

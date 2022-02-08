@@ -96,7 +96,7 @@
                 @endif
             </div>
             <div class="mt-6 pt-6">
-                <div class="px-2 space-y-1">
+                {{-- <div class="px-2 space-y-1">
                 <a href="#" class="group flex items-center px-2 py-2 text-base font-medium rounded-md text-cyan-100 hover:text-white hover:bg-cyan-600">
                     <!-- Heroicon name: outline/question-mark-circle -->
                     <svg class="mr-4 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -110,7 +110,7 @@
                     </svg>
                     Privacy
                 </a>
-                </div>
+                </div> --}}
             </div>
         </nav>
     </div>
@@ -213,7 +213,7 @@
                 @endif
                 </div>
                 <div class="mt-6 pt-6">
-                <div class="px-2 space-y-1">
+                {{-- <div class="px-2 space-y-1">
                     <x-sidebar.link href="{{ url('help') }}" :active="Route::is('help')">
                         <svg class="mr-4 h-6 w-6 text-cyan-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -226,7 +226,7 @@
                         </svg>
                         Privacy
                     </x-sidebar.link>
-                </div>
+                </div> --}}
                 </div>
             </nav>
         </div>
