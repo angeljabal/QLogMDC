@@ -43,8 +43,10 @@ class Index extends Component
     }
 
     public function deleteFacility(){
-        $this->currentHead = User::find($this->facility->user_id);
-        $this->currentHead->removeRole('head');
+        // $this->currentHead = User::find($this->facility->user_id);
+        // if($this->currentHead!=null && $this->currentHead->hasRole('head')){
+        //     $this->currentHead->removeRole('head');
+        // }
         $this->facility->delete();
         $this->confirmingFacilityDeletion = false;
         return redirect($this->link)->with('message', 'Deleted Successfully');
@@ -87,18 +89,20 @@ class Index extends Component
                 'name'      => 'required|unique:facilities,name',
                 'code'      => 'required|min:2|unique:facilities,code'
             ]);
-            Facility::create([
-                'name'      => ucwords($this->name),
-                'code'      => strtoupper($this->code)
-            ]);
             if(isset($this->head)){
                 $isHead = User::where('id',$this->head)->role('head')->whereDoesntHave('facility')->exists();
                 if($isHead){
                     Facility::create([
                         'name'      => ucwords($this->name),
-                        'code'      => strtoupper($this->code)
+                        'code'      => strtoupper($this->code),
+                        'user_id'   => $this->head
                     ]);
                 }
+            }else{
+                Facility::create([
+                    'name'      => ucwords($this->name),
+                    'code'      => strtoupper($this->code)
+                ]);
             }
             return redirect($this->link)->with('message', 'Added Successfully');
         }

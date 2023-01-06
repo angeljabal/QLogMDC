@@ -10,52 +10,52 @@ use Illuminate\Http\Request;
 
 class CreateLogController extends Controller
 {
-    public function store(Request $request){
-        $request->validate([
-            'user_id'         => 'required'
-        ]);
-        if(isset($request->purposes)){
-            $purposeId = explode(",", $request->purposes);
-            $facilities = Facility::whereHas('purposes', function($q) use($purposeId) {
-                $q->whereIn('id', $purposeId);
-                })
-                ->where('isOpen', true)
-                ->select('id','name')
-                ->with(['purposes'=>function($q) use($purposeId) {
-                    $q->whereIn('id', $purposeId);
-            }])->get();
+    // public function store(Request $request){
+    //     $request->validate([
+    //         'user_id'         => 'required'
+    //     ]);
+    //     if(isset($request->purposes)){
+    //         $purposeId = explode(",", $request->purposes);
+    //         $facilities = Facility::whereHas('purposes', function($q) use($purposeId) {
+    //             $q->whereIn('id', $purposeId);
+    //             })
+    //             ->where('isOpen', true)
+    //             ->select('id','name')
+    //             ->with(['purposes'=>function($q) use($purposeId) {
+    //                 $q->whereIn('id', $purposeId);
+    //         }])->get();
 
-            foreach($facilities as $facility){
-                $count = Log::where('facility_id', $facility->id)
-                        ->where('created_at', '>=', Carbon::today())
-                        ->count();
-                $purposes = implode(", ",$facility->purposes->pluck("title")->toArray());
-                $log = Log::where('user_id', $request->user_id)
-                        ->where('facility_id', $facility->id)
-                        ->where('created_at', '>=', Carbon::today())
-                        ->where('status', '!=', 'completed')
-                        ->first();
-                if($log){
-                    $logs[] = $this->responseLogs($log);
-                    continue;
-                }
-                $log = Log::create([
-                    'user_id'       => $request->user_id,
-                    'facility_id'   => $facility->id,
-                    'queue_no'      => ++$count,
-                    'purpose'       => $purposes,
-                    'status'        => "waiting"
-                ]);
-                $logs[] = $this->responseLogs($log);
-            }
-            return response()->json([
-                'success'   => true,
-                'log'       => $logs
-            ], 202);
-        }else{
-            $this->walkIn($request);
-        }
-    }
+    //         foreach($facilities as $facility){
+    //             $count = Log::where('facility_id', $facility->id)
+    //                     ->where('created_at', '>=', Carbon::today())
+    //                     ->count();
+    //             $purposes = implode(", ",$facility->purposes->pluck("title")->toArray());
+    //             $log = Log::where('user_id', $request->user_id)
+    //                     ->where('facility_id', $facility->id)
+    //                     ->where('created_at', '>=', Carbon::today())
+    //                     ->where('status', '!=', 'completed')
+    //                     ->first();
+    //             if($log){
+    //                 $logs[] = $this->responseLogs($log);
+    //                 continue;
+    //             }
+    //             $log = Log::create([
+    //                 'user_id'       => $request->user_id,
+    //                 'facility_id'   => $facility->id,
+    //                 'queue_no'      => ++$count,
+    //                 'purpose'       => $purposes,
+    //                 'status'        => "waiting"
+    //             ]);
+    //             $logs[] = $this->responseLogs($log);
+    //         }
+    //         return response()->json([
+    //             'success'   => true,
+    //             'log'       => $logs
+    //         ], 202);
+    //     }else{
+    //         $this->walkIn($request);
+    //     }
+    // }
 
     public function walkIn(Request $request){
         $purpose = "Walk-in";
@@ -82,5 +82,44 @@ class CreateLogController extends Controller
             'purpose'   => $log->purpose,
             'status'    => $log->status
         ];
+    }
+
+    public function store(Request $request){
+        $request->validate([
+            'user_id'         => 'required'
+        ]);
+
+        if(isset($request->purpose)){
+            $code = strtok($request->facility, " ");
+            $facility = Facility::select('id')->where('code', $code)->first();
+            $count = Log::where('created_at', '>=', Carbon::today())
+                        ->count();
+            
+            $log = Log::where('user_id', $request->user_id)
+                    ->where('facility_id', $facility->id)
+                    ->where('created_at', '>=', Carbon::today())
+                    ->where('status', '!=', 'completed')
+                    ->first();
+            
+            if($log){
+                $logs = $this->responseLogs($log);
+            }else{
+                $log = Log::create([
+                    'user_id'       => $request->user_id,
+                    'facility_id'   => $facility->id,
+                    'queue_no'      => ++$count,
+                    'purpose'       => $request->purpose,
+                    'status'        => "waiting"
+                ]);
+                $logs = $this->responseLogs($log);
+            }
+            
+            return response()->json([
+                'success'   => true,
+                'log'       => $logs
+            ], 202);
+        }else{
+            $this->walkIn($request);
+        }
     }
 }

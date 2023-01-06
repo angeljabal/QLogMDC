@@ -9,9 +9,10 @@ use Livewire\Component;
 class Edit extends Component
 {
     public $link = '/admin/purposes';
-    public $purposeId, $title, $facilities, $facilityIds = [];
+    public $purposeId, $title, $hasDepartment, $facilities, $facilityIds = [];
     public function mount(){
         $this->title = $this->purpose->title;
+        $this->hasDepartment = $this->purpose->hasDepartment;
         $this->facilities = Facility::whereHas('user')->get();
         $this->facilityIds = $this->purpose->facilities()->pluck('id')->toArray();
     }
@@ -26,8 +27,19 @@ class Edit extends Component
             'title'         => 'required|min:3',
             'facilityIds'   => 'required',
         ]);
+        $search = 'College of';
+        foreach($this->facilityIds as $fac){
+            $fac = Facility::select('id', 'name')->where('id', $fac)->first();
+            if(preg_match("/{$search}/i", $fac->name)){
+                $this->hasDepartment = 1;
+                break;
+            }else{
+                $this->hasDepartment = 0;
+            }
+        }
         $this->purpose->update([
-            'title'     => $this->title
+            'title'         => $this->title,
+            'hasDepartment' => $this->hasDepartment
         ]);
         if($this->purpose->facilities()->sync($this->facilityIds)){
             $wasChanged = true;

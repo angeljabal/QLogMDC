@@ -151,7 +151,7 @@
                 <div>
                     <x-label for="head" value="{{ __('Head') }}" />
                     <select wire:model.defer="head"
-                    class="form-input shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium mt-1 block w-full">
+                    class="form-input shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium mt-1 block w-full">
                     @if ($allHeads==$unavailableHeads && !isset($head))
                         <option hidden="true">No Available Heads</option>
                         <option selected disabled value="null">No Available Heads</option>     

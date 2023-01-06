@@ -7,7 +7,7 @@
                     <div class="flex items-center">
                         <div>
                             <div class="flex items-center">
-                                <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+                                <h1 class="ml-3 text-xl font-bold leading-7 text-gray-900 sm:leading-9 text-clip">
                                     {{auth()->user()->facility->name . " (" . auth()->user()->facility->code . ")"}}
                                 </h1>
                             </div>

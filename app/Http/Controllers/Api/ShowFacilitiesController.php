@@ -15,7 +15,7 @@ class ShowFacilitiesController extends Controller
         //     ->where('isOpen', true)
         //     ->select('id','name', 'code')->get();
         $facilities = Facility::whereHas('purposes', function($q) use($request) {
-                            $q->whereIn('id', $request);
+                            $q->whereIn('title', $request);
                         })->get();
         return response()->json([
             'success'       => true,

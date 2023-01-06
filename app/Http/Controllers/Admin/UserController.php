@@ -48,7 +48,6 @@ class UserController extends Controller
     {
         if(auth()->user()->hasRole('admin')){
             return view('admin.users.edit', compact('id'));
-
         }
         return redirect()->back();
     }

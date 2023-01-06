@@ -46,9 +46,44 @@
                             {{$serving->purpose}}
                         </dd>
                     </div>
-                    <div class="flex justify-end text-center bg-white py-4">
-                        <x-buttons.secondary wire:click="changeStatus({{$serving->id}}, 'skipped')" class="mr-2">Skip</x-buttons.secondary>
-                        <x-buttons.button wire:click="changeStatus({{$serving->id}}, 'completed')">Done</x-buttons.button>
+                    <div class="grid grid-cols-4 text-center bg-white py-4">
+                        <div>
+                            <x-buttons.button wire:click="changeStatus({{$serving->id}}, 'completed')">Done</x-buttons.button>
+                        </div>
+                        <div class="col-end-6">
+                            <x-buttons.secondary wire:click="changeStatus({{$serving->id}}, 'skipped')" class="mr-2">Skip</x-buttons.secondary>
+                            <button wire:click="confirmNext({{$serving->id}}, {{$serving->user->id}}, '{{$serving->purpose}}')" class="px-4 py-2 mr-2 text-sm text-white bg-cyan-700 rounded-md hover:bg-cyan-600">
+                                Next
+                            </button>
+                        </div>
+                        {{-- <x-dropdown align="right" width="48">
+                            <x-slot name="trigger">
+                                <button class="flex items-center px-4 py-2 text-sm text-white bg-gray-400 rounded-md hover:bg-gray-700">
+                                    <div>Next</div>
+        
+                                    <div class="ml-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                          </svg>
+                                    </div>
+                                </button>
+                            </x-slot>
+        
+                            <x-slot name="content">
+                                    @foreach ($facilities as $value)
+                                        @if ($value->name != auth()->user()->facility->name)
+                                            <x-dropdown-link href="#">
+                                            {{ __($value->name) }}
+                                            </x-dropdown-link>
+                                        @endif
+                                    @endforeach
+
+                            </x-slot>
+                        </x-dropdown> --}}
+
+                    </div>
+                    <div>
+                        {{-- <x-buttons.button wire:click="changeStatus({{$serving->id}}, 'completed')">Done</x-buttons.button> --}}
                     </div>
                     
                 </div>
@@ -105,6 +140,38 @@
             </div>
         </div>
     </div>
+
+    <x-modals.add wire:model="confirmingNext" wire:keydown.escape="$set('confirmingNext', false)">
+        <x-slot name="title">
+            Select Next Facility
+        </x-slot>
+ 
+        <x-slot name="content">
+            <div>
+                <x-label for="name" value="{{ __('Facility Name') }}" />
+                <select wire:model.lazy = "facility"
+                    class="form-input shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium mt-1 block w-full">
+                <option hidden="true">Choose Facility</option>
+                <option selected disabled>Choose Facility</option>
+                @foreach ($facilities as $facility)
+                    @if ($facility->name!=auth()->user()->facility->name)
+                        <option value="{{ $facility->id }}">{{ $facility->name }}</option>
+                    @endif
+                @endforeach
+                </select>
+                @error('facility') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
+            </div>
+        </x-slot>
+ 
+        <x-slot name="footer">
+            <x-buttons.secondary wire:click="$set('confirmingNext', false)" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-buttons.secondary>
+            <x-buttons.button wire:click="next()" wire:loading.attr="disabled">
+                {{ __('Confirm') }}
+            </x-buttons.button>
+        </x-slot>
+    </x-modals.add>
 </div>
 
 <style>

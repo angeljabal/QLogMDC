@@ -75,6 +75,48 @@ return [
             'type'              => 2,
             'email_verified_at' => Carbon::now()
         ],
+        [
+            'name'              => 'Angelica Balatucan',
+            'email'             => 'faculty_CABMB@qlog.com',
+            'password'          => 'admin123',
+            'type'              => 2,
+            'email_verified_at' => Carbon::now()
+        ],
+        [
+            'name'              => 'Sheila A. Monte de Ramos',
+            'email'             => 'faculty_CABMH@qlog.com',
+            'password'          => 'admin123',
+            'type'              => 2,
+            'email_verified_at' => Carbon::now()
+        ],
+        [
+            'name'              => 'Josefina Pangan',
+            'email'             => 'faculty_CAST@qlog.com',
+            'password'          => 'admin123',
+            'type'              => 2,
+            'email_verified_at' => Carbon::now()
+        ],
+        [
+            'name'              => 'Avelino Lofranco',
+            'email'             => 'faculty_CCJ@qlog.com',
+            'password'          => 'admin123',
+            'type'              => 2,
+            'email_verified_at' => Carbon::now()
+        ],
+        [
+            'name'              => 'Nimfa Reserva',
+            'email'             => 'faculty_COE@qlog.com',
+            'password'          => 'admin123',
+            'type'              => 2,
+            'email_verified_at' => Carbon::now()
+        ],
+        [
+            'name'              => 'Rosario Poligrates',
+            'email'             => 'faculty_CON@qlog.com',
+            'password'          => 'admin123',
+            'type'              => 2,
+            'email_verified_at' => Carbon::now()
+        ]
     ],
 
     'facilities' => 
@@ -119,5 +161,29 @@ return [
             'name'                  => 'Nurse Office',
             'code'                  => 'NU',
         ],
+        'Angelica Balatucan'        => [
+            'name'                  => 'College of Accountancy, Business, and Manangement - Business Department',
+            'code'                  => 'CABM-B',
+        ],
+        'Sheila A. Monte de Ramos'  => [
+            'name'                  => 'College of Accountancy, Business, and Manangement - Hospitality Department',
+            'code'                  => 'CABM-H',
+        ],
+        'Josefina Pangan'           => [
+            'name'                  => 'College of Arts, Sciences, and Technology',
+            'code'                  => 'CAST',
+        ],
+        'Avelino Lofranco'          => [
+            'name'                  => 'College of Criminal Justice',
+            'code'                  => 'CCJ',
+        ],
+        'Nimfa Reserva'             => [
+            'name'                  => 'College of Education',
+            'code'                  => 'COE',
+        ],
+        'Rosario Poligrates'        => [
+            'name'                  => 'College of Nursing',
+            'code'                  => 'CON',
+        ]
     ]
 ];
