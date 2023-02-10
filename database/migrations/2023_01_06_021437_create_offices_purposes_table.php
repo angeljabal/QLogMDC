@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePurposesTable extends Migration
+class CreateOfficesPurposesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePurposesTable extends Migration
      */
     public function up()
     {
-        Schema::create('purposes', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->boolean('hasDepartment')->default(0);
+        Schema::create('offices_purposes', function (Blueprint $table) {
+            $table->index(['office_id', 'purpose_id']);
+            $table->foreignId('office_id')->constrained()->onDelete('cascade');
+            $table->foreignId('purpose_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreatePurposesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purposes');
+        Schema::dropIfExists('offices_purposes');
     }
 }

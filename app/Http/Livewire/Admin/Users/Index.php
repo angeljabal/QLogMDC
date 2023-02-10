@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Users;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Session;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -17,7 +18,8 @@ class Index extends Component
     public $role, $roles, $types, $type;
     public $confirmingUserDeletion = false;
 
-    public function mount(){
+    public function mount()
+    {
         $this->perPage = 10;
         $this->role = $this->type = 'all';
         $this->roles = Role::all();
@@ -26,17 +28,25 @@ class Index extends Component
 
     public function loadProfiles()
     {
-        $query = User::whereHas('profile')->with('profile')->search($this->search);
+        $query = User::search($this->search);
 
-        if($this->type!='all'){
-            $query->where('type', $this->type);
+        // if ($this->type != 'all') {
+        //     $query->where('type', $this->type);
+        // }
+
+        if ($this->role != 'all') {
+            $query->whereHas(
+                'roles',
+                function (Builder $q) {
+                    $q->where(
+                        'role',
+                        $this->role
+                    );
+                }
+            );
         }
 
-        if($this->role!='all'){
-            $query->role($this->role);
-        }
-
-        $users = $query->orderBy('name')->paginate($this->perPage);
+        $users = $query->orderBy('lname')->paginate($this->perPage);
 
         return compact('users');
     }
@@ -44,10 +54,10 @@ class Index extends Component
     public function alertConfirm($userId)
     {
         $this->user = User::findOrFail($userId);
-        $this->name = $this->user->name;
+        $this->name = $this->user->fname . ' ' . $this->user->lname;
         $this->dispatchBrowserEvent('swal:confirm', [
-                'type' => 'warning',  
-                'message' => "Login as $this->name?"
+            'type' => 'warning',
+            'message' => "Login as $this->name?"
         ]);
     }
 
@@ -58,17 +68,19 @@ class Index extends Component
         return redirect('/dashboard');
     }
 
-    public function back(){
+    public function back()
+    {
         return redirect('/admin/users');
     }
-    
-    public function deleteUser(){
+
+    public function deleteUser()
+    {
         $this->user->delete();
         $this->confirmingUserDeletion = false;
         return redirect('/admin/users')->with('message', 'Deleted Successfully');
     }
 
-    public function confirmUserDeletion($userId) 
+    public function confirmUserDeletion($userId)
     {
         $this->user = User::findOrFail($userId);
         $this->name = $this->user->name;

@@ -67,8 +67,8 @@
                                                     {{$purpose->title}}
                                                 </button>
                                                 <div x-show="selected == 0" class="py-2 px-2">
-                                                    @if ($purpose->facilities->count())
-                                                        @foreach ($purpose->facilities as $facility)
+                                                    @if ($purpose->offices->count())
+                                                        @foreach ($purpose->offices as $facility)
                                                             <li>{{$facility->name}}</li>
                                                         @endforeach
                                                     @else

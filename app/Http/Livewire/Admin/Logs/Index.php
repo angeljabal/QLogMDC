@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Logs;
 use App\Exports\LogExport;
 use App\Models\Facility;
 use App\Models\Log;
+use App\Models\Office;
 use App\Models\Purpose;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -17,33 +18,35 @@ class Index extends Component
 
     protected $listeners = ['selectedDates' => 'setDateRange'];
     public $facilities, $purposes, $facility, $startDate, $endDate;
-    
-    public function mount(){
-        $this->facility=0;
-        $this->facilities = Facility::all();
-        if(session('purpose')){
+
+    public function mount()
+    {
+        $this->facility = 0;
+        $this->facilities = Office::all();
+        if (session('purpose')) {
             $this->facility = -1;
         }
     }
 
-    public function loadLogs(){
+    public function loadLogs()
+    {
         $query = Log::orderBy('created_at', 'DESC');
 
-        if(session('status')){
+        if (session('status')) {
             $query->where('status', 'waiting');
         }
 
-        if($this->facility!=0 && $this->facility!=-1){
+        if ($this->facility != 0 && $this->facility != -1) {
             $query->where('facility_id', $this->facility);
         }
-        
-        if($this->facility==-1){
+
+        if ($this->facility == -1) {
             $query->where('purpose', "Walk-in");
         }
 
-        if(isset($this->startDate)){
+        if (isset($this->startDate)) {
             $query->whereDate('created_at', '>=', $this->startDate)
-                    ->whereDate('created_at', '<=', $this->endDate);
+                ->whereDate('created_at', '<=', $this->endDate);
         }
 
         $logs = $query->paginate(10);
@@ -56,7 +59,7 @@ class Index extends Component
         $this->endDate = Carbon::parse($dateRange[1]);
     }
 
-    public function export() 
+    public function export()
     {
         return Excel::download(new LogExport($this->facility, $this->startDate, $this->endDate), 'log.xlsx');
     }

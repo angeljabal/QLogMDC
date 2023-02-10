@@ -11,20 +11,24 @@ class Purpose extends Model
     protected $guarded = [];
     protected $hidden = array('pivot');
 
-    public function facilities(){
-        return $this->belongsToMany(Facility::class, 'facilities_purposes');
+    public function offices()
+    {
+        return $this->belongsToMany(Office::class, 'offices_purposes');
+    }
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
     }
 
     public function scopeSearch($query, $terms)
     {
-        collect(explode(' ', $terms))->filter()->each(function($term) use($query)
-        {
-            $term = '%'.$term.'%';
+        collect(explode(' ', $terms))->filter()->each(function ($term) use ($query) {
+            $term = '%' . $term . '%';
 
-            $query->where(function($query) use($term){
+            $query->where(function ($query) use ($term) {
                 $query->where('title', 'like', $term);
             });
         });
-
     }
 }

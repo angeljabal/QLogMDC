@@ -16,32 +16,36 @@ class Index extends Component
     public $isOpen, $startDate, $endDate, $windowsAvailable;
     public $confirmingWindowsEdit = false;
 
-    public function mount(){
-        $this->isOpen = auth()->user()->facility->isOpen;
+    public function mount()
+    {
+        $this->isOpen = auth()->user()->office->isOpen;
     }
 
-    public function loadLogs(){
-        $query = Log::orderBy('created_at', 'DESC')->where('facility_id', auth()->user()->facility->id);
+    public function loadLogs()
+    {
+        $query = Log::orderBy('created_at', 'DESC')->where('office_id', auth()->user()->office->id);
 
-        if(isset($this->startDate)){
+        if (isset($this->startDate)) {
             $query->whereDate('created_at', '>=', $this->startDate)
-                    ->whereDate('created_at', '<=', $this->endDate);
+                ->whereDate('created_at', '<=', $this->endDate);
         }
-        
+
         $logs = $query->paginate(10);
         return compact('logs');
     }
 
-    public function confirmWindowsEdit(){
-        $this->windowsAvailable = auth()->user()->facility->windowsAvailable;
+    public function confirmWindowsEdit()
+    {
+        $this->windowsAvailable = auth()->user()->office->windowsAvailable;
         $this->confirmingWindowsEdit = true;
     }
 
-    public function save(){
+    public function save()
+    {
         $this->validate([
             'windowsAvailable'  => 'required|numeric|min:1'
         ]);
-        $facility = auth()->user()->facility;
+        $facility = auth()->user()->office;
         $facility->update(['windowsAvailable' => $this->windowsAvailable]);
         $this->confirmingWindowsEdit = false;
     }
@@ -51,18 +55,19 @@ class Index extends Component
         $this->startDate = Carbon::parse($dateRange[0]);
         $this->endDate = Carbon::parse($dateRange[1]);
     }
-    
-    public function changeStatus(){
-        $facility = auth()->user()->facility;
+
+    public function changeStatus()
+    {
+        $facility = auth()->user()->office;
         $this->isOpen ? $facility->update(['isOpen' => 0]) : $facility->update(['isOpen' => 1]);
-        $this->isOpen = auth()->user()->facility->isOpen;
+        $this->isOpen = auth()->user()->office->isOpen;
     }
 
-    public function export() 
+    public function export()
     {
-        return Excel::download(new LogExport(auth()->user()->facility->id, $this->startDate, $this->endDate), 'log.xlsx');
+        return Excel::download(new LogExport(auth()->user()->office->id, $this->startDate, $this->endDate), 'log.xlsx');
     }
-    
+
     public function render()
     {
         return view('livewire.head.facility.index', $this->loadLogs());

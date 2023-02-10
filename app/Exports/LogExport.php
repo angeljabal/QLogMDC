@@ -15,7 +15,7 @@ class LogExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadings
     private $facilityId, $startDate, $endDate, $query;
 
     // use constructor to handle dependency injection
-    public function __construct($facilityId=null, $startDate=null, $endDate=null)
+    public function __construct($facilityId = null, $startDate = null, $endDate = null)
     {
         $this->facilityId = $facilityId;
         $this->startDate = $startDate;
@@ -26,16 +26,16 @@ class LogExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadings
     public function query()
     {
         $this->query = Log::query();
-        if(isset($this->startDate)){
+        if (isset($this->startDate)) {
             $this->query->where('facility_id', $this->facilityId)
-                    ->whereDate('created_at', '>=', $this->startDate)
-                    ->whereDate('created_at', '<=', $this->endDate);
+                ->whereDate('created_at', '>=', $this->startDate)
+                ->whereDate('created_at', '<=', $this->endDate);
         }
-        if(isset($facilityId)||$this->facilityId!=0){
-            if($this->facilityId==-1){
-               $this->query->where('purpose', "Walk-in");
+        if (isset($facilityId) || $this->facilityId != 0) {
+            if ($this->facilityId == -1) {
+                $this->query->where('purpose', "Walk-in");
             }
-           $this->query->where('facility_id', $this->facilityId);
+            $this->query->where('facility_id', $this->facilityId);
         }
 
         return $this->query;
@@ -46,7 +46,7 @@ class LogExport implements FromQuery, ShouldAutoSize, WithMapping, WithHeadings
         return [
             $logs->purpose,
             $logs->user->name,
-            isset($logs->facility->name) ? $logs->facility->name:'',
+            isset($logs->facility->name) ? $logs->facility->name : '',
             Carbon::parse($logs->created_at)->format('g:i A'),
             Carbon::parse($logs->created_at)->format('d/m/Y'),
         ];

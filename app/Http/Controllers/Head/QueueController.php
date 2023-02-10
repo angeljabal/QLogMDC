@@ -14,7 +14,7 @@ class QueueController extends Controller
      */
     public function index()
     {
-        if(isset(auth()->user()->facility)){
+        if (isset(auth()->user()->office)) {
             return view('head.queue.index');
         }
         return redirect()->back();

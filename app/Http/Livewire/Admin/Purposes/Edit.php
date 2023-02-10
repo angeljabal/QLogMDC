@@ -3,18 +3,26 @@
 namespace App\Http\Livewire\Admin\Purposes;
 
 use App\Models\Facility;
+use App\Models\Office;
 use App\Models\Purpose;
 use Livewire\Component;
 
 class Edit extends Component
 {
     public $link = '/admin/purposes';
-    public $purposeId, $title, $hasDepartment, $facilities, $facilityIds = [];
-    public function mount(){
+    public $purposeId;
+    public $title;
+    public $hasDepartment;
+    public $facilities;
+    public $selectedOffices;
+    public $first;
+    public function mount()
+    {
         $this->title = $this->purpose->title;
         $this->hasDepartment = $this->purpose->hasDepartment;
-        $this->facilities = Facility::whereHas('user')->get();
-        $this->facilityIds = $this->purpose->facilities()->pluck('id')->toArray();
+        $this->facilities = Office::whereHas('user')->get();
+        $this->selectedOffices = $this->purpose->offices()->pluck('id')->toArray();
+        $this->first = $this->purpose->office_id;
     }
 
     public function getPurposeProperty()
@@ -22,18 +30,18 @@ class Edit extends Component
         return Purpose::find($this->purposeId);
     }
 
-    public function submit(){
+    public function submit()
+    {
         $this->validate([
-            'title'         => 'required|min:3',
-            'facilityIds'   => 'required',
+            'title'             => 'required|min:3'
         ]);
         $search = 'College of';
-        foreach($this->facilityIds as $fac){
-            $fac = Facility::select('id', 'name')->where('id', $fac)->first();
-            if(preg_match("/{$search}/i", $fac->name)){
+        foreach ($this->selectedOffices as $fac) {
+            $fac = Office::select('id', 'name')->where('id', $fac)->first();
+            if (preg_match("/{$search}/i", $fac->name)) {
                 $this->hasDepartment = 1;
                 break;
-            }else{
+            } else {
                 $this->hasDepartment = 0;
             }
         }
@@ -41,16 +49,17 @@ class Edit extends Component
             'title'         => $this->title,
             'hasDepartment' => $this->hasDepartment
         ]);
-        if($this->purpose->facilities()->sync($this->facilityIds)){
+        if ($this->purpose->offices()->sync($this->selectedOffices)) {
             $wasChanged = true;
         }
         return redirect($this->link);
     }
 
-    public function back(){
+    public function back()
+    {
         return redirect($this->link);
     }
-    
+
     public function render()
     {
         return view('livewire.admin.purposes.edit');

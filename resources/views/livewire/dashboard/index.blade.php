@@ -9,12 +9,12 @@
                     <div>
                     <div class="flex items-center">
                         <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                            {{auth()->user()->name}}
+                            {{auth()->user()->fname . ' ' . auth()->user()->lname}}
                         </h1>
                     </div>
                     <dl class="ml-2 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
                         <div class="flex items-center">
-                        @if (auth()->user()->hasAnyRole('head', 'admin'))
+                        @if (auth()->user()->hasRole('admin'))
                         <dd class="mt-2 flex items-center text-xs md:text-sm font-medium sm:mr-6 sm:mt-0 capitalize text-green-500 md:-mt-1">
                               <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 mr-1.5 h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
@@ -24,10 +24,7 @@
                         @endif
                         <dd class="mt-2 flex items-center text-xs md:text-sm text-gray-500 font-medium capitalize sm:mr-6 md:-mt-1 ml-2">
                             <!-- Heroicon name: solid/office-building -->
-                            <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd" />
-                            </svg>
-                            {{isset(auth()->user()->facility->name) ? auth()->user()->facility->name : auth()->user()->profile->address}}
+                            {{isset(auth()->user()->facility->name) ? auth()->user()->facility->name : ''}}
                         </dd>
                         </div>
                     </dl>
@@ -47,7 +44,7 @@
     </div>
     <div class="mt-8">
         <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
-            @if(auth()->user()->hasAnyRole('admin') || isset(auth()->user()->facility))
+            @if(auth()->user()->hasRole('admin') || isset(auth()->user()->facility))
                 <livewire:admin.dashboard.partials.range/>
             @else
                 <div>
@@ -61,7 +58,7 @@
             @endif
 
             <!-- HEAD OVERVIEW-->
-            @if(auth()->user()->hasRole('head') && isset(auth()->user()->facility))
+            @if(auth()->user()->hasRole('office-head') && isset(auth()->user()->office))
                 <livewire:admin.dashboard.head/>
 
             <!-- ADMIN OVERVIEW-->
@@ -134,7 +131,7 @@
 
             @endif
         </div>
-        @if (isset($logs) && $logs->count()!=0 && !auth()->user()->hasAnyRole('head|admin'))
+        @if (isset($logs) && $logs->count()!=0 && !auth()->user()->hasRole('admin'))
             <h2 class="mx-auto mt-8 md:px-10 px-5 text-lg leading-6 font-medium text-gray-900">
                 Recent activity
             </h2>

@@ -31,7 +31,7 @@
                                         class="capitalize h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-200  text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white">
                                         <option value="all">All</option>
                                         @foreach ($roles as $r)
-                                            <option value="{{ $r->name }}">{{ $r->name }}</option>
+                                            <option value="{{ $r->role }}">{{ $r->role }}</option>
                                         @endforeach
                                     </select>
                                     <div
@@ -41,7 +41,7 @@
                                         </svg>
                                     </div>
                                 </div>
-                                <div class="relative">
+                                {{-- <div class="relative">
                                     <select wire:model.lazy="type"
                                         class="h-full border block appearance-none w-full bg-white border-gray-200  text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white">
                                         <option value="all">All</option>
@@ -55,7 +55,7 @@
                                             <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                         </svg>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="block relative">
                                 <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
@@ -81,10 +81,10 @@
                             <thead>
                                 <tr>
                                     <th class="md:pl-10 pl-6 py-4  bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Name
+                                        Last Name
                                     </th>
                                     <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider md:block hidden">
-                                        Address
+                                        First Name
                                     </th>
                                     <th class="md:py-4 px-4 py-2 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Generate Qr
@@ -99,11 +99,11 @@
                                     <tr class="bg-white">
                                         <td class="md:pl-10 pl-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <p class="text-gray-900 font-semibold truncate">
-                                                {{$user->name}}
+                                                {{$user->lname}}
                                             </p>
                                         </td>
                                         <td class="px-4 py-4 text-right whitespace-nowrap text-sm text-gray-500 md:block hidden">
-                                            <p class="text-gray-900 font-medium truncate">{{$user->profile->address}}</p>
+                                            <p class="text-gray-900 font-medium truncate">{{$user->fname}}</p>
                                         </td>
                                         <td class="text-center md:px-6 md:py-4 px-4 py-2 whitespace-nowrap text-sm text-gray-500">
                                             <a href="{{ url('generate-qrcode', ['user'=>$user->id]) }}">
@@ -125,19 +125,19 @@
                                             <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
                                         
                                             <div x-show="dropdownOpen" class="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-20">
-                                                <a href="{{ route('admin.users.show', ['user'=>$user->id]) }}" class="grid grid-cols-3 px-4 py-2 text-sm text-gray-800 border-b hover:bg-gray-200">
+                                                {{-- <a href="{{ route('admin.users.show', ['user'=>$user->id]) }}" class="grid grid-cols-3 px-4 py-2 text-sm text-gray-800 border-b hover:bg-gray-200">
                                                         <div><svg xmlns="http://www.w3.org/2000/svg" class="h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg></div>
                                                         <div class="text-gray-600">View</div>
-                                                </a>
+                                                </a> --}}
                                                 @if (auth()->user()->hasRole('admin'))
                                                     <a href="{{ route('admin.users.edit', ['user'=>$user->id]) }}" class="grid grid-cols-3 px-4 py-2 text-sm text-gray-800 border-b hover:bg-gray-200">
                                                             <div><svg class="h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                             </svg></div>
-                                                            <div class="text-gray-600">Edit</div>
+                                                            <div class="text-gray-600">Edit Role</div>
                                                     </a>
                                                     <a href="#" wire:click="confirmUserDeletion({{$user->id}})"  class="grid grid-cols-3 px-4 py-2 text-sm text-gray-800 border-b hover:bg-gray-200">
                                                             <div><svg class="h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

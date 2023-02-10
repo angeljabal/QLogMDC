@@ -57,14 +57,15 @@ class CreateLogController extends Controller
     //     }
     // }
 
-    public function walkIn(Request $request){
+    public function walkIn(Request $request)
+    {
         $purpose = "Walk-in";
         $request->validate([
             'user_id'         => 'required'
         ]);
-        $exists = Log::where('user_id', $request->user_id)->where('purpose',$purpose)
-                ->where('created_at', '>=', Carbon::today())->exists();
-        if(!$exists) {
+        $exists = Log::where('user_id', $request->user_id)->where('purpose', $purpose)
+            ->where('created_at', '>=', Carbon::today())->exists();
+        if (!$exists) {
             Log::create([
                 'user_id'       => $request->user_id,
                 'facility_id'   => null,
@@ -74,7 +75,8 @@ class CreateLogController extends Controller
         return response()->json(['message'   =>  'Added Successfully'], 202);
     }
 
-    public function responseLogs($log){
+    public function responseLogs($log)
+    {
         return [
             'name'      => $log->user->name,
             'facility'  => $log->facility->name ?? null,
@@ -84,26 +86,27 @@ class CreateLogController extends Controller
         ];
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'user_id'         => 'required'
         ]);
 
-        if(isset($request->purpose)){
+        if (isset($request->purpose)) {
             $code = strtok($request->facility, " ");
             $facility = Facility::select('id')->where('code', $code)->first();
             $count = Log::where('created_at', '>=', Carbon::today())
-                        ->count();
-            
+                ->count();
+
             $log = Log::where('user_id', $request->user_id)
-                    ->where('facility_id', $facility->id)
-                    ->where('created_at', '>=', Carbon::today())
-                    ->where('status', '!=', 'completed')
-                    ->first();
-            
-            if($log){
+                ->where('facility_id', $facility->id)
+                ->where('created_at', '>=', Carbon::today())
+                ->where('status', '!=', 'completed')
+                ->first();
+
+            if ($log) {
                 $logs = $this->responseLogs($log);
-            }else{
+            } else {
                 $log = Log::create([
                     'user_id'       => $request->user_id,
                     'facility_id'   => $facility->id,
@@ -113,12 +116,12 @@ class CreateLogController extends Controller
                 ]);
                 $logs = $this->responseLogs($log);
             }
-            
+
             return response()->json([
                 'success'   => true,
                 'log'       => $logs
             ], 202);
-        }else{
+        } else {
             $this->walkIn($request);
         }
     }

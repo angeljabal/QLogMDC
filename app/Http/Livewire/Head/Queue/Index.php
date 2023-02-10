@@ -18,19 +18,19 @@ class Index extends Component
         $this->statuses = ["waiting", "skipped", "completed"];
         $this->status = "waiting";
         $this->today = Carbon::today();
-        $this->windows = auth()->user()->facility->windowsAvailable;
+        $this->windows = auth()->user()->office->windowsAvailable;
         $this->selectedWindow = 1;
         $this->facilities = [];
     }
 
     public function loadQueue()
     {
-        $current_serving = Log::where('facility_id', auth()->user()->facility->id)
+        $current_serving = Log::where('office_id', auth()->user()->office->id)
             ->where('status', "serving")
             ->where('created_at', '>=', $this->today)
             ->paginate($this->perPage);
 
-        $logs = Log::where('facility_id', auth()->user()->facility->id)
+        $logs = Log::where('office_id', auth()->user()->office->id)
             ->where('status', $this->status)
             ->where('created_at', '>=', $this->today)
             ->paginate($this->perPage);
@@ -50,7 +50,7 @@ class Index extends Component
         $this->log = Log::where('id', $logId)->firstOrFail();
         if ($this->autoServe && $status != 'serving') {
             try {
-                $next = Log::where('facility_id', auth()->user()->facility->id)
+                $next = Log::where('office_id', auth()->user()->office->id)
                     ->where('status', "waiting")
                     ->where('created_at', '>=', $this->today)
                     ->firstOrFail();
@@ -80,11 +80,11 @@ class Index extends Component
         $this->validate([
             'facility'      => 'required'
         ]);
-        $count = Log::where('facility_id', $this->facility)
+        $count = Log::where('office_id', $this->facility)
             ->where('created_at', '>=', Carbon::today())
             ->count();
         $exist = Log::where('user_id', $this->user_id)
-            ->where('facility_id', $this->facility)
+            ->where('office_id', $this->facility)
             ->where('created_at', '>=', Carbon::today())
             ->where('status', '!=', 'completed')
             ->first();
@@ -92,7 +92,7 @@ class Index extends Component
         if (!$exist) {
             Log::create([
                 'user_id'       => $this->user_id,
-                'facility_id'   => $this->facility,
+                'office_id'   => $this->facility,
                 'queue_no'      => $this->log->queue_no,
                 'purpose'       => $this->purpose,
                 'status'        => "waiting"

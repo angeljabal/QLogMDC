@@ -8,7 +8,7 @@
                         <div>
                             <div class="flex items-center">
                                 <h1 class="ml-3 text-xl font-bold leading-7 text-gray-900 sm:leading-9 text-clip">
-                                    {{auth()->user()->facility->name . " (" . auth()->user()->facility->code . ")"}}
+                                    {{auth()->user()->office->name}}
                                 </h1>
                             </div>
                             <dl class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
@@ -16,13 +16,13 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
                                     </svg>
-                                {{auth()->user()->name}}
+                                {{auth()->user()->fname . ' ' . auth()->user()->lname}}
                                 </dd>
                                 <dd class="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 mr-1.5 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
-                                    Total Windows: {{auth()->user()->facility->windowsAvailable}}
+                                    Total Windows: {{auth()->user()->office->windowsAvailable}}
                                 </dd>
                                 <dd wire:model.lazy="isOpen" class="{{$isOpen ? 'text-teal-500' : 'text-red-600'}} mt-3 flex items-center text-sm  font-medium sm:mr-6 sm:mt-0 uppercase">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 mr-1.5 h-5 w-5 " viewBox="0 0 20 20" fill="currentColor">

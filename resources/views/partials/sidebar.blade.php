@@ -44,7 +44,7 @@
                     Facilities
                 </x-sidebar.mobile-link>
                 @endif
-                @if(auth()->user()->hasAnyRole('scanner'))
+                @if(auth()->user()->hasRole('scanner'))
                 <span class="text-gray-100 bg-cyan-900 group flex items-center -mx-2 px-2 py-2 text-sm leading-6 font-medium">
                     For Scanner Access
                 </span>
@@ -55,7 +55,7 @@
                     Users
                 </x-sidebar.mobile-link>
                 @endif
-                @if(auth()->user()->hasAnyRole('admin|head'))
+                @if(auth()->user()->hasRole('admin', 'head'))
                     <span class="text-gray-100 bg-cyan-900 group flex items-center -mx-2 px-2 py-2 text-sm leading-6 font-medium">
                         {{auth()->user()->hasRole('head') ? 'For Facility Head Access' : 'For Admin Access'}}
                     </span>
@@ -154,7 +154,7 @@
                     </svg>
                     Priority Queue
                 </x-sidebar.link>
-                @if(auth()->user()->hasAnyRole('scanner'))
+                @if(auth()->user()->hasRole('scanner'))
                 <span class="text-gray-100 bg-cyan-900 group flex items-center -mx-2 px-2 py-2 text-sm leading-6 font-medium">
                     For Scanner Access
                 </span>
@@ -165,7 +165,7 @@
                     Users
                 </x-sidebar.link>
                 @endif
-                @if(auth()->user()->hasAnyRole('admin'))
+                @if(auth()->user()->hasRole('admin'))
                     <span class="text-gray-100 bg-cyan-900 group flex items-center -mx-2 px-2 py-2 text-sm leading-6 font-medium">
                         For Admin Access
                     </span>
@@ -193,8 +193,20 @@
                           </svg>
                         Facilities
                     </x-sidebar.link>
+                    <x-sidebar.link href="{{url('ids')}}" :active="request()->is('ids')">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
+                        Available IDs
+                    </x-sidebar.link>
+                    <x-sidebar.link href="{{url('idlog')}}" :active="request()->is('idlog')">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
+                        IDs Log
+                    </x-sidebar.link>
                 @endif
-                @if(auth()->user()->hasRole('head') && isset(auth()->user()->facility))
+                @if(auth()->user()->hasRole('office-head') && isset(auth()->user()->office))
                     <span class="text-gray-100 bg-cyan-900 group flex items-center -mx-2 px-2 py-2 text-sm leading-6 font-medium">
                         For Facility Head Access
                     </span>

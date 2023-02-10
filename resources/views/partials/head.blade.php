@@ -4,6 +4,7 @@
     <title>QLog</title>
     <link rel="stylesheet" href="{{ asset('css/app.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
 
     @stack('css')
 

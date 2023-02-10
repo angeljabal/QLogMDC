@@ -12,23 +12,32 @@
       <dl>
         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">
-            Full name
+            First Name
           </dt>
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <x-input wire:model.defer="name" type="text" value="{{ $this->user->name }}"/>
-            @error('name') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
+            <x-input wire:model.defer="fname" type="text" disabled/>
+            @error('fname') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
           </dd>
         </div>
         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">
+            Last Name
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <x-input wire:model.defer="lname" type="text" disabled/>
+            @error('lname') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
+          </dd>
+        </div>
+        {{-- <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">
             Email address
           </dt>
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <x-input wire:model.defer="email" type="text" value="{{ $this->user->email }}"/>
+            <x-input wire:model.defer="email" type="text"/>
             @error('email') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
           </dd>
-        </div>
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        </div> --}}
+        {{-- <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">
             Type
           </dt>
@@ -39,7 +48,7 @@
               @endforeach
             </select>
           </dd>
-        </div>
+        </div> --}}
         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">
             Role
@@ -54,14 +63,14 @@
                           id="roles"
                           title="Select roles...">
                       @foreach ($roles as $value)
-                      <option value="{{ $value->name }}" {{in_array($value->name, $role) ? 'selected' : ''}}>{{$value->name}}</option>
+                      <option value="{{ $value->id }}" {{in_array($value->id, $role) ? 'selected' : ''}}>{{$value->role}}</option>
                     @endforeach
                   </select>
               </div>
               @error('role') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
           </dd>
         </div>
-        @if (in_array('head', $this->role))
+        @if (in_array($this->officeHeadId, $this->role))
           <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt class="text-sm font-medium text-gray-500">
               Facility
@@ -82,7 +91,7 @@
           </div>
         @endif
 
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        {{-- <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">
             Profile
             <p class="mt-1 max-w-2xl text-xs font-thin">
@@ -122,8 +131,8 @@
             <x-input wire:model.defer="phone_number" type="text" value="{{ $this->user->profile->phone_number }}"/>
             @error('phone_number') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
           </dd>
-        </div>
-        
+        </div> --}}
+
         <div class="flex justify-end text-center bg-white px-8 py-5">
           <button wire:click="submit" class="p-4 m-1 text-sm text-white bg-cyan-400 rounded-md hover:bg-cyan-600">Update</button>
           <x-buttons.secondary class="p-4 m-1 text-sm" wire:click="back">{{ __('Back') }}</x-buttons.secondary>

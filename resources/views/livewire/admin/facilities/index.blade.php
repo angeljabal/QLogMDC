@@ -22,7 +22,7 @@
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                 </svg>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                     <div>
                         <div class="md:block relative hidden">
@@ -34,7 +34,7 @@
                                 </svg>
                             </span>
                             <input wire:model.lazy="search" placeholder="Search"
-                                class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-200  border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white  focus:text-gray-700 focus:outline-none" 
+                                class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-200  border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white  focus:text-gray-700 focus:outline-none"
                                 type="search"/>
                         </div>
                     </div>
@@ -66,14 +66,14 @@
                                         <td class="max-w-0 w-full px-6 py-4 truncate whitespace-nowrap text-sm text-gray-900">
                                             <div  x-data="{selected:null}">
                                                 <button @click="selected !== 0 ? selected = 0 : selected = null" class="text-gray-500 font-bold truncate group-hover:text-gray-900">
-                                                    {{$fac->name . ' (' . $fac->code . ')'}}
+                                                    {{$fac->name}}
                                                 </button>
                                                 <div x-show="selected == 0" class="py-2 px-2">
                                                     <dd class="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
                                                         </svg>
-                                                        {{optional($fac->user)->name}}
+                                                        {{optional($fac->user)->fname . ' ' . optional($fac->user)->lname }}
                                                     </dd>
                                                 </div>
                                             </div>
@@ -99,7 +99,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                
+
                             </tbody>
                         </table>
                         <nav class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6" aria-label="Pagination">
@@ -110,21 +110,21 @@
             </div>
         </div>
     </div>
-    
+
     <x-modals.confirmation wire:model="confirmingFacilityDeletion" wire:keydown.escape="$set('confirmingFacilityDeletion', false)">
         <x-slot name="title">
             {{ __('Delete Facility - ' . $facility_name) }}
         </x-slot>
- 
+
         <x-slot name="content">
             {{ __('Are you sure you want to delete this purpose? ') }}
         </x-slot>
- 
+
         <x-slot name="footer">
             <x-buttons.secondary wire:click="$set('confirmingFacilityDeletion', false)" wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </x-buttons.secondary>
- 
+
             <button class="px-4 py-2 text-sm rounded-md text-white bg-red-500 text-white hover:bg-red-700" wire:click="deleteFacility()" wire:loading.attr="disabled">
                 {{ __('Delete') }}
             </button>
@@ -133,33 +133,33 @@
 
     <x-modals.add wire:model="confirmingFacilityAdd" wire:keydown.escape="$set('confirmingFacilityAdd', false)">
         <x-slot name="title">
-            {{ isset( $this->facility->id) ? 'Edit Facility' : 'Add Facility'}}
+            Confirm Details
         </x-slot>
- 
+
         <x-slot name="content">
             <div>
                 <x-label for="name" value="{{ __('Facility Name') }}" />
                 <x-input id="name" type="text" class="mt-1 block w-full" value="name" wire:model.defer="name" autofocus/>
                 @error('name') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
             </div>
-            <div class="mt-5 grid grid-cols-2 gap-4">
-                <div>
+            <div class="mt-5">
+                {{-- <div>
                     <x-label for="code" value="{{ __('Code') }}" />
                     <x-input id="code" type="text" class="mt-1 block w-full" wire:model.defer="code" autofocus/>
                     @error('code') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
-                </div>
+                </div> --}}
                 <div>
                     <x-label for="head" value="{{ __('Head') }}" />
                     <select wire:model.defer="head"
                     class="form-input shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none font-medium mt-1 block w-full">
                     @if ($allHeads==$unavailableHeads && !isset($head))
                         <option hidden="true">No Available Heads</option>
-                        <option selected disabled value="null">No Available Heads</option>     
+                        <option selected disabled value="null">No Available Heads</option>
                     @else
                         <option hidden="true">Choose Facility Head</option>
                         <option selected disabled>Choose Facility Head</option>
                         @foreach ($heads as $value)
-                        <option value="{{ $value->id }}" {{$value->id == $head ? 'selected' : '' }} {{$value->facility!=null && $value->id != $head ? 'disabled' : ''}}>{{ $value->name }}</option>
+                        <option value="{{ $value->id }}" {{$value->id == $head ? 'selected' : '' }} {{$value->facility!=null && $value->id != $head ? 'disabled' : ''}}>{{ $value->fname . ' ' . $value->lname}}</option>
                         @endforeach
                     @endif
 
@@ -167,7 +167,7 @@
                     @error('head') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
 
                 </div>
-                
+
             </div>
             @if (isset( $this->facility->id))
             <div class="mt-5">
@@ -184,7 +184,7 @@
             </div>
             @endif
         </x-slot>
- 
+
         <x-slot name="footer">
             <x-buttons.secondary wire:click="$set('confirmingFacilityAdd', false)" wire:loading.attr="disabled">
                 {{ __('Cancel') }}

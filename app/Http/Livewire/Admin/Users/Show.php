@@ -13,27 +13,28 @@ class Show extends Component
     public function getUserProperty()
     {
         return User::with(['profile', 'roles'])
-                ->find($this->userId);
+            ->find($this->userId);
     }
 
-    public function generateQr(){
+    public function generateQr()
+    {
         $data = [
             'id'            => $this->user->id,
             'name'          => $this->user->name
         ];
 
         $jsonData = json_encode($data);
-        $qrcode = QrCode::format('png')->generate($jsonData);
+        $qrcode = QrCode::format('png')->generate($this->user->id);
 
         $this->dispatchBrowserEvent('swal', [
             'title' => 'QrCode',
             'text'  => $this->user->name,
             'imageUrl'  => $qrcode
         ]);
-
     }
 
-    public function back(){
+    public function back()
+    {
         return redirect('/admin/users');
     }
 

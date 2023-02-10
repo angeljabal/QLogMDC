@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFacilitiesPurposesTable extends Migration
+class CreateAvailableIdsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateFacilitiesPurposesTable extends Migration
      */
     public function up()
     {
-        Schema::create('facilities_purposes', function (Blueprint $table) {
-            $table->index(['facility_id', 'purpose_id']);
-            $table->foreignId('facility_id')->constrained()->onDelete('cascade');
-            $table->foreignId('purpose_id')->constrained()->onDelete('cascade');
+        Schema::create('available_ids', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateFacilitiesPurposesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('facilities_purposes');
+        Schema::dropIfExists('available_ids');
     }
 }

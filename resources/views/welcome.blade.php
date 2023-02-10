@@ -4,36 +4,35 @@
 <!-- component -->
 <!-- This is an example component -->
 <div>
-    <div class="bg-cyan-900 md:overflow-hidden">
+    <div class="bg-cyan-800 md:overflow-hidden">
       <div class="px-4 py-20 md:py-4">
         <div class="md:max-w-full md:mx-auto">
           <div class="md:ml-10 md:flex md:flex-wrap">
             <div class="md:w-1/2 text-center md:text-left md:pt-16">
-                <h1 class="font-bold text-white text-2xl md:text-5xl leading-tight mb-4">
-                A QRCode based visitor log-in and priority queue viewing system
+                <h1 class="font-extrabold text-white text-7xl md:text-4xl leading-tight mb-4 uppercase animate-pulse">
+                  A QR Code Based Priority Queue Viewing System
                 </h1>
 
-              <p class="text-indigo-200 md:text-xl md:pr-48">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id
-                vitae corrupti asperiores veritatis dolorum, commodi aperiam
-                enim.
-              </p>
-              @if (Auth::check())
-                <a
-                href="{{url('generate-qrcode', ['user'=>auth()->user()->id])}}"
-                class="mt-6 mb-12 md:mb-0 md:mt-10 inline-block py-3 px-8 text-white bg-teal-500 hover:bg-teal-600 rounded-lg shadow"
-                >Generate QR Code</a>
-              @else
-                <a
-                href="{{url('/register')}}"
-                class="mt-6 mb-12 md:mb-0 md:mt-10 inline-block py-3 px-8 text-white bg-teal-500 hover:bg-teal-600 rounded-lg shadow"
-                >Get Started</a>
-              @endif
-              
+                <h1 class="font-light text-white text-2xl leading-tight mt-10">
+                  How to use:
+                </h1>
+                <p class="text-indigo-200 text-xl md:pr-48">
+                  Step 1: Place your QR Code on the scanner machine. <br>
+                  Step 2: Select transaction<br>
+                  Step 3: Wait for the printed receipt of your queue number
+                </p>
+
+                <h1 class="font-black text-white text-4xl md:text-2xl leading-tight mt-8 uppercase animate-bounce">
+                  Scan your qr code to begin...
+                </h1>
+              <form action='/process-queue' id='myform' class="form-prevent-multiple-submits" method="POST">
+                @csrf
+                <input type='text' id='link_input' onblur="this.focus();" name="id" autofocus class="bg-cyan-800 focus:outline-none text-yellow-100" autocomplete="off"/>
+              </form>
             </div>
             <div class="md:w-1/2 relative">
               <div class="hidden md:block">
-                <div
+                {{-- <div
                   class="-ml-24 -mb-40 absolute left-0 bottom-0 w-40 bg-white rounded-lg shadow-lg px-6 py-8"
                   style="transform: rotate(-8deg);"
                 >
@@ -70,7 +69,7 @@
                   <div class="text-gray-800 text-center">
                     Scan QR Code
                   </div>
-                </div>
+                </div> --}}
 
                 <div
                   class="ml-24 mb-16 absolute left-0 bottom-0 w-40 bg-white rounded-lg shadow-lg px-6 py-8"
@@ -78,8 +77,8 @@
                 >
                 <img src="{{asset('images/download.png')}}" alt="">
                   
-                  <div class="text-gray-800 text-center">
-                    Generate <br> QR Code
+                  <div class="text-gray-800 text-center animate-pulse">
+                    Scan <br> QR Code
                   </div>
                 </div>
 
@@ -461,20 +460,19 @@
       </svg>
     </div>
 
-    {{-- <p class="text-center p-4 text-gray-600 pt-10">
-      Created by
-      <a
-        class="border-b text-blue-500"
-        href="https://twitter.com/mithicher"
-        target="_blank"
-        >@mithicher</a
-      >. Inspired by dribble shot
-      <a
-        href="https://dribbble.com/shots/8807920-Quickpay-Hero-section/attachments/1015863"
-        target="_blank"
-        class="border-b text-blue-500"
-        >https://dribbble.com/vadimdrut</a
-      >
-    </p> --}}
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script  language="JavaScript" type="text/JavaScript">
+$('#link_input').on('keyup',function(){
+  var val = $(this).val();
+  var len = val.length;
+
+  if(len > 0){.submit(function() {
+    $(this).closest("#link_input").dialog("close");
+    return false;
+  });
+  }
+});
+</script>
+
 @endsection

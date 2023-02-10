@@ -35,7 +35,7 @@
                         Name:
                         </dt>
                         <dd class="mt-1 text-m font-semibold capitalize text-gray-900 sm:mt-0 sm:col-span-2 md:text-right text-left">
-                            {{$serving->user->name}}
+                            {{$serving->user->fname . ' ' . $serving->user->lname}}
                         </dd>
                     </div>
                     <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b">
@@ -122,7 +122,7 @@
                                     <span class="text-gray-900 font-medium">{{$log->queue_no}}</span>
                                 </td>
                                 <td class="px-3 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                                    <span class="text-gray-900 font-medium">{{$log->user->name}}</span>
+                                    <span class="text-gray-900 font-medium">{{$log->user->fname . ' ' . $log->user->lname}}</span>
                                 </td>
                                 @if ($loop->first && $log->status != "completed" || $log->status == "skipped")
                                     <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
