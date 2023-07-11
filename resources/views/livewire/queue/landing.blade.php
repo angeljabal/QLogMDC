@@ -296,7 +296,7 @@
                         <div
                           class="h-2 w-10 bg-gray-200 mb-1 rounded-full"
                         ></div>
-                        <div class="h-2 w-6 bg-gray-200 rounded-full"></div>
+                        <div class="h-2 w-6 bg-gray-200 rounded-full"> </div>
                       </div>
                     </div>
                     <div class="w-1/3 px-2">
@@ -420,7 +420,7 @@
     </div>
     @endif
 
-    <script  language="JavaScript" type="text/JavaScript">
+    {{-- <script  language="JavaScript" type="text/JavaScript">
       $('#link_input').on('keyup',function(){
         var val = $(this).val();
         var len = val.length;
@@ -433,5 +433,6 @@
           });
         }
     });
-    </script>
+    </script> --}}
 </div>
+

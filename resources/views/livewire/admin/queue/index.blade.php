@@ -10,22 +10,28 @@
                 <h2 class="inline leading-6 font-extrabold text-gray-700 uppercase text-5xl pb-5">On queue</h2>
                 <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($on_queue as $queue)
-                    <div class="bg-cyan-100 overflow-hidden shadow rounded-lg">
-                        <div class="p-5">
-                            <div class="flex items-center">
-                            <div class="ml-2 w-0 flex-1">
-                                <dl>
-                                    <dt class="flex-1 block break-words text-base font-semibold">
-                                        {{$queue->office->name}}
-                                    </dt>
-                                </dl>
-                            </div>
-                            <div class="flex-shrink-0 text-cyan-500 text-5xl font-extrabold">
-                                {{sprintf('%03d', $queue->queue_no)}}
-                            </div>
+                        <div class="bg-cyan-100 overflow-hidden shadow rounded-lg">
+                            <div class="p-5">
+                                {{-- <div class="flex items-center">
+                                <div class="ml-2 w-0 flex-1">
+                                    <dl>
+                                        <dt class="flex-1 block break-words text-base font-semibold">
+                                            {{$queue->office->name}}
+                                        </dt>
+                                    </dl>
+                                </div>
+                                <div class="flex-shrink-0 text-cyan-500 text-5xl font-extrabold">
+                                    {{sprintf('%03d', $queue->queue_no)}}
+                                </div>
+                                </div> --}}
+                                <div class="text-cyan-500 text-5xl font-extrabold text-center">
+                                    {{sprintf('%03d', $queue->queue_no)}}
+                                </div>
+                                <dt class="flex-1 block break-words text-base font-semibold text-center">
+                                    {{$queue->office->name}}
+                                </dt>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
             </div>

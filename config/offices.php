@@ -16,10 +16,10 @@ return [
         ['name'  => 'Pedro Aplacador'],
         ['name'  => 'Sheila Asubar'],
         ['name'  => 'Ma. Angelica C. Balatucan'],
-        ['name'  => 'Sheila A. Monte de Ramos'],
+        ['name'  => 'Sheila Monte de Ramos'],
         ['name'  => 'Josefina Pangan'],
         ['name'  => 'Avelino Lofranco'],
-        ['name'  => 'Nimfa Reserva'],
+        ['name'  => 'Maria Nympa Reserva'],
         ['name'  => 'Rosario Poligrates']
     ],
 
@@ -58,7 +58,7 @@ return [
         'Ma. Angelica C. Balatucan' => [
             'name'                  => 'College of Accountancy, Business, and Manangement - Business Department',
         ],
-        'Sheila A. Monte de Ramos'  => [
+        'Sheila Monte de Ramos'     => [
             'name'                  => 'College of Accountancy, Business, and Manangement - Hospitality Department',
         ],
         'Josefina Pangan'           => [
@@ -67,7 +67,7 @@ return [
         'Avelino Lofranco'          => [
             'name'                  => 'College of Criminal Justice'
         ],
-        'Nimfa Reserva'             => [
+        'Maria Nympa Reserva'       => [
             'name'                  => 'College of Education'
         ],
         'Rosario Poligrates'        => [

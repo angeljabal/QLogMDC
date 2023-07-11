@@ -76,7 +76,7 @@
                   style="transform: rotate(-8deg); z-index: 2;"
                 >
                 <img src="{{asset('images/download.png')}}" alt="">
-                  
+
                   <div class="text-gray-800 text-center animate-pulse">
                     Scan <br> QR Code
                   </div>

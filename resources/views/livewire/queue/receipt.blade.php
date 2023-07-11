@@ -16,7 +16,7 @@
                 </h1>
             </div>
             <div class="border-t border-gray-200 py-4">
-                
+
                 <h1 class="font-extralight text-black text-2xl leading-tight">
                     **Valid only until today**
                 </h1>

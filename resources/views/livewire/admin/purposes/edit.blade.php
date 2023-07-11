@@ -23,7 +23,7 @@
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <div wire:ignore>
                             <select
-                                    class="js-example-basic-multiple" style="width: 100%" 
+                                    class="js-example-basic-multiple" style="width: 100%"
                                     data-placeholder="Select facilities..."
                                     data-allow-clear="false"
                                     multiple="multiple"
@@ -32,7 +32,7 @@
                                 @foreach ($facilities as $value)
                                     <option value="{{ $value->id }}" {{in_array($value->id, $selectedOffices) ? 'selected' : ''}}>{{$value->name}}</option>
                                 @endforeach
-                            </select>   
+                            </select>
                         </div>
                         @error('selectedOffices') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
                     </dd>
@@ -56,7 +56,7 @@
                             </select>
                             @error('first') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
                         </dd>
-                    </div>  
+                    </div>
                 @endif
                 <div class="flex justify-end text-center bg-white px-8 py-5">
                     <button wire:click="submit" class="p-4 m-1 text-sm text-white bg-cyan-400 rounded-md hover:bg-cyan-600">Update</button>

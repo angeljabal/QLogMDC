@@ -2,7 +2,7 @@
 <div wire:poll.5000ms.visible>
     <x-status.success :success="session('message')"></x-status.success>
     <x-status.deleted :deleted="session('deleted')"></x-status.deleted>
-   
+
     <div class="grid grid-cols-4 px-5">
         <div class="md:col-span-3 col-span-4  space-y-8 px-12">
             <div class="mt-8 p-4">
@@ -18,14 +18,14 @@
                         Auto Serve
                       </div>
                     </label>
-                    
+
                 </div>
             </div>
             @foreach ($current_serving as $serving)
                 <div class="mt-8 p-4 sm:items-center rounded-md bg-white shadow-lg">
                     <hr>
                     <div class="rounded text-center">
-                        <h1 class="text-7xl font-bold text-yellow-600 my-2">{{$serving->queue_no}}</h1>
+                        <h1 class="text-7xl font-bold text-yellow-600 my-2">{{sprintf('%03d', $serving->queue_no)}}</h1>
                         <div class="ml-3 text-gray-700 font-medium border-t py-5">
                             (Window {{$serving->window}})
                         </div>
@@ -60,7 +60,7 @@
                             <x-slot name="trigger">
                                 <button class="flex items-center px-4 py-2 text-sm text-white bg-gray-400 rounded-md hover:bg-gray-700">
                                     <div>Next</div>
-        
+
                                     <div class="ml-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -68,7 +68,7 @@
                                     </div>
                                 </button>
                             </x-slot>
-        
+
                             <x-slot name="content">
                                     @foreach ($facilities as $value)
                                         @if ($value->name != auth()->user()->facility->name)
@@ -85,11 +85,11 @@
                     <div>
                         {{-- <x-buttons.button wire:click="changeStatus({{$serving->id}}, 'completed')">Done</x-buttons.button> --}}
                     </div>
-                    
+
                 </div>
             @endforeach
         </div>
-        
+
         <div class="col-span-4 md:mt-3 mt-5 md:col-span-1 bg-white sm:block grid grid-cols-3 w-full">
             <div class="text-center">
                 <select wire:model.lazy="selectedWindow" class="w-full py-6 border-b-2 text-xl text-gray-600 px-8 capitalize focus:outline-none">
@@ -119,7 +119,7 @@
                         @foreach ($logs as $log)
                             <tr class="bg-white">
                                 <td class="px-3 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                                    <span class="text-gray-900 font-medium">{{$log->queue_no}}</span>
+                                    <span class="text-gray-900 font-medium">{{sprintf('%03d', $log->queue_no)}}</span>
                                 </td>
                                 <td class="px-3 py-4 text-left whitespace-nowrap text-sm text-gray-500">
                                     <span class="text-gray-900 font-medium">{{$log->user->fname . ' ' . $log->user->lname}}</span>
@@ -145,7 +145,7 @@
         <x-slot name="title">
             Select Next Facility
         </x-slot>
- 
+
         <x-slot name="content">
             <div>
                 <x-label for="name" value="{{ __('Facility Name') }}" />
@@ -154,7 +154,7 @@
                 <option hidden="true">Choose Facility</option>
                 <option selected disabled>Choose Facility</option>
                 @foreach ($facilities as $facility)
-                    @if ($facility->name!=auth()->user()->facility->name)
+                    @if ($facility->name!=auth()->user()->office->name)
                         <option value="{{ $facility->id }}">{{ $facility->name }}</option>
                     @endif
                 @endforeach
@@ -162,7 +162,7 @@
                 @error('facility') <span class="mt-2 text-xs text-red-600">{{ $message }}</span>  @enderror
             </div>
         </x-slot>
- 
+
         <x-slot name="footer">
             <x-buttons.secondary wire:click="$set('confirmingNext', false)" wire:loading.attr="disabled">
                 {{ __('Cancel') }}

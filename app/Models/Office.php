@@ -16,6 +16,10 @@ class Office extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function purposes(){
+        return $this->belongsToMany(Purpose::class, 'offices_purposes');
+    }
+
     public function scopeSearch($query, $terms)
     {
         collect(explode(' ', $terms))->filter()->each(function ($term) use ($query) {

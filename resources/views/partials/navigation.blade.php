@@ -1,6 +1,5 @@
-
 <div class="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
-    <button type="button" class="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden">
+     <button type="button" class="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden">
         <span class="sr-only">Open sidebar</span>
         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
@@ -13,7 +12,7 @@
             <div class="ml-3 relative" x-data="{ 'open' : false }">
                 <div>
                 <button @click="open = !open" type="button" class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50" id="user-menu-button" aria-expanded="false" aria-haspopup="true"
-                    @click.away="open = false">
+                    @click.away.="open = false">
                     <span class="ml-3 text-gray-700 text-sm font-medium lg:block"><span class="sr-only">Open user menu for </span>{{auth()->user()->name}}</span>
                     <!-- Heroicon name: solid/chevron-down -->
                     <svg class="flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -21,7 +20,7 @@
                     </svg>
                 </button>
                 </div>
-                
+
                 <div x-show="open" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                         role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                 <!-- Active: "bg-gray-100", Not Active: "" -->
@@ -37,7 +36,7 @@
                 </form>
                 @endif
                 {{-- <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a> --}}
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="GET" action="{{ route('logout') }}">
                     @csrf
                     <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-gray-700"
                             role="menuitem" tabindex="-1" id="user-menu-item-2"

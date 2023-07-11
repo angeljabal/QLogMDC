@@ -55,6 +55,10 @@ class OfficesGenerator extends Command
         $bar = $this->output->createProgressBar(count($this->officeHead()));
 
         $bar->start();
+        Role::updateOrCreate([
+            ['role'          =>  'office-head'],
+            'description'   => 'For head of the offices'
+        ]);
         $role = Role::where('role', 'office-head')->select('id')->first();
         foreach ($this->officeHead() as $head) {
             $user = User::search($head['name'])->select('id', 'fname', 'lname')->first();

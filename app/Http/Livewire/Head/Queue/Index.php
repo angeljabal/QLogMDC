@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Head\Queue;
 
 use App\Models\Facility;
 use App\Models\Log;
+use App\Models\Office;
 use Carbon\Carbon;
 use Exception;
 use Livewire\Component;
@@ -68,7 +69,7 @@ class Index extends Component
         $this->user_id = $userId;
         $this->purpose = $purpose;
         $this->log = Log::where('id', $logId)->firstOrFail();
-        $this->facilities = Facility::whereHas('purposes', function ($q) use ($purpose) {
+        $this->facilities = Office::whereHas('purposes', function ($q) use ($purpose) {
             $q->whereIn('title', [$purpose])
                 ->select('id', 'name');
         })->get();
