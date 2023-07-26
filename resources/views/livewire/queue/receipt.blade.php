@@ -12,7 +12,7 @@
                     Queue Number: {{sprintf('%03d', $log->queue_no)}}
                 </h1>
                 <h1 class="font-extralight text-black text-2xl leading-tight">
-                    {{$log->created_at}}
+                    {{$log->created_at->todatestring()}}
                 </h1>
             </div>
             <div class="border-t border-gray-200 py-4">

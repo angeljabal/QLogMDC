@@ -72,14 +72,14 @@ class TransConfirmation extends Component
                 ]);
             }
         }
-        // $this->print($this->log);
+        $this->print($this->log);
         $this->officeId = $this->log->office_id;
         // return redirect('queue/complete');
     }
 
     public function print(Log $log)
     {
-        $connector = new WindowsPrintConnector("Xprinter 58iih");
+        $connector = new WindowsPrintConnector("XP 58");
         $printer = new Printer($connector);
         $printer->initialize();
         $printer->text("Welcome, you are currently in the queue. \n");
@@ -88,16 +88,16 @@ class TransConfirmation extends Component
         $printer->text("--------------\n");
         $printer->text("Queue #: " . sprintf('%03d', $log->queue_no) . "\n");
         $printer->setFont(Printer::FONT_B);
-        $printer->setTextSize(2, 1);
-        $printer->text("Name: " . $log->user->fname . " " . $log->user->lname . "\n");
+        $printer->setTextSize(1, 2);
+        $printer->text("Name: " .  $log->user->fname . " " . $log->user->lname . "\n");
         $printer->text("Purpose: Enrolment \n");
-        $printer->setFont(Printer::FONT_A);
+        $printer->setFont(Printer::FONT_B);
         $printer->setTextSize(2, 2);
         $printer->text("--------------\n");
         $printer->setFont(Printer::FONT_B);
         $printer->setTextSize(1, 1);
         $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->text($log->created_at . "\n");
+        $printer->text($log->created_at->todatestring() . "\n");
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->text("***Only valid on the same day***\n\n\n\n");
 
