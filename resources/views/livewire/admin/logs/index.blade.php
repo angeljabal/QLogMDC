@@ -6,15 +6,15 @@
         <!-- Users table (small breakpoint and up) -->
         <div class="hidden sm:block">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- <div class="">
+                <div class="">
                     <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8">
                         Logs
                     </h2>
-                </div> -->
+                </div>
                 <div class="flex flex-col mt-2">
                     <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">
-                        <!-- <thead>
+                        <thead>
                             <tr>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Facility Visited
@@ -29,7 +29,7 @@
                                     Date
                                 </th>
                             </tr>
-                        </thead> -->
+                        </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($logs as $log)
                                 <tr class="bg-white">
